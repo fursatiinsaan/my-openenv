@@ -1,0 +1,25 @@
+name: openenv-code-review
+version: 1.0.0
+description: OpenEnv-style code review environment for the Meta x PyTorch hackathon.
+entrypoint:
+  command: python app.py
+  host: 0.0.0.0
+  port: 8000
+protocol:
+  type: http
+  endpoints:
+    health: /health
+    metadata: /metadata
+    schema: /schema
+    reset: /reset
+    step: /step
+    state: /state
+artifacts:
+  inference_script: inference.py
+  dockerfile: Dockerfile
+runtime:
+  python: "3.11"
+  env:
+    API_BASE_URL: OpenAI-compatible base URL for model calls.
+    MODEL_NAME: Model name used by inference.py.
+    HF_TOKEN: API key used for inference requests.

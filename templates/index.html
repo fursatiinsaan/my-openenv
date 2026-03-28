@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>AI Code Review Arena</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.44.0/min/vs/loader.js"></script>
+
+<style>
+:root {
+    --bg: #07111f;
+    --bg-accent: #0f1b2f;
+    --panel: rgba(13, 23, 40, 0.78);
+    --panel-strong: rgba(17, 30, 51, 0.94);
+    --line: rgba(148, 163, 184, 0.14);
+    --text: #e7edf7;
+    --muted: #97a6ba;
+    --blue: #4da2ff;
+    --cyan: #66e2ff;
+    --amber: #ffb347;
+    --red: #ff6b6b;
+    --shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    color: var(--text);
+    font-family: "Segoe UI", "SF Pro Display", "Helvetica Neue", sans-serif;
+    background:
+        radial-gradient(circle at top left, rgba(77, 162, 255, 0.24), transparent 28%),
+        radial-gradient(circle at 85% 12%, rgba(102, 226, 255, 0.18), transparent 24%),
+        radial-gradient(circle at bottom right, rgba(255, 179, 71, 0.16), transparent 30%),
+        linear-gradient(180deg, #06101c 0%, #07111f 42%, #091522 100%);
+    overflow-x: hidden;
+}
+
+body::before,
+body::after {
+    content: "";
+    position: fixed;
+    inset: auto;
+    width: 420px;
+    height: 420px;
+    border-radius: 999px;
+    filter: blur(80px);
+    opacity: 0.18;
+    pointer-events: none;
+    z-index: 0;
+    animation: drift 18s ease-in-out infinite;
+}
+
+body::before {
+    top: -120px;
+    left: -120px;
+    background: #2f7fff;
+}
+
+body::after {
+    right: -120px;
+    bottom: -120px;
+    background: #00d2ff;
+    animation-delay: -8s;
+}
+
+.shell {
+    position: relative;
+    z-index: 1;
+    width: min(1280px, calc(100vw - 40px));
+    margin: 28px auto;
+}
+
+.hero,
+.card {
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+}
+
+.hero {
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 28px 30px;
+    border: 1px solid var(--line);
+    border-radius: 28px;
+    background: linear-gradient(135deg, rgba(15, 27, 47, 0.9), rgba(8, 18, 31, 0.78));
+    box-shadow: var(--shadow);
+    animation: riseIn 0.8s ease;
+}
+
+.hero-copy h1 {
+    margin: 0;
+    font-size: clamp(30px, 4vw, 48px);
+    line-height: 1.02;
+    letter-spacing: -0.04em;
+}
+
+.hero-copy p {
+    margin: 14px 0 0;
+    max-width: 760px;
+    color: var(--muted);
+    line-height: 1.6;
+    font-size: 15px;
+}
+
+.hero-badges {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 18px;
+}
+
+.pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 13px;
+    border: 1px solid rgba(148, 163, 184, 0.14);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.03);
+    color: #d8e6ff;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.hero-side {
+    min-width: 270px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 14px;
+}
+
+.hero-label {
+    color: var(--muted);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+}
+
+select {
+    width: 100%;
+    padding: 14px 16px;
+    color: var(--text);
+    border-radius: 14px;
+    border: 1px solid var(--line);
+    background: rgba(8, 15, 28, 0.92);
+    outline: none;
+    transition: border-color 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+}
+
+select:focus,
+textarea:focus {
+    border-color: rgba(77, 162, 255, 0.55);
+    box-shadow: 0 0 0 4px rgba(77, 162, 255, 0.14);
+}
+
+.status-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 999px;
+    background: var(--cyan);
+    box-shadow: 0 0 16px rgba(102, 226, 255, 0.7);
+    animation: pulse 2.2s ease-in-out infinite;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(320px, 1fr);
+    gap: 26px;
+    margin-top: 24px;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.card {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    background: linear-gradient(180deg, var(--panel) 0%, var(--panel-strong) 100%);
+    box-shadow: var(--shadow);
+    padding: 22px;
+    animation: riseIn 0.7s ease both;
+}
+
+.card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(77, 162, 255, 0.05), transparent 40%, rgba(255, 179, 71, 0.04));
+    pointer-events: none;
+}
+
+.intro-card {
+    display: grid;
+    grid-template-columns: 1.4fr 0.8fr;
+    gap: 18px;
+}
+
+.eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 11px;
+    color: var(--muted);
+}
+
+.task-title {
+    margin: 10px 0 8px;
+    font-size: clamp(24px, 3vw, 34px);
+    letter-spacing: -0.04em;
+}
+
+.task-meta,
+.task-objective,
+.task-hint {
+    position: relative;
+    z-index: 1;
+}
+
+.task-meta {
+    color: #d4def0;
+    margin-bottom: 10px;
+}
+
+.task-objective {
+    color: var(--muted);
+    line-height: 1.65;
+}
+
+.task-hint {
+    display: grid;
+    gap: 12px;
+    align-content: start;
+}
+
+.mini-stat {
+    padding: 14px 16px;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(148, 163, 184, 0.11);
+}
+
+.mini-stat strong {
+    display: block;
+    margin-top: 6px;
+    font-size: 18px;
+    color: #ffffff;
+}
+
+#editor {
+    position: relative;
+    z-index: 1;
+    height: 470px;
+    border-radius: 18px;
+    overflow: hidden;
+}
+
+textarea {
+    width: 100%;
+    min-height: 94px;
+    resize: vertical;
+    padding: 14px;
+    border-radius: 16px;
+    border: 1px solid var(--line);
+    background: rgba(8, 15, 28, 0.92);
+    color: var(--text);
+    outline: none;
+    transition: border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.button-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 14px;
+}
+
+.btn {
+    appearance: none;
+    border: 0;
+    border-radius: 14px;
+    padding: 12px 16px;
+    cursor: pointer;
+    color: white;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    transition: transform 180ms ease, box-shadow 180ms ease, opacity 180ms ease, background 180ms ease;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+.btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.primary {
+    background: linear-gradient(135deg, #2581ff, #47b8ff);
+    box-shadow: 0 10px 26px rgba(37, 129, 255, 0.28);
+}
+
+.secondary {
+    background: rgba(255, 255, 255, 0.06);
+    color: #d8e6ff;
+}
+
+.danger {
+    background: linear-gradient(135deg, #c94b4b, #ff6b6b);
+    box-shadow: 0 10px 26px rgba(255, 107, 107, 0.22);
+}
+
+.feedback {
+    margin-top: 16px;
+    min-height: 140px;
+    padding: 16px;
+    border-radius: 18px;
+    border: 1px solid rgba(102, 226, 255, 0.15);
+    background: rgba(3, 12, 24, 0.62);
+    white-space: pre-line;
+    color: #8de7ff;
+    line-height: 1.6;
+}
+
+.feedback.running {
+    color: #d7ebff;
+}
+
+.loading-line {
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+}
+
+.loading-line span {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: var(--cyan);
+    opacity: 0.35;
+    animation: bounce 1s infinite ease-in-out;
+}
+
+.loading-line span:nth-child(2) {
+    animation-delay: 0.12s;
+}
+
+.loading-line span:nth-child(3) {
+    animation-delay: 0.24s;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.stat-tile {
+    padding: 18px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(148, 163, 184, 0.1);
+}
+
+.stat-label {
+    color: var(--muted);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+}
+
+.stat-value {
+    display: block;
+    margin-top: 10px;
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+}
+
+.chart-card canvas {
+    position: relative;
+    z-index: 1;
+}
+
+.stack {
+    display: grid;
+    gap: 14px;
+}
+
+.compact-list,
+.action-list,
+.tip-list {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: 10px;
+}
+
+.list-row,
+.action-item,
+.tip {
+    padding: 12px 14px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid rgba(148, 163, 184, 0.08);
+}
+
+.list-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    align-items: center;
+}
+
+.list-row code {
+    color: #d9ebff;
+    font-size: 12px;
+}
+
+.badge {
+    padding: 5px 9px;
+    border-radius: 999px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.badge.found {
+    background: rgba(77, 214, 140, 0.14);
+    color: #79f0ab;
+}
+
+.badge.pending {
+    background: rgba(255, 179, 71, 0.12);
+    color: #ffd08a;
+}
+
+.badge.info {
+    background: rgba(77, 162, 255, 0.12);
+    color: #9ecfff;
+}
+
+.action-item {
+    color: #cbd7ea;
+    font-size: 13px;
+    line-height: 1.45;
+}
+
+.action-item.empty,
+.list-row.empty {
+    color: var(--muted);
+}
+
+.tip {
+    color: var(--muted);
+    line-height: 1.55;
+    font-size: 13px;
+}
+
+.surface-title {
+    margin: 0 0 14px;
+    font-size: 15px;
+    color: #dbe7f8;
+}
+
+@keyframes riseIn {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes drift {
+    0%, 100% {
+        transform: translate3d(0, 0, 0);
+    }
+    50% {
+        transform: translate3d(18px, 28px, 0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 0.85;
+    }
+    50% {
+        transform: scale(1.18);
+        opacity: 1;
+    }
+}
+
+@keyframes bounce {
+    0%, 80%, 100% {
+        transform: translateY(0);
+        opacity: 0.35;
+    }
+    40% {
+        transform: translateY(-4px);
+        opacity: 1;
+    }
+}
+
+@media (max-width: 1024px) {
+    .grid,
+    .intro-card {
+        grid-template-columns: 1fr;
+    }
+
+    .hero {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 720px) {
+    .shell {
+        width: min(100vw - 20px, 1280px);
+        margin: 10px auto 24px;
+    }
+
+    .hero,
+    .card {
+        border-radius: 20px;
+        padding: 18px;
+    }
+
+    #editor {
+        height: 360px;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="shell">
+    <section class="hero">
+        <div class="hero-copy">
+            <h1>AI Code Review Arena</h1>
+            <p>Train and compare an agent on realistic production snippets across backend services, ML systems, data pipelines, and infrastructure workflows.</p>
+            <div class="hero-badges">
+                <div class="pill">OpenEnv Style</div>
+                <div class="pill" id="task-count-badge">Benchmark Tasks</div>
+                <div class="pill">Live Agent Loop</div>
+            </div>
+        </div>
+        <div class="hero-side">
+            <div>
+                <div class="hero-label">Scenario</div>
+                <select id="task" onchange="reset()"></select>
+            </div>
+            <div class="status-chip">
+                <span class="status-dot"></span>
+                <span id="run-status">Ready for review</span>
+            </div>
+        </div>
+    </section>
+
+    <div class="grid">
+        <div class="column">
+            <section class="card intro-card">
+                <div>
+                    <div class="eyebrow" id="task-domain">Domain</div>
+                    <div class="task-title" id="task-title">Task</div>
+                    <div class="task-meta" id="task-difficulty">Difficulty</div>
+                    <div class="task-objective" id="task-objective"></div>
+                </div>
+                <div class="task-hint">
+                    <div class="mini-stat">
+                        <div class="eyebrow">Agent Mode</div>
+                        <strong>Issue Discovery</strong>
+                    </div>
+                    <div class="mini-stat">
+                        <div class="eyebrow">Target</div>
+                        <strong>High-impact findings first</strong>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card">
+                <div id="editor"></div>
+            </section>
+
+            <section class="card">
+                <h3 class="surface-title">Submit Review Action</h3>
+                <textarea id="input" placeholder='Try: sql injection, path traversal, missing access control'></textarea>
+
+                <div class="button-group">
+                    <button class="btn primary" id="submit-btn" onclick="send()">Submit</button>
+                    <button class="btn secondary" id="run-ai-btn" onclick="runAI()">Run AI</button>
+                    <button class="btn danger" id="stop-ai-btn" onclick="stopAI()" disabled>Stop AI</button>
+                    <button class="btn secondary" id="compare-btn" onclick="compareAI()">Compare</button>
+                </div>
+
+                <div id="feedback" class="feedback">Environment reset. Review the snippet and report the highest-impact issue first.</div>
+            </section>
+        </div>
+
+        <div class="column">
+            <section class="card">
+                <h3 class="surface-title">Session Stats</h3>
+                <div class="stats-grid">
+                    <div class="stat-tile">
+                        <div class="stat-label">Score</div>
+                        <span class="stat-value" id="score">0</span>
+                    </div>
+                    <div class="stat-tile">
+                        <div class="stat-label">Steps</div>
+                        <span class="stat-value" id="steps">0</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card chart-card">
+                <h3 class="surface-title">Score Progression</h3>
+                <canvas id="chart"></canvas>
+            </section>
+
+            <section class="card">
+                <h3 class="surface-title">Issue Tracker</h3>
+                <div class="compact-list" id="issue-list"></div>
+            </section>
+
+            <section class="card">
+                <h3 class="surface-title">Recent Actions</h3>
+                <div class="action-list" id="recent-actions"></div>
+            </section>
+
+            <section class="card">
+                <h3 class="surface-title">Task Snapshot</h3>
+                <div class="stack">
+                    <div class="list-row">
+                        <span>Domain</span>
+                        <span class="badge info" id="snapshot-domain">backend</span>
+                    </div>
+                    <div class="list-row">
+                        <span>Difficulty</span>
+                        <span class="badge info" id="snapshot-difficulty">hard</span>
+                    </div>
+                    <div class="list-row">
+                        <span>Known issues</span>
+                        <span class="badge info" id="snapshot-count">0 issues</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card">
+                <h3 class="surface-title">Review Playbook</h3>
+                <div class="tip-list">
+                    <div class="tip">Start with the most severe issue first, then move to reliability and data-quality problems.</div>
+                    <div class="tip">Short phrases work best: <code>sql injection</code>, <code>path traversal</code>, <code>missing access control</code>.</div>
+                    <div class="tip">Use <code>Run AI</code> for a baseline, then compare it with your own review path.</div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+
+<script>
+let editor;
+let chart;
+let scores = [];
+let userAnswers = [];
+let aiAnswers = [];
+let tasks = [];
+let aiAbortController = null;
+let isAiRunning = false;
+let currentTask = null;
+let recentActions = [];
+
+const feedbackEl = () => document.getElementById("feedback");
+const runStatusEl = () => document.getElementById("run-status");
+const runAiBtnEl = () => document.getElementById("run-ai-btn");
+const stopAiBtnEl = () => document.getElementById("stop-ai-btn");
+const submitBtnEl = () => document.getElementById("submit-btn");
+
+function normalizeLabel(text) {
+    return text.replaceAll("_", " ");
+}
+
+function renderIssueList(found = []) {
+    const issueList = document.getElementById("issue-list");
+    if (!currentTask) {
+        issueList.innerHTML = `<div class="list-row empty">Choose a task to see its issue checklist.</div>`;
+        return;
+    }
+
+    issueList.innerHTML = currentTask.issues.map(issue => `
+        <div class="list-row">
+            <code>${normalizeLabel(issue.label)}</code>
+            <span class="badge ${found.includes(issue.label) ? "found" : "pending"}">
+                ${found.includes(issue.label) ? "Found" : "Pending"}
+            </span>
+        </div>
+    `).join("");
+}
+
+function renderRecentActions() {
+    const actions = document.getElementById("recent-actions");
+    if (!recentActions.length) {
+        actions.innerHTML = `<div class="action-item empty">No actions yet. Submit an issue or run the AI to build a review trail.</div>`;
+        return;
+    }
+
+    actions.innerHTML = recentActions.slice(0, 5).map(action => `
+        <div class="action-item">${action}</div>
+    `).join("");
+}
+
+function updateSnapshot(task) {
+    document.getElementById("snapshot-domain").innerText = task.domain;
+    document.getElementById("snapshot-difficulty").innerText = task.difficulty;
+    document.getElementById("snapshot-count").innerText = `${task.issues.length} issues`;
+}
+
+function setRunningState(running) {
+    isAiRunning = running;
+    runAiBtnEl().disabled = running;
+    stopAiBtnEl().disabled = !running;
+    submitBtnEl().disabled = running;
+    feedbackEl().classList.toggle("running", running);
+    runStatusEl().innerText = running ? "AI review in progress" : "Ready for review";
+}
+
+function loadingMarkup() {
+    return "Running AI...\n\n" +
+        "This task may take a few seconds.\n" +
+        "You can stop the request at any time.\n\n" +
+        "Thinking " +
+        "<span class='loading-line'><span></span><span></span><span></span></span>";
+}
+
+function setFeedbackHtml(html) {
+    feedbackEl().innerHTML = html;
+}
+
+function setFeedbackText(text) {
+    feedbackEl().innerText = text;
+}
+
+function friendlyAiError(message) {
+    const lower = (message || "").toLowerCase();
+
+    if (lower.includes("free-models-per-day") || lower.includes("rate limit exceeded")) {
+        return "Daily free AI quota exhausted.\n\nOpenRouter free models have a daily request cap. Try again after reset, add credits, or switch to another provider like Groq.";
+    }
+
+    if (lower.includes("incorrect api key") || lower.includes("missing authentication")) {
+        return "AI authentication failed.\n\nCheck your provider key and restart the app.";
+    }
+
+    if (lower.includes("insufficient_quota")) {
+        return "Provider quota is exhausted.\n\nAdd credits or switch to another compatible provider.";
+    }
+
+    return "AI request failed:\n" + message;
+}
+
+require.config({ paths: { vs: "https://cdn.jsdelivr.net/npm/monaco-editor@0.44.0/min/vs" }});
+require(["vs/editor/editor.main"], function () {
+    editor = monaco.editor.create(document.getElementById("editor"), {
+        value: "",
+        language: "python",
+        theme: "vs-dark",
+        fontSize: 14,
+        minimap: { enabled: false },
+        smoothScrolling: true,
+    });
+});
+
+async function load(){
+    let res = await fetch("/tasks");
+    let data = await res.json();
+    tasks = data.tasks;
+    document.getElementById("task-count-badge").innerText = `${tasks.length} Benchmark Tasks`;
+
+    let sel = document.getElementById("task");
+    tasks.forEach(t=>{
+        let option = document.createElement("option");
+        option.value = t.id;
+        option.text = `${t.title} · ${t.difficulty}`;
+        sel.appendChild(option);
+    });
+
+    initChart();
+    reset();
+}
+
+async function reset(){
+    if (isAiRunning) {
+        stopAI();
+    }
+
+    let id = document.getElementById("task").value;
+    let res = await fetch("/reset?task_id=" + id);
+    let data = await res.json();
+    let task = tasks.find(item => String(item.id) === String(id)) || data.observation;
+    currentTask = task;
+    recentActions = [];
+
+    editor.setValue(data.code);
+    document.getElementById("task-domain").innerText = task.domain;
+    document.getElementById("task-title").innerText = task.title;
+    document.getElementById("task-difficulty").innerText = `Difficulty: ${task.difficulty}`;
+    document.getElementById("task-objective").innerText = task.objective;
+    document.getElementById("steps").innerText = "0";
+    document.getElementById("score").innerText = "0";
+    setFeedbackText(data.observation.feedback);
+    setRunningState(false);
+    renderIssueList([]);
+    renderRecentActions();
+    updateSnapshot(task);
+
+    scores = [];
+    chart.data.labels = [];
+    chart.data.datasets[0].data = [];
+    chart.update();
+
+    userAnswers = [];
+    aiAnswers = [];
+}
+
+async function send(){
+    let text = document.getElementById("input").value;
+    if (!text.trim()) {
+        setFeedbackText("Type an issue before submitting.");
+        return;
+    }
+
+    userAnswers.push(text);
+
+    let res = await fetch("/step", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({content: text})
+    });
+
+    let data = await res.json();
+    recentActions.unshift(`You reported: ${text}`);
+
+    document.getElementById("steps").innerText = data.observation.step_count;
+    setFeedbackText(data.observation.feedback);
+    renderIssueList(data.observation.found || []);
+    renderRecentActions();
+
+    let g = await fetch("/grader");
+    let s = await g.json();
+
+    document.getElementById("score").innerText = s.score;
+
+    scores.push(s.score);
+    chart.data.labels = scores.map((_, i) => i + 1);
+    chart.data.datasets[0].data = scores;
+    chart.update();
+
+    document.getElementById("input").value = "";
+}
+
+function stopAI() {
+    if (aiAbortController) {
+        aiAbortController.abort();
+        aiAbortController = null;
+    }
+    setRunningState(false);
+    setFeedbackText("AI run stopped. You can restart it or continue manually.");
+}
+
+async function runAI(){
+    if (isAiRunning) {
+        return;
+    }
+
+    aiAbortController = new AbortController();
+    setRunningState(true);
+    setFeedbackHtml(loadingMarkup());
+
+    try {
+        let res = await fetch("/auto_ai", { signal: aiAbortController.signal });
+        let data = await res.json();
+        aiAnswers = data.steps || [];
+
+        if (data.error) {
+            setFeedbackText(friendlyAiError(data.error));
+            return;
+        }
+
+        if (!aiAnswers.length) {
+            setFeedbackText("AI did not return any actions.");
+            return;
+        }
+
+        setFeedbackText(
+            "AI Found:\n" + aiAnswers.join("\n") +
+            `\n\nAuto-run steps used: ${aiAnswers.length}/${data.auto_run_limit || aiAnswers.length}`
+        );
+        recentActions = aiAnswers.map(action => `AI suggested: ${action}`);
+        renderRecentActions();
+        renderIssueList(data.found || []);
+    } catch (err) {
+        if (err.name === "AbortError") {
+            setFeedbackText("AI run stopped. You can restart it or continue manually.");
+        } else {
+            setFeedbackText(friendlyAiError(err.message));
+        }
+    } finally {
+        aiAbortController = null;
+        setRunningState(false);
+    }
+}
+
+async function compareAI(){
+    let res = await fetch("/compare", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            user: userAnswers,
+            ai: aiAnswers
+        })
+    });
+
+    let data = await res.json();
+    alert("Accuracy vs AI: " + (data.accuracy * 100).toFixed(1) + "%");
+}
+
+function initChart(){
+    let ctx = document.getElementById("chart").getContext("2d");
+    let gradient = ctx.createLinearGradient(0, 0, 0, 260);
+    gradient.addColorStop(0, "rgba(77, 162, 255, 0.55)");
+    gradient.addColorStop(1, "rgba(77, 162, 255, 0.02)");
+
+    chart = new Chart(ctx, {
+        type: "line",
+        data: {
+            labels: [],
+            datasets: [{
+                data: [],
+                borderColor: "#66e2ff",
+                backgroundColor: gradient,
+                fill: true,
+                tension: 0.35,
+                borderWidth: 3,
+                pointRadius: 3,
+                pointHoverRadius: 5,
+                pointBackgroundColor: "#ffffff",
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            animation: {
+                duration: 700,
+                easing: "easeOutQuart",
+            },
+            plugins: {
+                legend: { display: false }
+            },
+            scales: {
+                x: {
+                    ticks: { color: "#94a3b8" },
+                    grid: { color: "rgba(148, 163, 184, 0.08)" }
+                },
+                y: {
+                    ticks: { color: "#94a3b8" },
+                    grid: { color: "rgba(148, 163, 184, 0.08)" }
+                }
+            }
+        }
+    });
+}
+
+load();
+</script>
+
+</body>
+</html>
