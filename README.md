@@ -1,3 +1,13 @@
+---
+title: OpenEnv
+emoji: "🤖"
+colorFrom: blue
+colorTo: cyan
+sdk: docker
+app_port: 8000
+pinned: false
+---
+
 # OpenEnv Code Review Environment
 
 An OpenEnv-style benchmark for training and evaluating code review agents. The environment pairs realistic software snippets with deterministic issue labels, then rewards agents for surfacing the most important security, reliability, and data-quality findings.
@@ -32,6 +42,7 @@ OpenEv/
 ├── memory.py
 ├── models.py
 ├── openenv.yaml
+├── smoke_test.py
 ├── tasks.py
 ├── Dockerfile
 ├── requirements.txt
@@ -72,6 +83,16 @@ Open:
 - `http://localhost:8000/tasks`
 - `http://localhost:8000/state`
 
+## Production Run
+
+The container now uses `gunicorn` instead of Flask's development server:
+
+```bash
+gunicorn --bind 0.0.0.0:8000 --workers 2 --threads 4 app:app
+```
+
+This is the same command used by the Docker image and is a better fit for Hugging Face Spaces.
+
 ## Inference Setup
 
 `app.py` auto-loads `.env` on startup. The baseline agent expects:
@@ -104,6 +125,16 @@ Read environment state:
 curl http://localhost:8000/state
 ```
 
+## Smoke Test
+
+Run a quick local verification before deploying:
+
+```bash
+python3 smoke_test.py
+```
+
+This checks `/health`, `/metadata`, `/tasks`, `/reset`, `/state`, and a sample `/step`.
+
 ## Demo Flow
 
 1. Start the server with `python3 app.py`
@@ -123,6 +154,8 @@ This repo now covers the local pieces of the Round 1 checklist:
 - 3+ realistic tasks with graders
 - Dockerfile included
 - Polished UI for local demos
+- Pinned dependencies for reproducible deploys
+- Production-ready `gunicorn` container entrypoint
 
 ## Remaining External Steps
 

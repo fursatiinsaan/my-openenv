@@ -1,8 +1,8 @@
 name: openenv-code-review
-version: 1.0.0
+version: 1.1.0
 description: OpenEnv-style code review environment for the Meta x PyTorch hackathon.
 entrypoint:
-  command: python app.py
+  command: gunicorn --bind 0.0.0.0:8000 --workers 2 --threads 4 app:app
   host: 0.0.0.0
   port: 8000
 protocol:
