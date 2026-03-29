@@ -125,7 +125,7 @@ def step():
 
 @app.route("/grader")
 def grader_route():
-    return jsonify({"score": grade(TASKS[env.task_id], env.state)})
+    return jsonify({"score": grade(env.task, env.state)})
 
 
 @app.route("/auto_ai")

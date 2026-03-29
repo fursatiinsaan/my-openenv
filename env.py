@@ -42,9 +42,15 @@ class CodeReviewEnv:
     def state(self):
         return self._state
 
+    def get_task(self, task_id):
+        for task in TASKS:
+            if task["id"] == task_id:
+                return task
+        raise IndexError(f"Unknown task_id: {task_id}")
+
     def reset(self, task_id=0):
         self.task_id = int(task_id)
-        self.task = TASKS[self.task_id]
+        self.task = self.get_task(self.task_id)
         self._state = EnvironmentState(
             episode_id=str(uuid4()),
             task_id=self.task_id,
