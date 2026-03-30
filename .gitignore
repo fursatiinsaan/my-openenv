@@ -1,6 +1,8 @@
 .env
 .env.local
 .venv
+.venv311/
+.vscode/
 __pycache__/
 *.pyc
 agent_memory.json
