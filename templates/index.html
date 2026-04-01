@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>AI Code Review Arena</title>
+<title>OpenEnv Scenario Lab</title>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.44.0/min/vs/loader.js"></script>
@@ -192,6 +192,28 @@ textarea:focus {
     margin-top: 24px;
 }
 
+.coverage-strip {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+    margin-top: 18px;
+}
+
+.coverage-card {
+    padding: 16px 18px;
+    border-radius: 20px;
+    border: 1px solid var(--line);
+    background: rgba(10, 19, 33, 0.72);
+    box-shadow: var(--shadow);
+}
+
+.coverage-card strong {
+    display: block;
+    margin-top: 8px;
+    font-size: 22px;
+    letter-spacing: -0.04em;
+}
+
 .column {
     display: flex;
     flex-direction: column;
@@ -251,6 +273,27 @@ textarea:focus {
 .task-objective {
     color: var(--muted);
     line-height: 1.65;
+}
+
+.tag-row,
+.chip-row {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 16px;
+}
+
+.tag {
+    padding: 7px 10px;
+    border-radius: 999px;
+    background: rgba(77, 162, 255, 0.11);
+    border: 1px solid rgba(77, 162, 255, 0.18);
+    color: #bfe0ff;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
 }
 
 .task-hint {
@@ -352,6 +395,28 @@ textarea {
     white-space: pre-line;
     color: #8de7ff;
     line-height: 1.6;
+}
+
+.subtle {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.55;
+}
+
+.progress-shell {
+    margin-top: 14px;
+    height: 10px;
+    border-radius: 999px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(148, 163, 184, 0.1);
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #2a89ff, #66e2ff);
+    transition: width 220ms ease;
 }
 
 .feedback.running {
@@ -489,6 +554,23 @@ textarea {
     font-size: 13px;
 }
 
+.chip {
+    appearance: none;
+    border: 1px solid rgba(148, 163, 184, 0.14);
+    background: rgba(255, 255, 255, 0.04);
+    color: #dce9fb;
+    padding: 9px 12px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+
+.chip:hover {
+    transform: translateY(-1px);
+    border-color: rgba(102, 226, 255, 0.3);
+    background: rgba(77, 162, 255, 0.08);
+}
+
 .surface-title {
     margin: 0 0 14px;
     font-size: 15px;
@@ -538,6 +620,7 @@ textarea {
 }
 
 @media (max-width: 1024px) {
+    .coverage-strip,
     .grid,
     .intro-card {
         grid-template-columns: 1fr;
@@ -576,12 +659,12 @@ textarea {
 <div class="shell">
     <section class="hero">
         <div class="hero-copy">
-            <h1>AI Code Review Arena</h1>
-            <p>Train and compare an agent on realistic production snippets across backend services, ML systems, data pipelines, and infrastructure workflows.</p>
+            <h1>OpenEnv Scenario Lab</h1>
+            <p>Evaluate an engineering agent on realistic product scenarios across backend services, ML systems, data workflows, and infrastructure operations.</p>
             <div class="hero-badges">
-                <div class="pill">OpenEnv Style</div>
+                <div class="pill">OpenEnv Ready</div>
                 <div class="pill" id="task-count-badge">Benchmark Tasks</div>
-                <div class="pill">Live Agent Loop</div>
+                <div class="pill">Human + AI Review Loop</div>
             </div>
         </div>
         <div class="hero-side">
@@ -596,6 +679,29 @@ textarea {
         </div>
     </section>
 
+    <section class="coverage-strip">
+        <div class="coverage-card">
+            <div class="eyebrow">Coverage</div>
+            <strong id="coverage-domains">0 domains</strong>
+            <div class="subtle">Backend, web, data, messaging, orchestration, and ML systems.</div>
+        </div>
+        <div class="coverage-card">
+            <div class="eyebrow">Difficulty Mix</div>
+            <strong id="coverage-difficulties">0 levels</strong>
+            <div class="subtle">A progression from onboarding tasks to extreme review scenarios.</div>
+        </div>
+        <div class="coverage-card">
+            <div class="eyebrow">Review Focus</div>
+            <strong id="coverage-focus">Security first</strong>
+            <div class="subtle">Security, reliability, privacy, and data-quality findings are all represented.</div>
+        </div>
+        <div class="coverage-card">
+            <div class="eyebrow">Play Style</div>
+            <strong>Manual + Baseline</strong>
+            <div class="subtle">Review manually, run the AI baseline, then compare both paths in one session.</div>
+        </div>
+    </section>
+
     <div class="grid">
         <div class="column">
             <section class="card intro-card">
@@ -604,6 +710,7 @@ textarea {
                     <div class="task-title" id="task-title">Task</div>
                     <div class="task-meta" id="task-difficulty">Difficulty</div>
                     <div class="task-objective" id="task-objective"></div>
+                    <div class="tag-row" id="task-tags"></div>
                 </div>
                 <div class="task-hint">
                     <div class="mini-stat">
@@ -618,11 +725,22 @@ textarea {
             </section>
 
             <section class="card">
+                <h3 class="surface-title">Mission Brief</h3>
+                <div class="subtle" id="mission-brief">Reset the environment to load a scenario brief.</div>
+                <div class="progress-shell">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
+                <div class="subtle" id="progress-text" style="margin-top: 12px;">0 of 0 issues found</div>
+            </section>
+
+            <section class="card">
                 <div id="editor"></div>
             </section>
 
             <section class="card">
                 <h3 class="surface-title">Submit Review Action</h3>
+                <div class="subtle">Use a short finding label or click one of the task-aware suggestion chips below.</div>
+                <div class="chip-row" id="quick-actions"></div>
                 <textarea id="input" placeholder='Try: sql injection, path traversal, missing access control'></textarea>
 
                 <div class="button-group">
@@ -649,6 +767,7 @@ textarea {
                         <span class="stat-value" id="steps">0</span>
                     </div>
                 </div>
+                <div class="subtle" id="session-summary" style="margin-top: 14px;">Track score growth and issue coverage as you review.</div>
             </section>
 
             <section class="card chart-card">
@@ -681,6 +800,17 @@ textarea {
                         <span>Known issues</span>
                         <span class="badge info" id="snapshot-count">0 issues</span>
                     </div>
+                    <div class="list-row">
+                        <span>Task ID</span>
+                        <span class="badge info" id="snapshot-id">T-00</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card">
+                <h3 class="surface-title">Compare Insights</h3>
+                <div class="tip-list">
+                    <div class="tip" id="compare-summary">Run the AI baseline and then compare it with your manual review path.</div>
                 </div>
             </section>
 
@@ -718,6 +848,34 @@ function normalizeLabel(text) {
     return text.replaceAll("_", " ");
 }
 
+function titleCase(text) {
+    return text.split("-").map(part => part.charAt(0).toUpperCase() + part.slice(1)).join(" ");
+}
+
+function renderTaskTags(task) {
+    const node = document.getElementById("task-tags");
+    const tags = task.tags || [];
+    node.innerHTML = tags.map(tag => `<span class="tag">${tag}</span>`).join("");
+}
+
+function renderQuickActions(task) {
+    const node = document.getElementById("quick-actions");
+    node.innerHTML = task.issues.map(issue => `
+        <button class="chip" onclick="fillSuggestion('${normalizeLabel(issue.label)}')">${normalizeLabel(issue.label)}</button>
+    `).join("");
+}
+
+function fillSuggestion(text) {
+    document.getElementById("input").value = text;
+}
+
+function updateProgress(found = [], total = 0) {
+    const progress = total ? Math.round((found.length / total) * 100) : 0;
+    document.getElementById("progress-bar").style.width = `${progress}%`;
+    document.getElementById("progress-text").innerText = `${found.length} of ${total} issues found`;
+    document.getElementById("session-summary").innerText = `${found.length} found, ${Math.max(total - found.length, 0)} remaining, ${scores.length || 0} scored turns recorded.`;
+}
+
 function renderIssueList(found = []) {
     const issueList = document.getElementById("issue-list");
     if (!currentTask) {
@@ -751,6 +909,32 @@ function updateSnapshot(task) {
     document.getElementById("snapshot-domain").innerText = task.domain;
     document.getElementById("snapshot-difficulty").innerText = task.difficulty;
     document.getElementById("snapshot-count").innerText = `${task.issues.length} issues`;
+    document.getElementById("snapshot-id").innerText = `T-${String(task.id).padStart(2, "0")}`;
+}
+
+function updateMissionBrief(task) {
+    const difficultyLine = `${titleCase(task.difficulty)} scenario in ${titleCase(task.domain)}.`;
+    document.getElementById("mission-brief").innerText =
+        `${difficultyLine} ${task.objective} Focus on the highest-impact issue first, then work through reliability and operational gaps.`;
+}
+
+function updateCoverageCards() {
+    const domains = new Set(tasks.map(task => task.domain));
+    const difficulties = new Set(tasks.map(task => task.difficulty));
+    document.getElementById("coverage-domains").innerText = `${domains.size} domains`;
+    document.getElementById("coverage-difficulties").innerText = `${difficulties.size} levels`;
+}
+
+function updateCompareSummary(accuracy = null) {
+    const userCount = userAnswers.length;
+    const aiCount = aiAnswers.length;
+    if (accuracy === null) {
+        document.getElementById("compare-summary").innerText =
+            "Run the AI baseline and then compare it with your manual review path.";
+        return;
+    }
+    document.getElementById("compare-summary").innerText =
+        `Manual actions: ${userCount}. AI actions: ${aiCount}. Overlap with baseline: ${(accuracy * 100).toFixed(1)}%.`;
 }
 
 function setRunningState(running) {
@@ -813,6 +997,7 @@ async function load(){
     let data = await res.json();
     tasks = data.tasks;
     document.getElementById("task-count-badge").innerText = `${tasks.length} Benchmark Tasks`;
+    updateCoverageCards();
 
     let sel = document.getElementById("task");
     tasks.forEach(t=>{
@@ -843,6 +1028,9 @@ async function reset(){
     document.getElementById("task-title").innerText = task.title;
     document.getElementById("task-difficulty").innerText = `Difficulty: ${task.difficulty}`;
     document.getElementById("task-objective").innerText = task.objective;
+    renderTaskTags(task);
+    renderQuickActions(task);
+    updateMissionBrief(task);
     document.getElementById("steps").innerText = "0";
     document.getElementById("score").innerText = "0";
     setFeedbackText(data.observation.feedback);
@@ -850,6 +1038,8 @@ async function reset(){
     renderIssueList([]);
     renderRecentActions();
     updateSnapshot(task);
+    updateProgress([], task.issues.length);
+    updateCompareSummary(null);
 
     scores = [];
     chart.data.labels = [];
@@ -882,6 +1072,7 @@ async function send(){
     setFeedbackText(data.observation.feedback);
     renderIssueList(data.observation.found || []);
     renderRecentActions();
+    updateProgress(data.observation.found || [], currentTask.issues.length);
 
     let g = await fetch("/grader");
     let s = await g.json();
@@ -936,6 +1127,7 @@ async function runAI(){
         recentActions = aiAnswers.map(action => `AI suggested: ${action}`);
         renderRecentActions();
         renderIssueList(data.found || []);
+        updateProgress(data.found || [], currentTask.issues.length);
     } catch (err) {
         if (err.name === "AbortError") {
             setFeedbackText("AI run stopped. You can restart it or continue manually.");
@@ -959,7 +1151,8 @@ async function compareAI(){
     });
 
     let data = await res.json();
-    alert("Accuracy vs AI: " + (data.accuracy * 100).toFixed(1) + "%");
+    updateCompareSummary(data.accuracy);
+    setFeedbackText("Comparison ready.\n\nManual review overlap with AI baseline: " + (data.accuracy * 100).toFixed(1) + "%");
 }
 
 function initChart(){

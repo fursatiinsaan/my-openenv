@@ -8,9 +8,9 @@ app_port: 8000
 pinned: false
 ---
 
-# OpenEnv Code Review Environment
+# OpenEnv Scenario Lab
 
-An OpenEnv-style benchmark for training and evaluating code review agents. The environment pairs realistic software snippets with deterministic issue labels, then rewards agents for surfacing the most important security, reliability, and data-quality findings.
+An OpenEnv-style benchmark for training and evaluating engineering agents on realistic product scenarios. The environment pairs production-like software snippets with deterministic issue labels, then rewards agents for surfacing the most important security, reliability, and data-quality findings.
 
 ## Why This Feels More Like A Real Environment
 
@@ -20,8 +20,19 @@ An OpenEnv-style benchmark for training and evaluating code review agents. The e
 - Realistic domains across backend, web, data, messaging, orchestration, and ML systems
 - Root-level `inference.py` baseline using an OpenAI-compatible client
 - Reward shaping plus lightweight agent memory for repeated practice
-- Web UI for manual review, AI runs, compare mode, and score visualization
+- Polished web UI with mission brief, task tags, live issue tracker, AI compare mode, and score visualization
 - Dockerfile and `openenv.yaml` for packaging and submission
+
+## Product Framing
+
+This project is designed to feel closer to an internal engineering training arena than a toy benchmark. Each scenario has:
+
+- a believable production story
+- a concrete review objective
+- deterministic grading targets
+- a fast manual workflow and an AI baseline workflow
+
+That makes it useful both as a hackathon submission and as a portfolio project that demonstrates agent evaluation design.
 
 ## Benchmark Mix
 
@@ -140,8 +151,9 @@ This checks `/health`, `/metadata`, `/tasks`, `/reset`, `/state`, and a sample `
 1. Start the server with `python3 app.py`
 2. Open `http://localhost:8000`
 3. Choose an easy task to verify the loop quickly
-4. Run `Run AI` or submit issues manually
-5. Switch to an extreme task to demonstrate harder multi-step review
+4. Use the task tags, mission brief, and issue tracker to review manually
+5. Run `Run AI` to compare the baseline agent against your own path
+6. Switch to an extreme task to demonstrate harder multi-step review
 
 ## Hackathon Readiness
 
@@ -156,6 +168,14 @@ This repo now covers the local pieces of the Round 1 checklist:
 - Polished UI for local demos
 - Pinned dependencies for reproducible deploys
 - Production-ready `gunicorn` container entrypoint
+
+## UI Highlights
+
+- Scenario-driven landing section instead of a plain form
+- Task metadata, tags, and objective surfaced beside the code
+- Live review progress with pending and found issue states
+- Compare panel for user-vs-agent overlap instead of only a browser alert
+- Session summary cards that make demos easier to follow
 
 ## Remaining External Steps
 

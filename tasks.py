@@ -5,6 +5,7 @@ TASKS = sorted([
         "domain": "backend",
         "difficulty": "hard",
         "objective": "Review a customer authentication flow that mixes login, session creation, and audit logging.",
+        "tags": ["security", "auth", "database"],
         "code": """
 import sqlite3
 import time
@@ -96,6 +97,7 @@ class UserService:
         "domain": "data",
         "difficulty": "easy",
         "objective": "Inspect a small CSV preview utility used before datasets are uploaded into a larger pipeline.",
+        "tags": ["files", "data-ingest", "basics"],
         "code": """
 def preview_rows(path):
     handle = open(path)
@@ -127,6 +129,7 @@ def summarize_preview(path):
         "domain": "data-platform",
         "difficulty": "extreme",
         "objective": "Analyze a service that exports enterprise datasets and records who downloaded what.",
+        "tags": ["privacy", "exports", "authorization"],
         "code": """
 import csv
 
@@ -183,6 +186,7 @@ def export_for_customer(service, rows, requester):
         "domain": "ml",
         "difficulty": "very hard",
         "objective": "Review an internal training pipeline that loads CSV-like samples and performs a custom gradient loop.",
+        "tags": ["training", "ml", "reliability"],
         "code": """
 import numpy as np
 
@@ -276,6 +280,7 @@ def run_training(path):
         "domain": "orchestration",
         "difficulty": "extreme",
         "objective": "Review a job scheduler that builds shell commands from user-supplied training configs.",
+        "tags": ["jobs", "shell", "platform"],
         "code": """
 import json
 import subprocess
@@ -333,6 +338,7 @@ def queue_job(config_text, owner):
         "domain": "ml-platform",
         "difficulty": "extreme",
         "objective": "Inspect a feature-store sync utility that reads remote feature vectors and caches them locally.",
+        "tags": ["networking", "cache", "feature-store"],
         "code": """
 import json
 import requests
@@ -396,6 +402,7 @@ def refresh_all(store, ids):
         "domain": "web",
         "difficulty": "very hard",
         "objective": "Analyze a Flask upload endpoint used by external partners to send batch files and run support commands.",
+        "tags": ["uploads", "api", "security"],
         "code": """
 from flask import Flask, request
 import os
@@ -460,6 +467,7 @@ def run():
         "domain": "backend",
         "difficulty": "easy",
         "objective": "Review a lightweight profile update handler used by an internal settings page.",
+        "tags": ["profiles", "validation", "pii"],
         "code": """
 def update_profile(user, payload):
     profile = {
@@ -500,6 +508,7 @@ def save_profile(store, user, payload):
         "domain": "systems",
         "difficulty": "hard",
         "objective": "Inspect a retention worker that parses production logs, archives incident files, and deletes local artifacts.",
+        "tags": ["ops", "logs", "shell"],
         "code": """
 import os
 from datetime import datetime
@@ -571,6 +580,7 @@ def run_retention(file_path, archive_dir, cleanup_path):
         "domain": "data",
         "difficulty": "extreme",
         "objective": "Review a pandas-based revenue pipeline that computes flags and writes analyst-facing exports.",
+        "tags": ["analytics", "pandas", "batch"],
         "code": """
 import pandas as pd
 
@@ -642,6 +652,7 @@ def run_pipeline(path):
         "domain": "messaging",
         "difficulty": "easy",
         "objective": "Review a helper that prepares welcome emails before they are sent by a separate worker.",
+        "tags": ["messaging", "templates", "privacy"],
         "code": """
 def build_email(user):
     subject = "Welcome " + user["name"]

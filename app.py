@@ -51,7 +51,7 @@ def metadata():
     payload = MetadataResponse(
         name="openenv-code-review",
         version="1.1.0",
-        description="A code review training environment with realistic production snippets.",
+        description="An OpenEnv training arena with realistic engineering scenarios, deterministic issue labels, and a polished review dashboard.",
         framework="flask+pydantic",
         endpoints={
             "reset": "/reset",
