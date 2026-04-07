@@ -1,5 +1,6 @@
 import os
 import re
+import sys
 import traceback
 
 from openai import OpenAI
@@ -131,6 +132,67 @@ def act(observation):
         return extract_action(content)
     except Exception as exc:
         LAST_ERROR = str(exc)
-        print(f"inference_error: {exc}", flush=True)
+        print(f"inference_error: {exc}", file=sys.stderr, flush=True)
         traceback.print_exc()
         return "noop()"
+
+
+def _task_name(task):
+    return f"task_{task['id']}"
+
+
+def _print_start(task_name):
+    print(f"[START] task={task_name}", flush=True)
+
+
+def _print_step(step_number, reward):
+    print(f"[STEP] step={step_number} reward={reward:.2f}", flush=True)
+
+
+def _print_end(task_name, score, steps):
+    print(f"[END] task={task_name} score={score:.2f} steps={steps}", flush=True)
+
+
+def run_episode(env, task):
+    from grader import grade
+
+    task_name = _task_name(task)
+    observation = env.reset(task["id"])
+    steps = 0
+    seen_actions = set()
+
+    clear_last_error()
+    _print_start(task_name)
+
+    while not env.state.done and steps < env.auto_run_limit:
+        action = act(observation)
+        if action in seen_actions:
+            break
+
+        seen_actions.add(action)
+        observation, reward, _, _ = env.step(action)
+        steps += 1
+        _print_step(steps, round(reward, 2))
+
+    score = grade(task, env.state)
+    _print_end(task_name, score, steps)
+
+    return {
+        "task": task_name,
+        "score": score,
+        "steps": steps,
+        "error": get_last_error(),
+    }
+
+
+def main():
+    from env import CodeReviewEnv
+    from tasks import TASKS
+
+    env = CodeReviewEnv()
+    for task in TASKS:
+        run_episode(env, task)
+
+
+if __name__ == "__main__":
+    main()
