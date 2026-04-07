@@ -4,7 +4,7 @@ from uuid import uuid4
 
 from grader import grade
 from inference import act, clear_last_error, get_last_error
-from memory import update_memory
+from memory import clear_memory, update_memory
 from models import EnvironmentState, Observation
 from tasks import TASKS
 
@@ -78,7 +78,7 @@ class CodeReviewEnv:
         match = re.search(r'report\("(.*?)"\)', action)
         return match.group(1).lower() if match else ""
 
-    def step(self, action):
+    def step(self, action, record_memory=False):
         if self.task is None or self._state is None:
             self.reset(self.task_id)
 
@@ -115,7 +115,8 @@ class CodeReviewEnv:
             or self._state.step_count >= self._state.max_steps
         )
 
-        update_memory(action, reward)
+        if record_memory:
+            update_memory(action, reward)
 
         if not feedback:
             feedback.append("No new issues found.")
@@ -130,6 +131,7 @@ class CodeReviewEnv:
     def run_agent(self):
         observation = self.reset(self.task_id)
         steps = []
+        clear_memory()
         clear_last_error()
 
         while not self._state.done and len(steps) < self.auto_run_limit:
@@ -137,7 +139,7 @@ class CodeReviewEnv:
             if action in steps:
                 break
             steps.append(action)
-            observation, _, _, _ = self.step(action)
+            observation, _, _, _ = self.step(action, record_memory=True)
 
         return {
             "score": round(self._state.score, 2),

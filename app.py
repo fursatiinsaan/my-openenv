@@ -1,6 +1,8 @@
 import os
+from threading import Lock
+from uuid import uuid4
 
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, jsonify, render_template, request, session
 
 
 def load_local_env(path=".env"):
@@ -25,8 +27,24 @@ from models import EnvironmentState, MetadataResponse, ResetResponse, StepAction
 from tasks import TASKS
 
 app = Flask(__name__)
-env = CodeReviewEnv()
+app.secret_key = os.getenv("FLASK_SECRET_KEY", "openenv-local-secret")
 PORT = int(os.getenv("PORT", "8000"))
+ENVIRONMENTS = {}
+ENVIRONMENTS_LOCK = Lock()
+
+
+def get_env():
+    env_id = session.get("env_id")
+    if env_id is None:
+        env_id = str(uuid4())
+        session["env_id"] = env_id
+
+    with ENVIRONMENTS_LOCK:
+        env = ENVIRONMENTS.get(env_id)
+        if env is None:
+            env = CodeReviewEnv()
+            ENVIRONMENTS[env_id] = env
+    return env
 
 
 def compare_lists(user_actions, ai_actions):
@@ -88,18 +106,24 @@ def tasks():
 def reset():
     payload = request.get_json(silent=True) or {} if request.method == "POST" else {}
     raw_task_id = payload.get("task_id", request.args.get("task_id", 0))
-    observation = env.reset(int(raw_task_id))
+    env = get_env()
+    try:
+        observation = env.reset(int(raw_task_id))
+    except (TypeError, ValueError, IndexError):
+        return jsonify({"error": f"Unknown task_id: {raw_task_id}"}), 400
     return jsonify(ResetResponse(observation=observation, code=observation.code).model_dump())
 
 
 @app.route("/state")
 def state():
+    env = get_env()
     return jsonify(env.state.model_dump())
 
 
 @app.route("/step", methods=["POST"])
 def step():
     payload = request.get_json(silent=True) or {}
+    env = get_env()
     action = StepAction(
         action_type=payload.get("action_type", "report"),
         content=payload.get("content", ""),
@@ -125,11 +149,13 @@ def step():
 
 @app.route("/grader")
 def grader_route():
+    env = get_env()
     return jsonify({"score": grade(env.task, env.state)})
 
 
 @app.route("/auto_ai")
 def auto_ai():
+    env = get_env()
     return jsonify(env.run_agent())
 
 

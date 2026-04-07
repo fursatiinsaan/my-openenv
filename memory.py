@@ -1,22 +1,24 @@
-import json
-import os
-
-MEMORY_FILE = "agent_memory.json"
+MEMORY_LIMIT = 20
+_MEMORY = {
+    "good": [],
+    "bad": [],
+}
 
 
 def load_memory():
-    if os.path.exists(MEMORY_FILE):
-        with open(MEMORY_FILE) as f:
-            return json.load(f)
     return {
-        "good": [],
-        "bad": []
+        "good": list(_MEMORY["good"]),
+        "bad": list(_MEMORY["bad"]),
     }
 
 
 def save_memory(memory):
-    with open(MEMORY_FILE, "w") as f:
-        json.dump(memory, f, indent=2)
+    _MEMORY["good"] = list(memory.get("good", []))[-MEMORY_LIMIT:]
+    _MEMORY["bad"] = list(memory.get("bad", []))[-MEMORY_LIMIT:]
+
+
+def clear_memory():
+    save_memory({"good": [], "bad": []})
 
 
 def update_memory(action, reward):
@@ -24,15 +26,12 @@ def update_memory(action, reward):
 
     entry = {
         "action": action,
-        "reward": reward
+        "reward": reward,
     }
 
     if reward > 0:
         memory["good"].append(entry)
     else:
         memory["bad"].append(entry)
-
-    memory["good"] = memory["good"][-20:]
-    memory["bad"] = memory["bad"][-20:]
 
     save_memory(memory)

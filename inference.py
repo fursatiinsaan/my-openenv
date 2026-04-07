@@ -5,7 +5,7 @@ import traceback
 
 from openai import OpenAI
 
-from memory import load_memory
+from memory import clear_memory, load_memory
 
 
 LAST_ERROR = ""
@@ -161,6 +161,7 @@ def run_episode(env, task):
     steps = 0
     seen_actions = set()
 
+    clear_memory()
     clear_last_error()
     _print_start(task_name)
 
@@ -170,7 +171,7 @@ def run_episode(env, task):
             break
 
         seen_actions.add(action)
-        observation, reward, _, _ = env.step(action)
+        observation, reward, _, _ = env.step(action, record_memory=True)
         steps += 1
         _print_step(steps, round(reward, 2))
 
