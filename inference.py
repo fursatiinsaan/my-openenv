@@ -17,9 +17,16 @@ def _model_name():
 
 def _api_key():
     return (
-        os.getenv("HF_TOKEN")
+        os.getenv("API_KEY")
         or os.getenv("OPENAI_API_KEY")
-        or os.getenv("API_KEY")
+        or os.getenv("HF_TOKEN")
+    )
+
+
+def _base_url():
+    return (
+        os.getenv("API_BASE_URL")
+        or os.getenv("OPENAI_BASE_URL")
     )
 
 
@@ -28,7 +35,7 @@ def _build_client():
     if not api_key:
         return None
 
-    base_url = os.getenv("API_BASE_URL")
+    base_url = _base_url()
     kwargs = {"api_key": api_key}
     if base_url:
         kwargs["base_url"] = base_url
@@ -110,7 +117,7 @@ def act(observation):
 
     client = _build_client()
     if client is None:
-        LAST_ERROR = "No API key found in HF_TOKEN, OPENAI_API_KEY, or API_KEY."
+        LAST_ERROR = "No API key found in API_KEY, OPENAI_API_KEY, or HF_TOKEN."
         return "noop()"
 
     memory = load_memory()
