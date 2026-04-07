@@ -22,5 +22,4 @@ runtime:
   env:
     API_BASE_URL: OpenAI-compatible base URL for model calls.
     MODEL_NAME: Model name used by inference.py.
-    API_KEY: Primary API key used for inference requests.
-    HF_TOKEN: Optional local fallback key for manual testing.
+    API_KEY: API key used for inference requests.

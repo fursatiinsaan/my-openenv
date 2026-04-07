@@ -112,8 +112,6 @@ This is the same command used by the Docker image and is a better fit for Huggin
 - `MODEL_NAME`
 - `API_KEY`
 
-For local manual testing, `HF_TOKEN` is also accepted as a fallback, but the validator-provided `API_KEY` is preferred so inference runs through the required proxy.
-
 If those values are missing or a provider request fails, the baseline safely falls back to `noop()` and surfaces the error in the UI.
 
 ## Example API Usage

@@ -12,22 +12,15 @@ LAST_ERROR = ""
 
 
 def _model_name():
-    return os.getenv("MODEL_NAME")
+    return os.getenv("MODEL_NAME") or "gpt-4o-mini"
 
 
 def _api_key():
-    return (
-        os.getenv("API_KEY")
-        or os.getenv("OPENAI_API_KEY")
-        or os.getenv("HF_TOKEN")
-    )
+    return os.getenv("API_KEY")
 
 
 def _base_url():
-    return (
-        os.getenv("API_BASE_URL")
-        or os.getenv("OPENAI_BASE_URL")
-    )
+    return os.getenv("API_BASE_URL")
 
 
 def _build_client():
@@ -117,7 +110,7 @@ def act(observation):
 
     client = _build_client()
     if client is None:
-        LAST_ERROR = "No API key found in API_KEY, OPENAI_API_KEY, or HF_TOKEN."
+        LAST_ERROR = "No API key found in API_KEY."
         return "noop()"
 
     memory = load_memory()
