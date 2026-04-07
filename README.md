@@ -10,7 +10,7 @@ pinned: false
 
 # OpenEnv Scenario Lab
 
-An OpenEnv-style benchmark for training and evaluating engineering agents on realistic product scenarios. The environment pairs production-like software snippets with deterministic issue labels, then rewards agents for surfacing the most important security, reliability, and data-quality findings.
+OpenEnv Scenario Lab is a lightweight benchmark for evaluating engineering agents on realistic product-review scenarios. Each task presents a production-style code snippet, a concrete objective, and deterministic issue labels so agents can be graded on security, reliability, and data-quality findings.
 
 ## Why This Feels More Like A Real Environment
 
@@ -19,22 +19,22 @@ An OpenEnv-style benchmark for training and evaluating engineering agents on rea
 - Eleven tasks spanning easy, hard, very hard, and extreme difficulty
 - Realistic domains across backend, web, data, messaging, orchestration, and ML systems
 - Root-level `inference.py` baseline using an OpenAI-compatible client
-- Reward shaping plus lightweight agent memory for repeated practice
+- Reward shaping plus lightweight in-memory agent context during baseline runs
 - Polished web UI with mission brief, task tags, live issue tracker, AI compare mode, and score visualization
 - Dockerfile and `openenv.yaml` for packaging and submission
 
-## Product Framing
+## What The Agent Does
 
-This project is designed to feel closer to an internal engineering training arena than a toy benchmark. Each scenario has:
+Each scenario is designed to feel closer to an internal engineering review arena than a toy benchmark. The agent is expected to:
 
-- a believable production story
-- a concrete review objective
-- deterministic grading targets
-- a fast manual workflow and an AI baseline workflow
+- inspect a realistic code snippet
+- identify the highest-impact issue first
+- submit short issue labels such as `sql injection` or `path traversal`
+- accumulate score as valid findings are discovered
 
-That makes it useful both as a hackathon submission and as a portfolio project that demonstrates agent evaluation design.
+That makes the project useful both as a benchmark environment and as a compact demo of agent-evaluation design.
 
-## Benchmark Mix
+## Scenario Mix
 
 - Easy onboarding tasks for quick sanity checks and demos
 - Hard production scenarios for backend and systems review
@@ -73,7 +73,7 @@ OpenEv/
 - `GET /grader` returns a normalized score for the current episode
 - `GET /auto_ai` runs the baseline agent through the active task
 
-## Local Run
+## Local Setup
 
 Install dependencies:
 
@@ -81,7 +81,7 @@ Install dependencies:
 pip install -r requirements.txt
 ```
 
-Create `.env` from `.env.example`, then run:
+Create `.env` from `.env.example`, then run the app:
 
 ```bash
 python3 app.py
@@ -94,7 +94,7 @@ Open:
 - `http://localhost:8000/tasks`
 - `http://localhost:8000/state`
 
-## Production Run
+## Runtime Notes
 
 The container now uses `gunicorn` instead of Flask's development server:
 
@@ -102,7 +102,7 @@ The container now uses `gunicorn` instead of Flask's development server:
 gunicorn --bind 0.0.0.0:8000 --workers 2 --threads 4 app:app
 ```
 
-This is the same command used by the Docker image and is a better fit for Hugging Face Spaces.
+This is the same command used by the Docker image and is a better fit for Hugging Face Spaces or any simple container deployment.
 
 ## Inference Setup
 
@@ -112,7 +112,7 @@ This is the same command used by the Docker image and is a better fit for Huggin
 - `MODEL_NAME`
 - `API_KEY`
 
-If those values are missing or a provider request fails, the baseline safely falls back to `noop()` and surfaces the error in the UI.
+If those values are missing or a provider request fails, the baseline safely falls back to `noop()` and surfaces the error in the UI. During baseline execution, the agent uses lightweight in-memory context for the current run only; it does not persist cross-run memory to disk.
 
 ## Example API Usage
 
@@ -148,26 +148,12 @@ This checks `/health`, `/metadata`, `/tasks`, `/reset`, `/state`, and a sample `
 
 ## Demo Flow
 
-1. Start the server with `python3 app.py`
-2. Open `http://localhost:8000`
-3. Choose an easy task to verify the loop quickly
-4. Use the task tags, mission brief, and issue tracker to review manually
-5. Run `Run AI` to compare the baseline agent against your own path
-6. Switch to an extreme task to demonstrate harder multi-step review
-
-## Hackathon Readiness
-
-This repo now covers the local pieces of the Round 1 checklist:
-
-- `openenv.yaml` present
-- `inference.py` present at project root
-- Typed models present in `models.py`
-- `reset`, `step`, and `state` implemented
-- 3+ realistic tasks with graders
-- Dockerfile included
-- Polished UI for local demos
-- Pinned dependencies for reproducible deploys
-- Production-ready `gunicorn` container entrypoint
+1. Start the server with `python3 app.py`.
+2. Open `http://localhost:8000`.
+3. Pick an easy scenario first to verify the interaction loop.
+4. Submit one or two manual findings to see score and progress update.
+5. Run the baseline agent with `Run AI` to compare its path with your own.
+6. Switch to a harder scenario to show multi-step review behavior.
 
 ## UI Highlights
 
