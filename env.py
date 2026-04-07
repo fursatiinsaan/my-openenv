@@ -2,6 +2,7 @@ import re
 from difflib import SequenceMatcher
 from uuid import uuid4
 
+from grader import grade
 from inference import act, clear_last_error, get_last_error
 from memory import update_memory
 from models import EnvironmentState, Observation
@@ -27,6 +28,10 @@ def matches_issue(text, issue):
         or similarity(lowered, candidate) >= 0.82
         for candidate in candidates
     )
+
+
+def total_issue_weight(task):
+    return sum(issue["weight"] for issue in task["issues"]) or 1.0
 
 
 class CodeReviewEnv:
@@ -66,6 +71,7 @@ class CodeReviewEnv:
             history=[],
             done=False,
         )
+        self._state.score = grade(self.task, self._state)
         return self._obs("Environment reset. Review the snippet and report the highest-impact issue first.")
 
     def extract_text(self, action):
@@ -81,6 +87,7 @@ class CodeReviewEnv:
         reward = 0.0
         feedback = []
         matched = False
+        total_weight = total_issue_weight(self.task)
 
         for issue in self.task["issues"]:
             label = issue["label"]
@@ -89,20 +96,20 @@ class CodeReviewEnv:
             if matches_issue(text, issue):
                 self._state.found.append(label)
                 self._state.remaining.remove(label)
-                reward += issue["weight"]
+                reward += issue["weight"] / total_weight
                 feedback.append(f"Found issue: {label}")
                 matched = True
 
         if not matched and action != "noop()":
-            reward -= 0.3
             feedback.append("Reported issue was not relevant to the current snippet.")
 
         if action in self._state.history:
-            reward -= 0.5
+            reward = 0.0
             feedback.append("Repeated action.")
 
         self._state.history.append(action)
-        self._state.score = round(self._state.score + reward, 2)
+        reward = round(min(reward, 0.99), 2)
+        self._state.score = grade(self.task, self._state)
         self._state.done = (
             len(self._state.remaining) == 0
             or self._state.step_count >= self._state.max_steps

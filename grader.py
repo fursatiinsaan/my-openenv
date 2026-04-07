@@ -24,5 +24,8 @@ def grade(task, state):
                 break
 
     if total_weight == 0:
-        return 0.0
-    return round(score / total_weight, 2)
+        return 0.5
+
+    normalized_score = score / total_weight
+    bounded_score = max(0.01, min(0.99, normalized_score))
+    return round(bounded_score, 2)
