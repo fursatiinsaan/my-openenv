@@ -46,6 +46,7 @@ This mix makes the environment easier to demo while still feeling serious enough
 
 ```text
 OpenEv/
+├── .env.example
 ├── app.py
 ├── env.py
 ├── grader.py
@@ -57,6 +58,9 @@ OpenEv/
 ├── tasks.py
 ├── Dockerfile
 ├── requirements.txt
+├── server/
+│   ├── __init__.py
+│   └── app.py
 └── templates/
     └── index.html
 ```

@@ -1,7 +1,6 @@
 import os
 import re
 import sys
-import traceback
 
 from openai import OpenAI
 
@@ -131,9 +130,12 @@ def act(observation):
         content = _message_text(response.choices[0].message.content)
         return extract_action(content)
     except Exception as exc:
-        LAST_ERROR = str(exc)
-        print(f"inference_error: {exc}", file=sys.stderr, flush=True)
-        traceback.print_exc()
+        LAST_ERROR = str(exc) or exc.__class__.__name__
+        print(
+            f"inference_error: {exc.__class__.__name__}: {LAST_ERROR}",
+            file=sys.stderr,
+            flush=True,
+        )
         return "noop()"
 
 

@@ -136,6 +136,8 @@ class CodeReviewEnv:
 
         while not self._state.done and len(steps) < self.auto_run_limit:
             action = act(observation)
+            if get_last_error():
+                break
             if action in steps:
                 break
             steps.append(action)

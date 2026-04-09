@@ -1,25 +1,43 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <title>OpenEnv Scenario Lab</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap" rel="stylesheet">
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.44.0/min/vs/loader.js"></script>
 
 <style>
 :root {
-    --bg: #07111f;
-    --bg-accent: #0f1b2f;
-    --panel: rgba(13, 23, 40, 0.78);
-    --panel-strong: rgba(17, 30, 51, 0.94);
-    --line: rgba(148, 163, 184, 0.14);
-    --text: #e7edf7;
-    --muted: #97a6ba;
-    --blue: #4da2ff;
-    --cyan: #66e2ff;
-    --amber: #ffb347;
-    --red: #ff6b6b;
-    --shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+    --bg: #17181d;
+    --bg-soft: #1f2128;
+    --panel: #2b2d36;
+    --panel-strong: #343742;
+    --panel-elevated: #3f4351;
+    --text: #f4f6fb;
+    --muted: #abb1bf;
+    --line: rgba(255, 255, 255, 0.08);
+    --line-strong: rgba(27, 135, 234, 0.32);
+    --accent: #1b87ea;
+    --accent-soft: rgba(27, 135, 234, 0.14);
+    --green-soft: rgba(105, 224, 153, 0.14);
+    --green-text: #9ff0bf;
+    --amber-soft: rgba(255, 190, 92, 0.12);
+    --amber-text: #ffd28f;
+    --danger: #ff9b9b;
+    --shadow: 0 18px 48px rgba(0, 0, 0, 0.26);
+    --radius-xl: 30px;
+    --radius-lg: 24px;
+    --radius-md: 18px;
+    --radius-sm: 14px;
+    --space-1: 10px;
+    --space-2: 14px;
+    --space-3: 18px;
+    --space-4: 22px;
+    --space-5: 28px;
 }
 
 * {
@@ -33,374 +51,452 @@ html {
 body {
     margin: 0;
     min-height: 100vh;
-    color: var(--text);
-    font-family: "Segoe UI", "SF Pro Display", "Helvetica Neue", sans-serif;
     background:
-        radial-gradient(circle at top left, rgba(77, 162, 255, 0.24), transparent 28%),
-        radial-gradient(circle at 85% 12%, rgba(102, 226, 255, 0.18), transparent 24%),
-        radial-gradient(circle at bottom right, rgba(255, 179, 71, 0.16), transparent 30%),
-        linear-gradient(180deg, #06101c 0%, #07111f 42%, #091522 100%);
-    overflow-x: hidden;
-}
-
-body::before,
-body::after {
-    content: "";
-    position: fixed;
-    inset: auto;
-    width: 420px;
-    height: 420px;
-    border-radius: 999px;
-    filter: blur(80px);
-    opacity: 0.18;
-    pointer-events: none;
-    z-index: 0;
-    animation: drift 18s ease-in-out infinite;
-}
-
-body::before {
-    top: -120px;
-    left: -120px;
-    background: #2f7fff;
-}
-
-body::after {
-    right: -120px;
-    bottom: -120px;
-    background: #00d2ff;
-    animation-delay: -8s;
+        radial-gradient(circle at 8% 44%, rgba(255, 255, 255, 0.12), transparent 0 54px, transparent 55px),
+        radial-gradient(circle at 58% 12%, rgba(255, 255, 255, 0.1), transparent 0 140px, transparent 141px),
+        radial-gradient(circle at 92% 22%, rgba(27, 135, 234, 0.16), transparent 0 34px, transparent 35px),
+        linear-gradient(180deg, #25262b 0%, #1b1c21 100%);
+    color: var(--text);
+    font-family: "Manrope", sans-serif;
 }
 
 .shell {
-    position: relative;
-    z-index: 1;
-    width: min(1280px, calc(100vw - 40px));
-    margin: 28px auto;
+    width: min(1240px, calc(100vw - 32px));
+    margin: var(--space-3) auto calc(var(--space-4) + 2px);
 }
 
-.hero,
-.card {
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
+.panel,
+.summary-card,
+.surface {
+    border: 1px solid var(--line);
+    background: var(--panel);
+    box-shadow: var(--shadow);
 }
 
 .hero {
+    padding: var(--space-4);
+    border-radius: var(--radius-xl);
+}
+
+.hero-topbar {
     display: flex;
+    align-items: flex-start;
     justify-content: space-between;
-    gap: 24px;
-    padding: 28px 30px;
-    border: 1px solid var(--line);
-    border-radius: 28px;
-    background: linear-gradient(135deg, rgba(15, 27, 47, 0.9), rgba(8, 18, 31, 0.78));
-    box-shadow: var(--shadow);
-    animation: riseIn 0.8s ease;
+    gap: var(--space-3);
 }
 
-.hero-copy h1 {
-    margin: 0;
-    font-size: clamp(30px, 4vw, 48px);
-    line-height: 1.02;
-    letter-spacing: -0.04em;
+.brand-wrap {
+    display: grid;
+    gap: 4px;
 }
 
-.hero-copy p {
-    margin: 14px 0 0;
-    max-width: 760px;
+.brand {
+    font-size: clamp(32px, 3vw, 42px);
+    font-weight: 800;
+    letter-spacing: -0.06em;
+}
+
+.micro-label,
+.surface-title,
+.editor-meta,
+.hero-label {
     color: var(--muted);
-    line-height: 1.6;
-    font-size: 15px;
-}
-
-.hero-badges {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin-top: 18px;
-}
-
-.pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 9px 13px;
-    border: 1px solid rgba(148, 163, 184, 0.14);
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.03);
-    color: #d8e6ff;
-    font-size: 12px;
-    letter-spacing: 0.04em;
+    font-size: 11px;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
 }
 
-.hero-side {
-    min-width: 270px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 14px;
+.hero-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--text);
+    font-size: 11px;
 }
 
-.hero-label {
+.hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
+    gap: var(--space-3);
+    margin-top: var(--space-3);
+    align-items: stretch;
+}
+
+.hero-main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.hero-copy {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 2px 0;
+}
+
+.hero-copy h1 {
+    margin: 8px 0 0;
+    max-width: 10ch;
+    font-size: clamp(36px, 4.1vw, 54px);
+    line-height: 1;
+    letter-spacing: -0.06em;
+    font-weight: 800;
+}
+
+.hero-copy p {
+    margin: var(--space-2) 0 0;
+    max-width: 620px;
     color: var(--muted);
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.hero-actions,
+.hero-pills,
+.tag-row,
+.chip-row,
+.button-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+}
+
+.hero-pills {
+    margin-top: var(--space-2);
+}
+
+.hero-actions {
+    margin-top: var(--space-3);
+    align-items: center;
+}
+
+.status-chip,
+.pill,
+.badge,
+.tag,
+.chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--text);
+    font-size: 11px;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: var(--accent);
+}
+
+.hero-side {
+    display: grid;
+    gap: var(--space-2);
+    padding: var(--space-3);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--line);
+    background: var(--panel-strong);
+}
+
+.hero-select-wrap {
+    display: grid;
+    gap: 8px;
+}
+
+.hero-side-copy {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.workflow-list {
+    display: grid;
+    gap: 10px;
+}
+
+.workflow-item {
+    display: grid;
+    grid-template-columns: 10px 1fr;
+    gap: 10px;
+    padding: 12px 0;
+    border-top: 1px solid var(--line);
+}
+
+.workflow-item:first-child {
+    padding-top: 0;
+    border-top: 0;
+}
+
+.workflow-dot {
+    width: 10px;
+    height: 10px;
+    margin-top: 5px;
+    border-radius: 999px;
+    background: var(--accent);
+}
+
+.workflow-item strong {
+    display: block;
     font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 0.12em;
 }
 
-select {
+.workflow-item span {
+    display: block;
+    margin-top: 4px;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.55;
+}
+
+select,
+textarea {
     width: 100%;
-    padding: 14px 16px;
     color: var(--text);
-    border-radius: 14px;
-    border: 1px solid var(--line);
-    background: rgba(8, 15, 28, 0.92);
+    font-family: inherit;
     outline: none;
-    transition: border-color 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+}
+
+select,
+textarea,
+#editor,
+.feedback,
+.mini-card,
+.stat-card,
+.list-row,
+.action-item,
+.tip,
+.chart-shell {
+    border: 1px solid var(--line);
+    background: var(--panel-elevated);
+}
+
+select {
+    padding: 14px 16px;
+    border-radius: 18px;
+}
+
+textarea {
+    min-height: 96px;
+    resize: vertical;
+    padding: 14px;
+    border-radius: 20px;
 }
 
 select:focus,
 textarea:focus {
-    border-color: rgba(77, 162, 255, 0.55);
-    box-shadow: 0 0 0 4px rgba(77, 162, 255, 0.14);
+    border-color: var(--line-strong);
+    box-shadow: 0 0 0 3px rgba(27, 135, 234, 0.12);
 }
 
-.status-chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 12px;
-    border-radius: 14px;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid var(--line);
-    color: var(--muted);
-    font-size: 13px;
-}
-
-.status-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 999px;
-    background: var(--cyan);
-    box-shadow: 0 0 16px rgba(102, 226, 255, 0.7);
-    animation: pulse 2.2s ease-in-out infinite;
-}
-
-.grid {
-    display: grid;
-    grid-template-columns: minmax(0, 2fr) minmax(320px, 1fr);
-    gap: 26px;
-    margin-top: 24px;
-}
-
-.coverage-strip {
+.summary-grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 14px;
-    margin-top: 18px;
+    gap: var(--space-3);
+    margin-top: var(--space-2);
 }
 
-.coverage-card {
-    padding: 16px 18px;
-    border-radius: 20px;
-    border: 1px solid var(--line);
-    background: rgba(10, 19, 33, 0.72);
-    box-shadow: var(--shadow);
+.summary-card {
+    padding: 16px 18px 18px;
+    border-radius: var(--radius-md);
+    min-height: 126px;
 }
 
-.coverage-card strong {
+.summary-card strong {
     display: block;
     margin-top: 8px;
-    font-size: 22px;
+    font-size: 24px;
+    line-height: 1.1;
     letter-spacing: -0.04em;
+}
+
+.summary-card p {
+    margin: var(--space-1) 0 0;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.main-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.65fr) minmax(310px, 0.95fr);
+    gap: 20px;
+    margin-top: var(--space-3);
 }
 
 .column {
     display: flex;
     flex-direction: column;
-    gap: 20px;
-}
-
-.card {
-    position: relative;
-    overflow: hidden;
-    border: 1px solid var(--line);
-    border-radius: 24px;
-    background: linear-gradient(180deg, var(--panel) 0%, var(--panel-strong) 100%);
-    box-shadow: var(--shadow);
-    padding: 22px;
-    animation: riseIn 0.7s ease both;
-}
-
-.card::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(77, 162, 255, 0.05), transparent 40%, rgba(255, 179, 71, 0.04));
-    pointer-events: none;
-}
-
-.intro-card {
-    display: grid;
-    grid-template-columns: 1.4fr 0.8fr;
     gap: 18px;
 }
 
-.eyebrow {
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    font-size: 11px;
-    color: var(--muted);
+.surface {
+    padding: 20px;
+    border-radius: var(--radius-lg);
+}
+
+.sidebar-column .surface,
+.compact-surface {
+    padding: 16px;
+    border-radius: 20px;
+}
+
+.intro-surface {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(220px, 0.8fr);
+    gap: var(--space-3);
+}
+
+.task-title,
+.stat-value,
+.mini-card strong {
+    letter-spacing: -0.05em;
+    font-weight: 800;
 }
 
 .task-title {
-    margin: 10px 0 8px;
-    font-size: clamp(24px, 3vw, 34px);
-    letter-spacing: -0.04em;
+    margin: 8px 0 6px;
+    font-size: clamp(30px, 3vw, 42px);
+    line-height: 1.02;
 }
 
 .task-meta,
 .task-objective,
-.task-hint {
-    position: relative;
-    z-index: 1;
-}
-
-.task-meta {
-    color: #d4def0;
-    margin-bottom: 10px;
-}
-
-.task-objective {
+.subtle,
+.editor-meta,
+.action-item.empty,
+.list-row.empty,
+.tip {
     color: var(--muted);
+}
+
+.task-meta,
+.task-objective,
+.subtle,
+.tip,
+.action-item {
+    font-size: 13px;
     line-height: 1.65;
 }
 
 .tag-row,
 .chip-row {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 16px;
+    margin-top: var(--space-2);
 }
 
 .tag {
-    padding: 7px 10px;
-    border-radius: 999px;
-    background: rgba(77, 162, 255, 0.11);
-    border: 1px solid rgba(77, 162, 255, 0.18);
-    color: #bfe0ff;
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
+    background: rgba(27, 135, 234, 0.14);
+    border-color: rgba(27, 135, 234, 0.24);
 }
 
-.task-hint {
+.mini-stack {
     display: grid;
     gap: 12px;
-    align-content: start;
 }
 
-.mini-stat {
+.mini-card {
     padding: 14px 16px;
-    border-radius: 18px;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(148, 163, 184, 0.11);
+    border-radius: var(--radius-md);
 }
 
-.mini-stat strong {
+.mini-card strong {
     display: block;
     margin-top: 6px;
-    font-size: 18px;
-    color: #ffffff;
+    font-size: 22px;
+}
+
+.surface-title {
+    margin: 0 0 14px;
+}
+
+.editor-frame-bar {
+    display: grid;
+    grid-template-columns: auto auto 1fr;
+    align-items: center;
+    gap: var(--space-1);
+    margin-bottom: 12px;
+}
+
+.editor-title {
+    color: var(--text);
+}
+
+.editor-chrome {
+    display: inline-flex;
+    gap: 6px;
+}
+
+.editor-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.18);
+}
+
+.editor-dot.active {
+    background: var(--accent);
 }
 
 #editor {
-    position: relative;
-    z-index: 1;
-    height: 470px;
-    border-radius: 18px;
+    height: 500px;
+    border-radius: 22px;
     overflow: hidden;
-}
-
-textarea {
-    width: 100%;
-    min-height: 94px;
-    resize: vertical;
-    padding: 14px;
-    border-radius: 16px;
-    border: 1px solid var(--line);
-    background: rgba(8, 15, 28, 0.92);
-    color: var(--text);
-    outline: none;
-    transition: border-color 180ms ease, box-shadow 180ms ease;
-}
-
-.button-group {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 14px;
 }
 
 .btn {
     appearance: none;
-    border: 0;
-    border-radius: 14px;
+    border-radius: 18px;
     padding: 12px 16px;
+    border: 1px solid var(--line);
+    background: var(--panel-elevated);
+    color: var(--text);
     cursor: pointer;
-    color: white;
-    font-weight: 600;
-    letter-spacing: 0.01em;
-    transition: transform 180ms ease, box-shadow 180ms ease, opacity 180ms ease, background 180ms ease;
-}
-
-.btn:hover {
-    transform: translateY(-1px);
-}
-
-.btn:active {
-    transform: translateY(0);
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
 }
 
 .btn:disabled {
     opacity: 0.45;
     cursor: not-allowed;
-    transform: none;
 }
 
 .primary {
-    background: linear-gradient(135deg, #2581ff, #47b8ff);
-    box-shadow: 0 10px 26px rgba(37, 129, 255, 0.28);
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #ffffff;
 }
 
 .secondary {
-    background: rgba(255, 255, 255, 0.06);
-    color: #d8e6ff;
+    background: rgba(255, 255, 255, 0.04);
 }
 
 .danger {
-    background: linear-gradient(135deg, #c94b4b, #ff6b6b);
-    box-shadow: 0 10px 26px rgba(255, 107, 107, 0.22);
+    color: var(--danger);
 }
 
 .feedback {
-    margin-top: 16px;
-    min-height: 140px;
-    padding: 16px;
+    margin-top: 14px;
+    min-height: 106px;
+    padding: 14px 16px;
     border-radius: 18px;
-    border: 1px solid rgba(102, 226, 255, 0.15);
-    background: rgba(3, 12, 24, 0.62);
     white-space: pre-line;
-    color: #8de7ff;
-    line-height: 1.6;
 }
 
-.subtle {
-    color: var(--muted);
-    font-size: 13px;
-    line-height: 1.55;
+.subcopy {
+    margin-bottom: 12px;
 }
 
 .progress-shell {
@@ -408,19 +504,19 @@ textarea {
     height: 10px;
     border-radius: 999px;
     overflow: hidden;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(148, 163, 184, 0.1);
+    border: 1px solid var(--line);
+    background: rgba(255, 255, 255, 0.03);
 }
 
 .progress-bar {
     height: 100%;
     width: 0%;
-    background: linear-gradient(90deg, #2a89ff, #66e2ff);
+    background: linear-gradient(90deg, #1677d6, #1b87ea);
     transition: width 220ms ease;
 }
 
 .feedback.running {
-    color: #d7ebff;
+    color: var(--text);
 }
 
 .loading-line {
@@ -433,7 +529,7 @@ textarea {
     width: 8px;
     height: 8px;
     border-radius: 999px;
-    background: var(--cyan);
+    background: var(--accent);
     opacity: 0.35;
     animation: bounce 1s infinite ease-in-out;
 }
@@ -446,166 +542,83 @@ textarea {
     animation-delay: 0.24s;
 }
 
-.stats-grid {
+.stats-grid,
+.stack,
+.compact-list,
+.action-list,
+.tip-list {
     display: grid;
+    gap: 12px;
+}
+
+.stats-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 14px;
 }
 
-.stat-tile {
-    padding: 18px;
-    border-radius: 20px;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(148, 163, 184, 0.1);
-}
-
-.stat-label {
-    color: var(--muted);
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
+.stat-card {
+    padding: 14px 16px;
+    border-radius: var(--radius-md);
 }
 
 .stat-value {
     display: block;
-    margin-top: 10px;
-    font-size: 32px;
-    font-weight: 700;
-    letter-spacing: -0.04em;
+    margin-top: 6px;
+    font-size: 34px;
 }
 
-.chart-card canvas {
-    position: relative;
-    z-index: 1;
-}
-
-.stack {
-    display: grid;
-    gap: 14px;
-}
-
-.compact-list,
-.action-list,
-.tip-list {
-    position: relative;
-    z-index: 1;
-    display: grid;
-    gap: 10px;
+.chart-shell {
+    height: 210px;
+    padding: 12px 12px 8px;
+    border-radius: 20px;
 }
 
 .list-row,
 .action-item,
 .tip {
     padding: 12px 14px;
-    border-radius: 16px;
-    background: rgba(255, 255, 255, 0.035);
-    border: 1px solid rgba(148, 163, 184, 0.08);
+    border-radius: var(--radius-md);
 }
 
 .list-row {
     display: flex;
     justify-content: space-between;
-    gap: 12px;
     align-items: center;
+    gap: 12px;
+}
+
+.action-surface .chip-row {
+    margin-bottom: 12px;
+}
+
+.action-surface .button-group {
+    margin-top: 14px;
+}
+
+.sidebar-column .surface-title {
+    margin-bottom: 12px;
+}
+
+.sidebar-column .subtle {
+    line-height: 1.6;
 }
 
 .list-row code {
-    color: #d9ebff;
+    color: var(--text);
     font-size: 12px;
 }
 
-.badge {
-    padding: 5px 9px;
-    border-radius: 999px;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-}
-
 .badge.found {
-    background: rgba(77, 214, 140, 0.14);
-    color: #79f0ab;
+    background: var(--green-soft);
+    color: var(--green-text);
 }
 
 .badge.pending {
-    background: rgba(255, 179, 71, 0.12);
-    color: #ffd08a;
+    background: var(--amber-soft);
+    color: var(--amber-text);
 }
 
 .badge.info {
-    background: rgba(77, 162, 255, 0.12);
-    color: #9ecfff;
-}
-
-.action-item {
-    color: #cbd7ea;
-    font-size: 13px;
-    line-height: 1.45;
-}
-
-.action-item.empty,
-.list-row.empty {
-    color: var(--muted);
-}
-
-.tip {
-    color: var(--muted);
-    line-height: 1.55;
-    font-size: 13px;
-}
-
-.chip {
-    appearance: none;
-    border: 1px solid rgba(148, 163, 184, 0.14);
-    background: rgba(255, 255, 255, 0.04);
-    color: #dce9fb;
-    padding: 9px 12px;
-    border-radius: 999px;
-    cursor: pointer;
-    transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
-}
-
-.chip:hover {
-    transform: translateY(-1px);
-    border-color: rgba(102, 226, 255, 0.3);
-    background: rgba(77, 162, 255, 0.08);
-}
-
-.surface-title {
-    margin: 0 0 14px;
-    font-size: 15px;
-    color: #dbe7f8;
-}
-
-@keyframes riseIn {
-    from {
-        opacity: 0;
-        transform: translateY(18px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes drift {
-    0%, 100% {
-        transform: translate3d(0, 0, 0);
-    }
-    50% {
-        transform: translate3d(18px, 28px, 0);
-    }
-}
-
-@keyframes pulse {
-    0%, 100% {
-        transform: scale(1);
-        opacity: 0.85;
-    }
-    50% {
-        transform: scale(1.18);
-        opacity: 1;
-    }
+    background: var(--accent-soft);
 }
 
 @keyframes bounce {
@@ -620,27 +633,37 @@ textarea {
 }
 
 @media (max-width: 1024px) {
-    .coverage-strip,
-    .grid,
-    .intro-card {
+    .hero-grid,
+    .summary-grid,
+    .main-grid,
+    .intro-surface {
         grid-template-columns: 1fr;
     }
 
-    .hero {
-        flex-direction: column;
+    .summary-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
 
 @media (max-width: 720px) {
     .shell {
-        width: min(100vw - 20px, 1280px);
-        margin: 10px auto 24px;
+        width: min(100vw - 20px, 1240px);
+        margin: var(--space-1) auto var(--space-3);
     }
 
     .hero,
-    .card {
+    .surface,
+    .summary-card {
+        padding: var(--space-2);
         border-radius: 20px;
-        padding: 18px;
+    }
+
+    .hero-topbar {
+        flex-direction: column;
+    }
+
+    .summary-grid {
+        grid-template-columns: 1fr;
     }
 
     #editor {
@@ -657,74 +680,121 @@ textarea {
 <body>
 
 <div class="shell">
-    <section class="hero">
-        <div class="hero-copy">
-            <h1>OpenEnv Scenario Lab</h1>
-            <p>Evaluate an engineering agent on realistic product scenarios across backend services, ML systems, data workflows, and infrastructure operations.</p>
-            <div class="hero-badges">
-                <div class="pill">OpenEnv Ready</div>
-                <div class="pill" id="task-count-badge">Benchmark Tasks</div>
-                <div class="pill">Human + AI Review Loop</div>
+    <section class="panel hero">
+        <div class="hero-topbar">
+            <div class="brand-wrap">
+                <div class="brand">OpenEnv</div>
+                <div class="micro-label">Scenario lab for issue discovery</div>
             </div>
+            <div class="hero-chip">Review Workspace</div>
         </div>
-        <div class="hero-side">
-            <div>
-                <div class="hero-label">Scenario</div>
-                <select id="task" onchange="reset()"></select>
+
+        <div class="hero-grid">
+            <div class="hero-main">
+                <div class="hero-copy">
+                    <div class="micro-label">Engineering Agent Studio</div>
+                    <h1>Review Critical Systems With Signal First</h1>
+                    <p>Inspect realistic engineering snippets, submit short findings, and compare your review path with the AI baseline.</p>
+                </div>
+
+                <div class="hero-pills">
+                    <div class="pill" id="task-count-badge">Benchmark Tasks</div>
+                    <div class="pill">Manual + Baseline</div>
+                </div>
+
+                <div class="hero-actions">
+                    <button class="btn primary" onclick="document.getElementById('input').focus()">Start Review</button>
+                    <div class="status-chip">
+                        <span class="status-dot"></span>
+                        <span id="run-status">Scenario loaded</span>
+                    </div>
+                </div>
             </div>
-            <div class="status-chip">
-                <span class="status-dot"></span>
-                <span id="run-status">Ready for review</span>
-            </div>
+
+            <aside class="hero-side">
+                <div class="hero-select-wrap">
+                    <div class="hero-label">Scenario</div>
+                    <select id="task" onchange="reset()"></select>
+                </div>
+
+                <div class="hero-side-copy">
+                    Select a scenario, inspect the snippet, submit concise findings, then compare your path with the AI baseline.
+                </div>
+
+                <div class="workflow-list">
+                    <div class="workflow-item">
+                        <div class="workflow-dot"></div>
+                        <div>
+                            <strong>Inspect</strong>
+                            <span>Read the mission brief, code surface, and issue context before submitting.</span>
+                        </div>
+                    </div>
+                    <div class="workflow-item">
+                        <div class="workflow-dot"></div>
+                        <div>
+                            <strong>Submit</strong>
+                            <span>Use short labels like <code>sql injection</code> or <code>missing access control</code>.</span>
+                        </div>
+                    </div>
+                    <div class="workflow-item">
+                        <div class="workflow-dot"></div>
+                        <div>
+                            <strong>Compare</strong>
+                            <span>Track score, issue coverage, and overlap with the AI baseline in the right column.</span>
+                        </div>
+                    </div>
+                </div>
+            </aside>
         </div>
     </section>
 
-    <section class="coverage-strip">
-        <div class="coverage-card">
-            <div class="eyebrow">Coverage</div>
+    <section class="summary-grid">
+        <div class="summary-card">
+            <div class="micro-label">Coverage</div>
             <strong id="coverage-domains">0 domains</strong>
-            <div class="subtle">Backend, web, data, messaging, orchestration, and ML systems.</div>
+            <p>Backend, web, data, messaging, orchestration, and ML systems.</p>
         </div>
-        <div class="coverage-card">
-            <div class="eyebrow">Difficulty Mix</div>
+        <div class="summary-card">
+            <div class="micro-label">Difficulty Mix</div>
             <strong id="coverage-difficulties">0 levels</strong>
-            <div class="subtle">A progression from onboarding tasks to extreme review scenarios.</div>
+            <p>A progression from onboarding tasks to extreme review scenarios.</p>
         </div>
-        <div class="coverage-card">
-            <div class="eyebrow">Review Focus</div>
+        <div class="summary-card">
+            <div class="micro-label">Review Focus</div>
             <strong id="coverage-focus">Security first</strong>
-            <div class="subtle">Security, reliability, privacy, and data-quality findings are all represented.</div>
+            <p>Security, reliability, privacy, and data-quality findings are all represented.</p>
         </div>
-        <div class="coverage-card">
-            <div class="eyebrow">Play Style</div>
+        <div class="summary-card">
+            <div class="micro-label">Play Style</div>
             <strong>Manual + Baseline</strong>
-            <div class="subtle">Review manually, run the AI baseline, then compare both paths in one session.</div>
+            <p>Review manually, run the AI baseline, then compare both paths in one session.</p>
         </div>
     </section>
 
-    <div class="grid">
-        <div class="column">
-            <section class="card intro-card">
+    <div class="main-grid">
+        <div class="column main-column">
+            <section class="surface intro-surface">
                 <div>
-                    <div class="eyebrow" id="task-domain">Domain</div>
+                    <div class="micro-label" id="task-domain">Domain</div>
                     <div class="task-title" id="task-title">Task</div>
                     <div class="task-meta" id="task-difficulty">Difficulty</div>
                     <div class="task-objective" id="task-objective"></div>
                     <div class="tag-row" id="task-tags"></div>
                 </div>
-                <div class="task-hint">
-                    <div class="mini-stat">
-                        <div class="eyebrow">Agent Mode</div>
+
+                <div class="mini-stack">
+                    <div class="mini-card">
+                        <div class="micro-label">Agent Mode</div>
                         <strong>Issue Discovery</strong>
                     </div>
-                    <div class="mini-stat">
-                        <div class="eyebrow">Target</div>
+                    <div class="mini-card">
+                        <div class="micro-label">Target</div>
                         <strong>High-impact findings first</strong>
                     </div>
                 </div>
             </section>
 
-            <section class="card">
+            <section class="surface">
                 <h3 class="surface-title">Mission Brief</h3>
                 <div class="subtle" id="mission-brief">Reset the environment to load a scenario brief.</div>
                 <div class="progress-shell">
@@ -733,13 +803,24 @@ textarea {
                 <div class="subtle" id="progress-text" style="margin-top: 12px;">0 of 0 issues found</div>
             </section>
 
-            <section class="card">
-                <div id="editor"></div>
+            <section class="surface">
+                <div class="editor-frame">
+                    <div class="editor-frame-bar">
+                        <div class="editor-title">Code Surface</div>
+                        <div class="editor-chrome">
+                            <span class="editor-dot"></span>
+                            <span class="editor-dot"></span>
+                            <span class="editor-dot active"></span>
+                        </div>
+                        <div class="editor-meta">Inspect before you submit</div>
+                    </div>
+                    <div id="editor"></div>
+                </div>
             </section>
 
-            <section class="card">
+            <section class="surface action-surface">
                 <h3 class="surface-title">Submit Review Action</h3>
-                <div class="subtle">Use a short finding label or click one of the task-aware suggestion chips below.</div>
+                <div class="subtle subcopy">Use a short finding label or click one of the task-aware suggestion chips below.</div>
                 <div class="chip-row" id="quick-actions"></div>
                 <textarea id="input" placeholder='Try: sql injection, path traversal, missing access control'></textarea>
 
@@ -754,15 +835,15 @@ textarea {
             </section>
         </div>
 
-        <div class="column">
-            <section class="card">
+        <div class="column sidebar-column">
+            <section class="surface compact-surface">
                 <h3 class="surface-title">Session Stats</h3>
                 <div class="stats-grid">
-                    <div class="stat-tile">
+                    <div class="stat-card">
                         <div class="stat-label">Score</div>
                         <span class="stat-value" id="score">0</span>
                     </div>
-                    <div class="stat-tile">
+                    <div class="stat-card">
                         <div class="stat-label">Steps</div>
                         <span class="stat-value" id="steps">0</span>
                     </div>
@@ -770,22 +851,24 @@ textarea {
                 <div class="subtle" id="session-summary" style="margin-top: 14px;">Track score growth and issue coverage as you review.</div>
             </section>
 
-            <section class="card chart-card">
+            <section class="surface compact-surface">
                 <h3 class="surface-title">Score Progression</h3>
-                <canvas id="chart"></canvas>
+                <div class="chart-shell">
+                    <canvas id="chart"></canvas>
+                </div>
             </section>
 
-            <section class="card">
+            <section class="surface compact-surface">
                 <h3 class="surface-title">Issue Tracker</h3>
                 <div class="compact-list" id="issue-list"></div>
             </section>
 
-            <section class="card">
+            <section class="surface compact-surface">
                 <h3 class="surface-title">Recent Actions</h3>
                 <div class="action-list" id="recent-actions"></div>
             </section>
 
-            <section class="card">
+            <section class="surface compact-surface">
                 <h3 class="surface-title">Task Snapshot</h3>
                 <div class="stack">
                     <div class="list-row">
@@ -807,14 +890,14 @@ textarea {
                 </div>
             </section>
 
-            <section class="card">
+            <section class="surface compact-surface">
                 <h3 class="surface-title">Compare Insights</h3>
                 <div class="tip-list">
                     <div class="tip" id="compare-summary">Run the AI baseline and then compare it with your manual review path.</div>
                 </div>
             </section>
 
-            <section class="card">
+            <section class="surface compact-surface">
                 <h3 class="surface-title">Review Playbook</h3>
                 <div class="tip-list">
                     <div class="tip">Start with the most severe issue first, then move to reliability and data-quality problems.</div>
@@ -829,6 +912,10 @@ textarea {
 <script>
 let editor;
 let chart;
+let resolveEditorReady;
+const editorReady = new Promise((resolve) => {
+    resolveEditorReady = resolve;
+});
 let scores = [];
 let userAnswers = [];
 let aiAnswers = [];
@@ -943,7 +1030,7 @@ function setRunningState(running) {
     stopAiBtnEl().disabled = !running;
     submitBtnEl().disabled = running;
     feedbackEl().classList.toggle("running", running);
-    runStatusEl().innerText = running ? "AI review in progress" : "Ready for review";
+    runStatusEl().innerText = running ? "AI review in progress" : "Scenario loaded";
 }
 
 function loadingMarkup() {
@@ -980,16 +1067,55 @@ function friendlyAiError(message) {
     return "AI request failed:\n" + message;
 }
 
+function refreshEditor() {
+    if (!editor) {
+        return;
+    }
+    requestAnimationFrame(() => {
+        editor.layout();
+        editor.render(true);
+    });
+}
+
 require.config({ paths: { vs: "https://cdn.jsdelivr.net/npm/monaco-editor@0.44.0/min/vs" }});
 require(["vs/editor/editor.main"], function () {
+    monaco.editor.defineTheme("openenvStructured", {
+        base: "vs-dark",
+        inherit: true,
+        rules: [
+            { token: "", foreground: "F4F6FB", background: "3F4351" },
+            { token: "keyword", foreground: "7DB9FF" },
+            { token: "string", foreground: "EFD48B" },
+            { token: "comment", foreground: "A6AFBF" },
+            { token: "number", foreground: "9FF0BF" },
+        ],
+        colors: {
+            "editor.background": "#3F4351",
+            "editorLineNumber.foreground": "#A3ACBC",
+            "editorLineNumber.activeForeground": "#FFFFFF",
+            "editorCursor.foreground": "#1B87EA",
+            "editor.selectionBackground": "#1B87EA30",
+            "editor.inactiveSelectionBackground": "#FFFFFF10",
+            "editorIndentGuide.background1": "#FFFFFF10",
+            "editorIndentGuide.activeBackground1": "#FFFFFF1A",
+        }
+    });
+
     editor = monaco.editor.create(document.getElementById("editor"), {
         value: "",
         language: "python",
-        theme: "vs-dark",
+        theme: "openenvStructured",
         fontSize: 14,
+        lineHeight: 22,
         minimap: { enabled: false },
         smoothScrolling: true,
+        padding: { top: 18, bottom: 18 },
+        scrollbar: {
+            verticalScrollbarSize: 8,
+            horizontalScrollbarSize: 8,
+        },
     });
+    resolveEditorReady();
 });
 
 async function load(){
@@ -1015,6 +1141,7 @@ async function reset(){
     if (isAiRunning) {
         stopAI();
     }
+    await editorReady;
 
     let id = document.getElementById("task").value;
     let res = await fetch("/reset?task_id=" + id);
@@ -1024,6 +1151,7 @@ async function reset(){
     recentActions = [];
 
     editor.setValue(data.code);
+    refreshEditor();
     document.getElementById("task-domain").innerText = task.domain;
     document.getElementById("task-title").innerText = task.title;
     document.getElementById("task-difficulty").innerText = `Difficulty: ${task.difficulty}`;
@@ -1158,8 +1286,8 @@ async function compareAI(){
 function initChart(){
     let ctx = document.getElementById("chart").getContext("2d");
     let gradient = ctx.createLinearGradient(0, 0, 0, 260);
-    gradient.addColorStop(0, "rgba(77, 162, 255, 0.55)");
-    gradient.addColorStop(1, "rgba(77, 162, 255, 0.02)");
+    gradient.addColorStop(0, "rgba(27, 135, 234, 0.32)");
+    gradient.addColorStop(1, "rgba(27, 135, 234, 0.04)");
 
     chart = new Chart(ctx, {
         type: "line",
@@ -1167,19 +1295,21 @@ function initChart(){
             labels: [],
             datasets: [{
                 data: [],
-                borderColor: "#66e2ff",
+                borderColor: "#1b87ea",
                 backgroundColor: gradient,
                 fill: true,
-                tension: 0.35,
+                tension: 0.38,
                 borderWidth: 3,
-                pointRadius: 3,
+                pointRadius: 4,
                 pointHoverRadius: 5,
                 pointBackgroundColor: "#ffffff",
+                pointBorderWidth: 2,
+                pointBorderColor: "#1b87ea",
             }]
         },
         options: {
             responsive: true,
-            maintainAspectRatio: true,
+            maintainAspectRatio: false,
             animation: {
                 duration: 700,
                 easing: "easeOutQuart",
@@ -1189,12 +1319,18 @@ function initChart(){
             },
             scales: {
                 x: {
-                    ticks: { color: "#94a3b8" },
-                    grid: { color: "rgba(148, 163, 184, 0.08)" }
+                    ticks: { color: "#abb1bf" },
+                    grid: {
+                        color: "rgba(255, 255, 255, 0.05)",
+                        drawBorder: false,
+                    }
                 },
                 y: {
-                    ticks: { color: "#94a3b8" },
-                    grid: { color: "rgba(148, 163, 184, 0.08)" }
+                    ticks: { color: "#abb1bf" },
+                    grid: {
+                        color: "rgba(255, 255, 255, 0.05)",
+                        drawBorder: false,
+                    }
                 }
             }
         }
@@ -1202,6 +1338,9 @@ function initChart(){
 }
 
 load();
+
+window.addEventListener("load", refreshEditor);
+window.addEventListener("resize", refreshEditor);
 </script>
 
 </body>
