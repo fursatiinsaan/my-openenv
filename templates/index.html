@@ -550,7 +550,7 @@
         }
     }
 
-    setInterval(fetchState, 200);
+    setInterval(fetchState, 800); // UI refresh — slow enough to actually watch (backend trains at full speed)
     fetchState();
 
     // ── Neural network stats polling (every 2s) ──

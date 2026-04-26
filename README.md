@@ -22,6 +22,8 @@ pinned: false
 
 Multi-agent survival environment where AI agents and anomalies both evolve neural network policies through neuroevolution. Fully OpenEnv-compliant with 5 tasks, dense rewards, and a live pixel-art web UI.
 
+> The UI refreshes at 800ms so you can actually see what's happening. The backend trains at full speed — it just doesn't feel the need to show off about it.
+
 ## Links
 
 | | |

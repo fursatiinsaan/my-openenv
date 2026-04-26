@@ -109,6 +109,8 @@ It's 8 pixels. But watching a crowd of tiny faces all go scared at the same time
 
 Live on Hugging Face Spaces — the simulation runs automatically when you open it.
 
+The UI refreshes every 800ms. Slow enough to actually watch what's happening. The backend is training at full speed the whole time — it just doesn't feel the need to show off about it.
+
 Agents start gathering wood within seconds. By minute two, shelters appear. By minute five, communities have shared resource pools and agents are hunting anomalies.
 
 Ctrl+Click to drop resources anywhere on the map. Shift+Click to spawn an anomaly. Watch the faces.
