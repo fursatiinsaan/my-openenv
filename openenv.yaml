@@ -1,25 +1,108 @@
-name: openenv-code-review
-version: 1.1.0
-description: OpenEnv-style code review environment for the Meta x PyTorch hackathon.
+name: orgsim
+version: "2.0.0"
+description: >
+  A multi-agent survival simulation where AI agents and anomalies both evolve neural network policies via neuroevolution. The environment is fully OpenEnv-compliant with 5 tasks (easy → nightmare), WebSocket transport, and a live pixel-art web UI.
+author: OrgSim Team
+tags:
+  - reinforcement-learning
+  - openenv
+  - survival
+  - multi-agent
+  - neuroevolution
+  - hackathon-2026
+
+tasks:
+  - id: 101
+    name: "First Steps"
+    difficulty: easy
+    description: "Gather 5+ resources and survive 30 ticks."
+    max_steps: 50
+    reward_range: [0.0, 1.0]
+
+  - id: 102
+    name: "Craft and Survive"
+    difficulty: medium
+    description: "Craft 2+ items and keep at least 1 agent alive for 80 ticks."
+    max_steps: 100
+    reward_range: [0.0, 1.0]
+
+  - id: 103
+    name: "Anomaly Outbreak"
+    difficulty: hard
+    description: "Destroy 1+ anomaly and keep 2+ agents alive for 120 ticks."
+    max_steps: 150
+    reward_range: [0.0, 1.0]
+
+  - id: 104
+    name: "Build a Civilization"
+    difficulty: expert
+    description: "Form a community, build 2+ structures, reach population 8+."
+    max_steps: 250
+    reward_range: [0.0, 1.0]
+
+  - id: 105
+    name: "Winter Siege"
+    difficulty: nightmare
+    description: "Survive winter (60 ticks), pop >= 4, destroy 3 anomalies, build shelter."
+    max_steps: 80
+    reward_range: [0.0, 1.0]
+
+observation_space: |
+  Each agent receives a localized SurvivalObservation containing:
+  - agent_stats: health, energy, hunger, inventory, xp, levels, traits, position
+  - local_resources: dict of resources within 3 tiles (key: "x,y", value: resource type)
+  - nearby_anomalies: list of anomalies within 4 tiles with type, severity, health
+  - available_actions: list of valid action_types for this tick
+  - tick: current world tick
+  - done: whether the episode has ended
+  - current_task_id: active task
+  - step_count / max_steps: episode progress
+
+action_space: |
+  A SurvivalAction with fields:
+  - agent_id (str): which agent acts (e.g. "agent_1")
+  - action_type (str): one of move | gather | eat | rest | craft | build |
+                       attack | attack_agent | form_community | join_community | share | noop
+  - target (str, optional): direction for move, recipe for craft, building type for build,
+                             community_id for join_community, resource for share
+  - params (dict, optional): extra parameters
+
+reward_function: |
+  Dense reward shaping — signal on every step:
+  - gather: +1.0 (+0.5 task bonus for task 101)
+  - craft: +5.0 (+2.0 task bonus for task 102)
+  - attack: +3.0 (+2.0 task bonus for task 103)
+  - build: +8.0 (+3.0–5.0 task bonus for tasks 104/105)
+  - form_community: +10.0
+  - join_community: +2.0
+  - share: +1.5
+  - eat: +0.5
+  - rest: +0.1
+  - anomaly destroyed: +15.0
+  - alive each tick: +0.05
+  - agent death: -50.0
+
 entrypoint:
-  command: gunicorn --bind 0.0.0.0:8000 --workers 2 --threads 4 app:app
+  command: uvicorn app:asgi_app --host 0.0.0.0 --port 8000 --workers 1
   host: 0.0.0.0
   port: 8000
+
 protocol:
-  type: http
+  type: http+websocket
   endpoints:
     health: /health
     metadata: /metadata
     schema: /schema
-    reset: /reset
-    step: /step
-    state: /state
-artifacts:
-  inference_script: inference.py
-  dockerfile: Dockerfile
+    tasks: /survival/tasks
+    reset: /survival/reset
+    step: /survival/step
+    state: /survival/state
+    grader: /survival/grader
+    websocket: /ws
+
 runtime:
   python: "3.11"
-  env:
-    API_BASE_URL: OpenAI-compatible base URL for model calls.
-    MODEL_NAME: Model name used by inference.py.
-    API_KEY: API key used for inference requests.
+
+constraints:
+  cpu: 2
+  memory_gb: 8

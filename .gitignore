@@ -6,3 +6,8 @@
 __pycache__/
 *.pyc
 agent_memory.json
+weights.json
+save_*.json
+outputs/
+training_log.txt
+app_out.txt

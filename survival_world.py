@@ -2,6 +2,21 @@ import random
 import math
 from typing import Dict, List, Optional, Tuple
 
+# Neural policy callbacks (imported lazily to avoid circular imports)
+def _nn_on_death(agent_id: str, ticks: int):
+    try:
+        from agent_ai import on_agent_death
+        on_agent_death(agent_id, ticks)
+    except Exception:
+        pass
+
+def _nn_on_generation_end():
+    try:
+        from agent_ai import on_generation_end
+        on_generation_end()
+    except Exception:
+        pass
+
 # ─── Biomes ───
 BIOMES = ["plains", "forest", "desert", "mountain", "swamp"]
 BIOME_RESOURCES = {
@@ -27,6 +42,7 @@ class Traits:
         self.endurance = round(endurance, 2)
 
     def mutate(self):
+        """Random mutation - genetic variation."""
         return Traits(
             speed=max(0.5, self.speed + random.uniform(-0.15, 0.15)),
             strength=max(0.5, self.strength + random.uniform(-0.15, 0.15)),
@@ -36,6 +52,7 @@ class Traits:
 
     @staticmethod
     def crossover(a, b):
+        """Sexual reproduction - combine parent traits."""
         child = Traits(
             speed=(a.speed + b.speed) / 2,
             strength=(a.strength + b.strength) / 2,
@@ -47,6 +64,75 @@ class Traits:
     def to_dict(self):
         return {"speed": self.speed, "strength": self.strength,
                 "intelligence": self.intelligence, "endurance": self.endurance}
+
+
+# ─── Memory (learned, not inherited) ───
+class Memory:
+    """Agent memory - learned behaviors that improve with experience."""
+    def __init__(self):
+        # Resource preferences (learned from success)
+        self.resource_preference = {}  # resource_type -> success_rate
+        # Danger awareness (learned from damage)
+        self.danger_memory = {}  # location -> danger_level
+        # Crafting knowledge (learned from crafting)
+        self.known_recipes = set()
+        # Combat experience (learned from fights)
+        self.combat_wins = 0
+        self.combat_losses = 0
+        # Social bonds (learned from interactions)
+        self.trusted_agents = set()
+        self.rival_agents = set()
+    
+    def learn_resource(self, resource_type: str, success: bool):
+        """Learn which resources are valuable."""
+        if resource_type not in self.resource_preference:
+            self.resource_preference[resource_type] = 0.5
+        # Update preference based on success
+        if success:
+            self.resource_preference[resource_type] = min(1.0, self.resource_preference[resource_type] + 0.1)
+        else:
+            self.resource_preference[resource_type] = max(0.0, self.resource_preference[resource_type] - 0.05)
+    
+    def learn_danger(self, x: int, y: int, damage: float):
+        """Remember dangerous locations."""
+        key = f"{x},{y}"
+        if key not in self.danger_memory:
+            self.danger_memory[key] = 0.0
+        self.danger_memory[key] = min(1.0, self.danger_memory[key] + damage / 100.0)
+    
+    def learn_recipe(self, recipe: str):
+        """Remember successful crafts."""
+        self.known_recipes.add(recipe)
+    
+    def learn_combat(self, won: bool):
+        """Learn from combat experience."""
+        if won:
+            self.combat_wins += 1
+        else:
+            self.combat_losses += 1
+    
+    def get_danger_level(self, x: int, y: int) -> float:
+        """Check if location is dangerous."""
+        key = f"{x},{y}"
+        return self.danger_memory.get(key, 0.0)
+    
+    def get_combat_confidence(self) -> float:
+        """How confident in combat (0.0 - 1.0)."""
+        total = self.combat_wins + self.combat_losses
+        if total == 0:
+            return 0.5
+        return self.combat_wins / total
+    
+    def to_dict(self):
+        return {
+            "resource_preference": self.resource_preference.copy(),
+            "danger_memory": self.danger_memory.copy(),
+            "known_recipes": list(self.known_recipes),
+            "combat_wins": self.combat_wins,
+            "combat_losses": self.combat_losses,
+            "trusted_agents": list(self.trusted_agents),
+            "rival_agents": list(self.rival_agents),
+        }
 
 # ─── Agent ───
 class Agent:
@@ -69,6 +155,9 @@ class Agent:
             speed=random.uniform(0.8, 1.2), strength=random.uniform(0.8, 1.2),
             intelligence=random.uniform(0.8, 1.2), endurance=random.uniform(0.8, 1.2),
         )
+        self.memory = Memory()  # NEW: Learning system
+        # PERSONALITY TYPES (affects behavior)
+        self.personality = random.choice(["aggressive", "peaceful", "explorer", "builder"])
         self.inventory: Dict[str, int] = {}
         self.gathering_level = 1
         self.crafting_level = 1
@@ -80,6 +169,9 @@ class Agent:
         self.kills = 0
         self.items_crafted = 0
         self.resources_gathered = 0
+        self.messages: List[str] = []  # Communication messages
+        self.loved_one: Optional[str] = None  # The one they love and seek
+        self.bond_strength: float = 0.0  # How strong is the bond (0-1)
 
     def add_xp(self, amount: int):
         self.xp += int(amount * self.traits.intelligence)
@@ -89,8 +181,52 @@ class Agent:
             self.xp -= threshold
 
     def die(self):
+        """Agent dies and contributes knowledge to collective memory."""
         self.alive = False
         self.health = 0
+        # Record death location as dangerous
+        death_location = f"{self.x},{self.y}"
+        # Record what killed them (for learning)
+        return {
+            "location": death_location,
+            "age": self.age,
+            "generation": self.generation,
+            "traits": self.traits.to_dict(),
+            "personality": self.personality,
+            "danger_memory": self.memory.danger_memory.copy(),
+            "resources_gathered": self.resources_gathered,
+            "items_crafted": self.items_crafted,
+            "kills": self.kills,
+        }
+
+    def learn_from_action(self, action_type: str, success: bool, context: dict = None):
+        """Learn from experience - FASTER learning for real survival."""
+        learning_rate = self.traits.intelligence * 2.0  # DOUBLED learning rate
+        context = context or {}
+        
+        if action_type == "gather" and success:
+            resource = context.get("resource")
+            if resource:
+                # Learn MUCH faster which resources are good
+                if resource not in self.memory.resource_preference:
+                    self.memory.resource_preference[resource] = 0.5
+                self.memory.resource_preference[resource] = min(1.0, 
+                    self.memory.resource_preference[resource] + 0.2)  # Was 0.1
+        
+        elif action_type == "craft" and success:
+            recipe = context.get("recipe")
+            if recipe:
+                self.memory.learn_recipe(recipe)
+        
+        elif action_type == "attack":
+            won = context.get("won", False)
+            self.memory.learn_combat(won)
+        
+        # Learn danger IMMEDIATELY from any damage
+        if context.get("damage_taken", 0) > 0:
+            damage = context["damage_taken"]
+            # Remember danger strongly
+            self.memory.learn_danger(self.x, self.y, damage * 2.0)  # DOUBLED danger memory
 
     def to_dict(self):
         return {
@@ -98,7 +234,13 @@ class Agent:
             "health": round(self.health), "energy": round(self.energy),
             "hunger": round(self.hunger), "age": self.age, "max_age": self.max_age,
             "generation": self.generation, "parent_ids": self.parent_ids,
-            "traits": self.traits.to_dict(), "inventory": self.inventory.copy(),
+            "traits": self.traits.to_dict(), 
+            "memory": self.memory.to_dict(),
+            "personality": self.personality,  # NEW
+            "messages": self.messages[-5:],  # Last 5 messages
+            "loved_one": self.loved_one,  # Who they love
+            "bond_strength": round(self.bond_strength, 2),  # How much they love
+            "inventory": self.inventory.copy(),
             "gathering_level": self.gathering_level, "crafting_level": self.crafting_level,
             "combat_level": self.combat_level, "xp": self.xp,
             "community_id": self.community_id, "alive": self.alive,
@@ -133,7 +275,7 @@ class Building:
         self.x = x
         self.y = y
         self.community_id = community_id
-        self.health = {"shelter": 50, "farm": 30, "wall": 80, "workshop": 40}.get(building_type, 30)
+        self.health = {"shelter": 50, "farm": 30, "wall": 80, "workshop": 40, "tower": 100, "mine": 60, "temple": 120, "market": 50, "hospital": 40, "campfire": 20}.get(building_type, 30)
         self.max_health = self.health
 
     def to_dict(self):
@@ -149,10 +291,17 @@ class Anomaly:
         self.y = y
         self.severity = severity
         self.health = severity * 15
+        self.damage_dealt = 0.0   # fitness tracker
+        # Neural policy — spawned from the anomaly gene pool
+        try:
+            from neural_policy import get_anomaly_brain
+            self.policy = get_anomaly_brain().spawn_policy()
+        except Exception:
+            self.policy = None
 
 # ─── World ───
 class SurvivalWorld:
-    def __init__(self, width: int = 24, height: int = 24):
+    def __init__(self, width: int = 48, height: int = 48):  # DOUBLED: 48x48 instead of 24x24
         self.width = width
         self.height = height
         self.tick = 0
@@ -170,18 +319,71 @@ class SurvivalWorld:
         self.total_born = 0
         self.total_died = 0
         self._next_id = 100
+        # EVOLUTION MEMORY: Carry knowledge across generations
+        self.generation_number = 0
+        self.collective_memory = {
+            "dangerous_locations": {},  # Locations that killed agents
+            "safe_locations": {},  # Locations where agents survived long
+            "successful_strategies": [],  # What worked
+            "failed_strategies": [],  # What didn't work
+            "best_traits": {"speed": 1.0, "strength": 1.0, "intelligence": 1.0, "endurance": 1.0},
+        }
         self.recipes = {
+            # Basic tools (Tier 1)
             "pickaxe": {"wood": 3, "stone": 2},
             "axe": {"wood": 2, "stone": 3},
+            # Combat (Tier 1)
             "sword": {"wood": 1, "iron": 4},
             "shield": {"iron": 3, "wood": 2},
+            "bow": {"wood": 5, "iron": 2},
+            "arrow": {"wood": 1, "stone": 1},
+            # Armor (Tier 1)
+            "helmet": {"iron": 3, "wood": 1},
+            "chestplate": {"iron": 5, "wood": 2},
+            "boots": {"iron": 2, "wood": 1},
+            # Buildings (Tier 1)
             "shelter_kit": {"wood": 8, "stone": 4},
             "farm_kit": {"wood": 4, "berry": 2},
             "wall_kit": {"stone": 10, "iron": 2},
+            # Advanced buildings (Tier 2 - requires tech)
+            "tower_kit": {"stone": 15, "iron": 8, "wood": 5},
+            "mine_kit": {"stone": 12, "iron": 10, "pickaxe": 1},
+            "temple_kit": {"stone": 20, "crystal": 5, "iron": 5},
+            "workshop_kit": {"wood": 10, "stone": 8, "iron": 4},
+            "market_kit": {"wood": 6, "stone": 6, "iron": 3},
+            "hospital_kit": {"wood": 8, "stone": 4, "mushroom": 5},
+            # Advanced tools (Tier 2)
+            "iron_pickaxe": {"iron": 5, "wood": 2, "pickaxe": 1},
+            "iron_axe": {"iron": 5, "wood": 2, "axe": 1},
+            "crystal_sword": {"crystal": 3, "iron": 6, "sword": 1},
+            "crossbow": {"wood": 8, "iron": 4, "bow": 1},
+            # Advanced armor (Tier 2)
+            "iron_helmet": {"iron": 5, "crystal": 1, "helmet": 1},
+            "iron_chestplate": {"iron": 8, "crystal": 1, "chestplate": 1},
+            "iron_boots": {"iron": 4, "crystal": 1, "boots": 1},
+            # Special items
             "void_stabilizer": {"crystal": 5, "iron": 5},
             "healing_potion": {"mushroom": 3, "berry": 2},
             "energy_elixir": {"mushroom": 2, "crystal": 1},
+            "trade_token": {"crystal": 1, "iron": 2},
+            "teleport_scroll": {"crystal": 3, "mushroom": 2},
+            "fire_starter": {"wood": 2, "stone": 1, "iron": 1},
+            "fishing_rod": {"wood": 4, "iron": 1},
+            "campfire_kit": {"wood": 5, "stone": 3},
+            # Food items
+            "cooked_meat": {"berry": 1, "wood": 1},  # Placeholder, need meat
+            "bread": {"berry": 3, "wood": 1},
+            "stew": {"mushroom": 2, "berry": 2, "wood": 1},
         }
+        # Technology tree (unlocked recipes)
+        self.unlocked_tech = set([
+            "pickaxe", "axe", "sword", "shield", "bow", "arrow", "helmet", "chestplate", "boots",
+            "shelter_kit", "farm_kit", "wall_kit", "tower_kit", "mine_kit", "temple_kit", "workshop_kit",
+            "market_kit", "hospital_kit", "iron_pickaxe", "iron_axe", "crystal_sword", "crossbow",
+            "iron_helmet", "iron_chestplate", "iron_boots", "void_stabilizer", "healing_potion",
+            "energy_elixir", "trade_token", "teleport_scroll", "fire_starter", "fishing_rod",
+            "campfire_kit", "cooked_meat", "bread", "stew"
+        ])
         self._generate_biomes()
         self._generate_map()
 
@@ -207,9 +409,109 @@ class SurvivalWorld:
 
     def add_agent(self, agent_id: str, traits: Traits = None, generation: int = 0, parent_ids=None):
         x, y = random.randint(0, self.width - 1), random.randint(0, self.height - 1)
+        
+        # SMARTER AGENTS: Use collective memory to spawn in safe locations
+        if self.collective_memory["safe_locations"]:
+            # Prefer safe locations
+            safe_locs = list(self.collective_memory["safe_locations"].keys())
+            if safe_locs and random.random() < 0.7:  # 70% chance to spawn in safe area
+                safe_coord = random.choice(safe_locs)
+                x, y = map(int, safe_coord.split(","))
+        
+        # SMARTER AGENTS: Improve traits based on what worked before
+        if traits is None and self.collective_memory["best_traits"]:
+            best = self.collective_memory["best_traits"]
+            # Start with better base traits
+            traits = Traits(
+                speed=best["speed"] + random.uniform(-0.1, 0.1),
+                strength=best["strength"] + random.uniform(-0.1, 0.1),
+                intelligence=best["intelligence"] + random.uniform(-0.1, 0.1),
+                endurance=best["endurance"] + random.uniform(-0.1, 0.1),
+            )
+        
         a = Agent(agent_id, x, y, traits=traits, generation=generation, parent_ids=parent_ids or [])
+        
+        # SMARTER AGENTS: Pre-load collective danger memory
+        if self.collective_memory["dangerous_locations"]:
+            for loc, danger_level in self.collective_memory["dangerous_locations"].items():
+                a.memory.danger_memory[loc] = danger_level
+        
         self.agents[agent_id] = a
         return a
+    
+    def learn_from_death(self, death_data: dict):
+        """Learn from agent death to make next generation smarter."""
+        # Record dangerous location
+        loc = death_data["location"]
+        self.collective_memory["dangerous_locations"][loc] = \
+            self.collective_memory["dangerous_locations"].get(loc, 0.0) + 0.5
+        
+        # Update best traits if agent survived long
+        if death_data["age"] > 200:  # Survived a long time
+            traits = death_data["traits"]
+            # Blend with current best traits
+            for trait, value in traits.items():
+                current = self.collective_memory["best_traits"][trait]
+                self.collective_memory["best_traits"][trait] = (current * 0.7 + value * 0.3)
+        
+        # Learn from their danger memory
+        for loc, danger in death_data["danger_memory"].items():
+            current = self.collective_memory["dangerous_locations"].get(loc, 0.0)
+            self.collective_memory["dangerous_locations"][loc] = max(current, danger)
+    
+    def restart_with_smarter_agents(self):
+        """Restart world with smarter agents that learned from previous deaths."""
+        self.generation_number += 1
+
+        # Notify neural network system that a generation ended
+        _nn_on_generation_end()
+
+        # Advance anomaly brain generation too
+        try:
+            from neural_policy import get_anomaly_brain
+            get_anomaly_brain().new_generation()
+        except Exception:
+            pass
+        
+        # Keep collective memory but reset world
+        old_memory = self.collective_memory.copy()
+        
+        # Reset world state
+        self.tick = 0
+        self.is_day = True
+        self.season = "spring"
+        self.weather = "clear"
+        self.agents = {}
+        self.dead_agents = []
+        self.anomalies = []
+        self.communities = {}
+        self.buildings = []
+        
+        # Restore collective memory
+        self.collective_memory = old_memory
+        
+        # Regenerate resources
+        self._generate_map()
+        
+        # Spawn smarter agents (they inherit collective knowledge)
+        num_agents = 6
+        for i in range(num_agents):
+            agent_id = f"agent_gen{self.generation_number}_{i+1}"
+            self.add_agent(agent_id, generation=self.generation_number)
+        
+        brain_gen = self.generation_number
+        try:
+            from agent_ai import get_nn_stats
+            stats = get_nn_stats()
+            brain_gen = stats.get("generation", self.generation_number)
+            best = stats.get("best_fitness_ever", 0)
+            self.event_log.append(
+                f"[RESTART] Gen {self.generation_number} | NN gen {brain_gen} | best survival: {best} ticks"
+            )
+        except Exception:
+            self.event_log.append(f"[RESTART] Generation {self.generation_number} begins with collective wisdom!")
+        
+        return self.generation_number
 
     def spawn_anomaly(self):
         x, y = random.randint(0, self.width - 1), random.randint(0, self.height - 1)
@@ -282,40 +584,60 @@ class SurvivalWorld:
 
             # Aging death
             if agent.age >= agent.max_age:
-                agent.die()
+                death_data = agent.die()
+                self.learn_from_death(death_data)
                 self.total_died += 1
+                _nn_on_death(agent.agent_id, agent.age)
                 self.event_log.append(f"[{self.tick}] {agent.agent_id} died of old age (gen {agent.generation})")
                 continue
 
             # Health death
             if agent.health <= 0:
-                agent.die()
+                death_data = agent.die()
+                self.learn_from_death(death_data)
                 self.total_died += 1
+                _nn_on_death(agent.agent_id, agent.age)
                 self.event_log.append(f"[{self.tick}] {agent.agent_id} perished")
 
-        # Anomaly AI
+        # Anomaly AI - neural policy driven, moves every 3 ticks
+        if self.tick % 3 == 0 and alive_agents:
+            agent_dicts = [a.to_dict() for a in alive_agents]
+            for ano in self.anomalies[:]:
+                ano.severity += 0.01
+                if ano.policy is None:
+                    continue
+                try:
+                    from neural_policy import extract_anomaly_features, anomaly_action_to_move
+                    ano_dict = {"x": ano.x, "y": ano.y, "severity": ano.severity,
+                                "is_day": 1.0 if self.is_day else 0.0}
+                    feat = extract_anomaly_features(ano_dict, agent_dicts)
+                    action_idx = ano.policy.choose_action(feat)
+                    dx, dy = anomaly_action_to_move(action_idx, ano_dict, agent_dicts,
+                                                    self.width, self.height)
+                    # retreat_grow (action 3) also boosts severity
+                    if action_idx == 3:
+                        ano.severity += 0.05
+                    ano.x = max(0, min(self.width  - 1, ano.x + dx))
+                    ano.y = max(0, min(self.height - 1, ano.y + dy))
+                except Exception:
+                    pass
+
+        # Anomaly damage (every tick if touching)
         for ano in self.anomalies[:]:
-            ano.severity += 0.05
-            if ano.anomaly_type == "Void Creep":
-                nearest = min(alive_agents, key=lambda a: abs(a.x-ano.x)+abs(a.y-ano.y), default=None)
-                if nearest:
-                    if ano.x < nearest.x: ano.x += 1
-                    elif ano.x > nearest.x: ano.x -= 1
-                    elif ano.y < nearest.y: ano.y += 1
-                    elif ano.y > nearest.y: ano.y -= 1
-                    if abs(ano.x - nearest.x) <= 1 and abs(ano.y - nearest.y) <= 1:
-                        dmg = max(1, int(ano.severity))
-                        if nearest.inventory.get("shield", 0) > 0: dmg = max(1, dmg - 4)
-                        nearest.health -= dmg
-            else:
-                for a in alive_agents:
-                    if abs(a.x - ano.x) <= 1 and abs(a.y - ano.y) <= 1:
-                        a.health -= max(1, int(ano.severity * 0.3))
+            dmg_mult = 0.8 if ano.anomaly_type == "Void Creep" else 0.4
+            for a in alive_agents:
+                if abs(a.x - ano.x) <= 1 and abs(a.y - ano.y) <= 1:
+                    dmg = max(2, int(ano.severity * dmg_mult))
+                    if a.inventory.get("shield", 0) > 0:
+                        dmg = max(1, dmg - 4)
+                    a.health -= dmg
+                    ano.damage_dealt += dmg   # track fitness
+                    a.learn_from_action("damaged", False, {"damage_taken": dmg})
 
         # Spawn anomalies (rare)
-        chance = 0.02 if self.is_day else 0.06
-        if self.season == "winter": chance += 0.02
-        if random.random() < chance and len(self.anomalies) < 8:
+        chance = 0.01 if self.is_day else 0.03  # MUCH RARER (was 0.02/0.06)
+        if self.season == "winter": chance += 0.01  # Less in winter too
+        if random.random() < chance and len(self.anomalies) < 5:  # Max 5 (was 8)
             self.spawn_anomaly()
 
         # Resource respawn (generous)
@@ -330,6 +652,22 @@ class SurvivalWorld:
         # Auto-reproduction check
         self._try_reproduce()
 
+        # AUTO-RESTART: If all agents dead, restart with smarter generation
+        alive_count = sum(1 for a in self.agents.values() if a.alive)
+        if alive_count == 0 and len(self.agents) > 0:
+            self.event_log.append(f"[{self.tick}] ALL AGENTS DIED - Restarting with Generation {self.generation_number + 1}")
+            self.restart_with_smarter_agents()
+            return  # Exit early after restart
+
+        # Record anomaly deaths into gene pool before cleaning
+        for ano in self.anomalies:
+            if ano.health <= 0 and ano.policy is not None:
+                try:
+                    from neural_policy import get_anomaly_brain
+                    get_anomaly_brain().record_death(ano.policy, ano.damage_dealt)
+                except Exception:
+                    pass
+
         # Clean dead anomalies
         self.anomalies = [a for a in self.anomalies if a.health > 0]
         # Clean dead agents from communities
@@ -341,28 +679,129 @@ class SurvivalWorld:
             self.event_log = self.event_log[-50:]
 
     def _try_reproduce(self):
-        alive = [a for a in self.agents.values() if a.alive and a.age > 30 and a.mate_cooldown == 0 and a.hunger > 40 and a.health > 40]
+        """
+        ROMANTIC SURVIVAL: Agents form bonds and seek their loved ones!
+        - Agents spend time together to form bonds
+        - Only reproduce with their loved one
+        - Seek loved one when in danger (not just anyone)
+        - Population cap at 50 to prevent crashes
+        """
+        alive = [a for a in self.agents.values() if a.alive and a.age > 20 and a.hunger > 30 and a.health > 20]
         if len(alive) < 2:
             return
-        random.shuffle(alive)
-        for i in range(0, len(alive) - 1, 2):
-            p1, p2 = alive[i], alive[i+1]
-            if abs(p1.x - p2.x) <= 4 and abs(p1.y - p2.y) <= 4:
+        
+        # POPULATION CAP: Don't reproduce if we have 50+ agents
+        total_alive = len([a for a in self.agents.values() if a.alive])
+        if total_alive >= 50:
+            return
+        
+        # FORM BONDS: Agents near each other form emotional bonds
+        for agent in alive:
+            for other in alive:
+                if agent.agent_id == other.agent_id:
+                    continue
+                
+                dist = abs(agent.x - other.x) + abs(agent.y - other.y)
+                
+                # If close together, bond strengthens
+                if dist <= 2:
+                    # If no loved one yet, this could be the one!
+                    if agent.loved_one is None:
+                        agent.loved_one = other.agent_id
+                        agent.bond_strength = 0.1
+                        agent.messages.append(f"💕 Met {other.agent_id}")
+                    
+                    # If this is their loved one, strengthen bond
+                    elif agent.loved_one == other.agent_id:
+                        agent.bond_strength = min(1.0, agent.bond_strength + 0.05)
+                        if agent.bond_strength > 0.5 and len(agent.messages) == 0:
+                            agent.messages.append(f"❤️ Love grows with {other.agent_id}")
+        
+        # Check if there's danger nearby (anomalies)
+        danger_nearby = len(self.anomalies) > 0
+        
+        # SEEK LOVED ONE: When in danger OR always wanting to be together
+        for agent in alive:
+            if agent.loved_one and agent.loved_one in self.agents:
+                loved = self.agents[agent.loved_one]
+                if not loved.alive:
+                    # Loved one died - heartbreak
+                    agent.messages.append(f"💔 Lost {agent.loved_one}")
+                    agent.loved_one = None
+                    agent.bond_strength = 0.0
+                    continue
+                
+                dist = abs(agent.x - loved.x) + abs(agent.y - loved.y)
+                
+                # ALWAYS want to be near loved one (stronger bond = stronger pull)
+                if dist > 1 and dist <= 8 and agent.bond_strength > 0.3:
+                    # Move towards loved one
+                    if agent.energy > 15:  # Need energy to move
+                        dx = loved.x - agent.x
+                        dy = loved.y - agent.y
+                        if abs(dx) > abs(dy):
+                            agent.x += 1 if dx > 0 else -1
+                        else:
+                            agent.y += 1 if dy > 0 else -1
+                        # Clamp to world bounds
+                        agent.x = max(0, min(self.width - 1, agent.x))
+                        agent.y = max(0, min(self.height - 1, agent.y))
+                        agent.energy -= 1
+        
+        # REPRODUCE: Only with loved one when bond is strong
+        reproduced = set()
+        for agent in alive:
+            if agent.agent_id in reproduced or agent.mate_cooldown > 0:
+                continue
+            
+            # Must have a loved one with strong bond
+            if not agent.loved_one or agent.bond_strength < 0.5:
+                continue
+            
+            if agent.loved_one not in self.agents:
+                continue
+            
+            loved = self.agents[agent.loved_one]
+            if not loved.alive or loved.mate_cooldown > 0:
+                continue
+            
+            # Must be touching
+            dist = abs(agent.x - loved.x) + abs(agent.y - loved.y)
+            if dist <= 1:
+                # REPRODUCE WITH LOVED ONE!
                 child_id = self._new_id()
-                child_traits = Traits.crossover(p1.traits, p2.traits)
+                child_traits = Traits.crossover(agent.traits, loved.traits)
                 child = self.add_agent(child_id, traits=child_traits,
-                                       generation=max(p1.generation, p2.generation) + 1,
-                                       parent_ids=[p1.agent_id, p2.agent_id])
-                child.x, child.y = p1.x, p1.y
-                p1.mate_cooldown = 30
-                p2.mate_cooldown = 30
-                p1.energy -= 15
-                p2.energy -= 15
+                                       generation=max(agent.generation, loved.generation) + 1,
+                                       parent_ids=[agent.agent_id, loved.agent_id])
+                child.x, child.y = agent.x, agent.y
+                
+                # Shorter cooldown when in danger (survival instinct)
+                cooldown = 15 if danger_nearby else 25
+                agent.mate_cooldown = cooldown
+                loved.mate_cooldown = cooldown
+                
+                agent.energy -= 10
+                loved.energy -= 10
                 self.total_born += 1
-                self.event_log.append(f"[{self.tick}] {child_id} born (gen {child.generation}) from {p1.agent_id} + {p2.agent_id}")
-                if p1.community_id:
-                    child.community_id = p1.community_id
-                    self.communities[p1.community_id].members.append(child_id)
+                
+                # Strengthen bond after having child together
+                agent.bond_strength = min(1.0, agent.bond_strength + 0.2)
+                loved.bond_strength = min(1.0, loved.bond_strength + 0.2)
+                
+                danger_msg = " [DANGER]" if danger_nearby else ""
+                love_msg = f" ❤️ (bond: {agent.bond_strength:.1f})"
+                self.event_log.append(f"[{self.tick}] {child_id} born from {agent.agent_id} + {loved.agent_id}{love_msg}{danger_msg}")
+                
+                agent.messages.append(f"👶 Had child with {loved.agent_id}")
+                loved.messages.append(f"👶 Had child with {agent.agent_id}")
+                
+                if agent.community_id:
+                    child.community_id = agent.community_id
+                    self.communities[agent.community_id].members.append(child_id)
+                
+                reproduced.add(agent.agent_id)
+                reproduced.add(loved.agent_id)
 
     # ─── Actions ───
     def process_action(self, agent_id: str, action_type: str, target: str = None, params: dict = None) -> Tuple[bool, str]:
@@ -395,8 +834,10 @@ class SurvivalWorld:
                 agent.energy = max(0, agent.energy - 4)
                 agent.add_xp(5)
                 agent.resources_gathered += amt
+                agent.learn_from_action("gather", True, {"resource": res})  # LEARN
                 del self.resources[(agent.x, agent.y)]
                 return True, f"Gathered {amt} {res}"
+            agent.learn_from_action("gather", False)  # LEARN from failure
             return False, "Nothing here"
 
         elif action_type == "eat":
@@ -420,6 +861,7 @@ class SurvivalWorld:
             reqs = self.recipes[recipe]
             for r, amt in reqs.items():
                 if agent.inventory.get(r, 0) < amt:
+                    agent.learn_from_action("craft", False, {"recipe": recipe})  # LEARN
                     return False, f"Need {amt} {r}"
             for r, amt in reqs.items():
                 agent.inventory[r] -= amt
@@ -428,6 +870,7 @@ class SurvivalWorld:
             agent.items_crafted += 1
             agent.add_xp(10)
             agent.energy = max(0, agent.energy - 8)
+            agent.learn_from_action("craft", True, {"recipe": recipe})  # LEARN
             return True, f"Crafted {recipe}"
 
         elif action_type == "build":
@@ -492,9 +935,12 @@ class SurvivalWorld:
                     if ano.health <= 0:
                         agent.kills += 1
                         agent.add_xp(30)
+                        agent.learn_from_action("attack", True, {"won": True})  # LEARN victory
                         self.event_log.append(f"[{self.tick}] {agent.agent_id} destroyed {ano.anomaly_type}")
                         return True, f"Destroyed {ano.anomaly_type}!"
+                    agent.learn_from_action("attack", True, {"won": False})  # LEARN combat
                     return True, f"Attacked {ano.anomaly_type} (hp:{int(ano.health)})"
+            agent.learn_from_action("attack", False)  # LEARN failure
             return False, "Nothing to attack"
 
         elif action_type == "attack_agent":

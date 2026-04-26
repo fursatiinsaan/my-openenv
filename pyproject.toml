@@ -3,31 +3,35 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "openenv-code-review"
-version = "1.1.0"
-description = "OpenEnv-style code review benchmark environment for the Meta x PyTorch hackathon."
+name = "orgsim"
+version = "2.0.0"
+description = "OpenEnv multi-agent survival and crafting RL training environment."
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 dependencies = [
-    "flask==3.1.3",
+    "flask==3.1.1",
     "gunicorn==23.0.0",
-    "openai==2.7.2",
+    "uvicorn==0.29.0",
+    "fastapi==0.111.0",
+    "websockets==12.0",
+    "a2wsgi==1.10.7",
+    "openai==1.51.0",
     "openenv-core>=0.2.0",
-    "pydantic==2.12.5",
+    "pydantic==2.9.2",
+    "requests==2.32.3",
+    "numpy>=1.26.0",
 ]
 
-[project.scripts]
-server = "server.app:main"
-
 [tool.setuptools]
-packages = ["server"]
 py-modules = [
     "app",
-    "env",
+    "client",
     "grader",
     "inference",
-    "memory",
     "models",
-    "smoke_test",
+    "neural_policy",
+    "survival_env",
+    "survival_world",
     "tasks",
+    "train",
 ]

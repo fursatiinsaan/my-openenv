@@ -1,0 +1,1224 @@
+[trainer] Loaded weights — agent gen=60 best=3003  anomaly gen=60 best=739.0 dmg
+
+╔══════════════════════════════════════════════════════════╗
+║        AnomalyCraft — Live Training Started              ║
+║  Open http://localhost:8000 to watch in the browser      ║
+╚══════════════════════════════════════════════════════════╝
+
+ * Serving Flask app 'app'
+ * Debug mode: off
+
+──────────────────────────────────────────────────────────────
+  GEN   61  |  agents=8  |  pool=20/20  |  mut=0.0446
+──────────────────────────────────────────────────────────────
+  [tick    50] alive= 8  shelters=  0  anomalies=2  weather=clear       season=spring   ☀️  DAY  
+  [tick    56] 👶 agent_101 born (gen 61)
+  [tick    74] 👶 agent_102 born (gen 61)
+  [tick    89] 👶 agent_103 born (gen 61)
+  [tick    98] ⚡ New anomaly spawned (total=3)
+  [tick   100] alive=11  shelters=  0  anomalies=3  weather=clear       season=summer   ☀️  DAY  
+  [tick   103] ⚡ New anomaly spawned (total=4)
+  [tick   104] 👶 agent_104 born (gen 61)
+  [tick   114] 👶 agent_105 born (gen 61)
+  [tick   119] 👶 agent_106 born (gen 61)
+  [tick   129] 👶 agent_107 born (gen 61)
+  [tick   134] 👶 agent_108 born (gen 61)
+  [tick   144] 👶 agent_109 born (gen 61)
+  [tick   147] 👶 agent_110 born (gen 61)
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.15.52:8000
+[33mPress CTRL+C to quit[0m
+  [tick   149] 👶 agent_111 born (gen 61)
+  [tick   150] alive=19  shelters=  0  anomalies=4  weather=clear       season=autumn   ☀️  DAY  
+  [tick   159] 👶 agent_112 born (gen 61)
+  [tick   169] ⚡ New anomaly spawned (total=5)
+  [tick   200] alive=20  shelters=  2  anomalies=5  weather=clear       season=winter   ☀️  DAY  
+  [tick   250] alive=20  shelters= 10  anomalies=5  weather=clear       season=spring   ☀️  DAY  
+  [tick   300] alive=20  shelters= 12  anomalies=5  weather=clear       season=summer   ☀️  DAY  
+  [tick   350] alive=20  shelters= 21  anomalies=5  weather=wind        season=summer   ☀️  DAY  
+  [tick   400] alive=20  shelters= 27  anomalies=5  weather=wind        season=autumn   ☀️  DAY  
+  [tick   408] 💀 g61_a5 died (old age) survival=408 fitness=796 shelters=11 res=117
+  [tick   408] 💀 g61_a7 died (old age) survival=408 fitness=936 shelters=5 res=232
+  [tick   408] 👶 agent_113 born (gen 61)
+  [tick   417] 👶 agent_114 born (gen 61)
+  [tick   417] 👶 agent_115 born (gen 61)
+  [tick   450] alive=21  shelters= 33  anomalies=5  weather=snow        season=winter   ☀️  DAY  
+  [tick   485] 💀 g61_a4 died (old age) survival=485 fitness=1267 shelters=13 res=286
+  [tick   485] 💀 g61_a6 died (old age) survival=485 fitness=1294 shelters=15 res=285
+  [tick   488] 👶 agent_116 born (gen 61)
+  [tick   491] 💀 agent_101 died (old age) survival=435 fitness=881 shelters=2 res=105
+  [tick   495] 💀 agent_102 died (old age) survival=421 fitness=1462 shelters=16 res=142
+  [tick   496] 👶 agent_117 born (gen 61)
+  [tick   497] 👶 agent_118 born (gen 61)
+  [tick   500] alive=20  shelters= 33  anomalies=5  weather=rain        season=spring   ☀️  DAY  
+  [tick   519] 💀 g61_a0 died (old age) survival=519 fitness=822 shelters=4 res=131
+  [tick   520] 👶 agent_119 born (gen 61)
+  [tick   537] 💀 g61_a2 died (old age) survival=537 fitness=2449 shelters=20 res=351
+  [tick   548] 👶 agent_120 born (gen 61)
+  [tick   550] alive=20  shelters= 34  anomalies=5  weather=clear       season=summer   ☀️  DAY  
+  [tick   565] 💀 agent_111 died (old age) survival=416 fitness=927 shelters=0 res=18
+  [tick   565] 👶 agent_121 born (gen 61)
+  [tick   574] 💀 g61_a1 died (old age) survival=574 fitness=1207 shelters=7 res=164
+  [tick   574] 💀 agent_105 died (old age) survival=460 fitness=688 shelters=5 res=63
+  [tick   574] 👶 agent_122 born (gen 61)
+  [tick   580] 👶 agent_123 born (gen 61)
+  [tick   587] 💀 g61_a3 died (old age) survival=587 fitness=1640 shelters=19 res=404
+  [tick   589] 👶 agent_124 born (gen 61)
+  [tick   600] alive=20  shelters= 34  anomalies=5  weather=clear       season=autumn   ☀️  DAY  
+  [tick   606] 💀 agent_109 died (old age) survival=462 fitness=1187 shelters=2 res=33
+  [tick   607] 👶 agent_125 born (gen 61)
+  [tick   617] 💀 agent_103 died (old age) survival=528 fitness=833 shelters=9 res=101
+  [tick   617] 👶 agent_126 born (gen 61)
+  [tick   623] 💀 agent_104 died (old age) survival=519 fitness=746 shelters=5 res=87
+  [tick   631] 👶 agent_127 born (gen 61)
+  [tick   650] alive=20  shelters= 34  anomalies=5  weather=rain        season=autumn   ☀️  DAY  
+  [tick   661] 💀 agent_112 died (old age) survival=502 fitness=900 shelters=3 res=58
+  [tick   665] 💀 agent_107 died (old age) survival=536 fitness=1301 shelters=4 res=70
+  [tick   665] 👶 agent_128 born (gen 61)
+  [tick   670] 👶 agent_129 born (gen 61)
+  [tick   680] 💀 agent_110 died (old age) survival=533 fitness=875 shelters=1 res=28
+  [tick   685] 👶 agent_130 born (gen 61)
+  [tick   700] alive=20  shelters= 34  anomalies=5  weather=clear       season=winter   ☀️  DAY  
+  [tick   708] 💀 agent_106 died (old age) survival=589 fitness=623 shelters=1 res=36
+  [tick   708] 👶 agent_131 born (gen 61)
+  [tick   713] 💀 agent_108 died (old age) survival=579 fitness=790 shelters=2 res=25
+  [tick   723] 👶 agent_132 born (gen 61)
+  [tick   723] 👶 agent_133 born (gen 61)
+  [tick   750] alive=21  shelters= 34  anomalies=5  weather=clear       season=spring   ☀️  DAY  
+  [tick   800] alive=21  shelters= 34  anomalies=5  weather=rain        season=summer   ☀️  DAY  
+  [tick   830] 💀 agent_115 died (old age) survival=413 fitness=1142 shelters=0 res=3
+  [tick   850] alive=20  shelters= 35  anomalies=5  weather=clear       season=autumn   ☀️  DAY  
+  [tick   900] alive=20  shelters= 35  anomalies=5  weather=rain        season=winter   ☀️  DAY  
+  [tick   936] 💀 agent_117 died (old age) survival=440 fitness=360 shelters=0 res=5
+  [tick   936] 👶 agent_134 born (gen 61)
+  [tick   950] alive=20  shelters= 35  anomalies=5  weather=rain        season=winter   ☀️  DAY  
+  [tick   961] 💀 agent_114 died (old age) survival=544 fitness=1720 shelters=4 res=60
+  [tick   961] 👶 agent_135 born (gen 61)
+  [tick  1000] alive=20  shelters= 35  anomalies=5  weather=clear       season=spring   ☀️  DAY  
+  [tick  1007] 💀 agent_113 died (old age) survival=599 fitness=1337 shelters=0 res=6
+  [tick  1015] 👶 agent_136 born (gen 61)
+  [tick  1024] 💀 agent_118 died (old age) survival=527 fitness=465 shelters=0 res=3
+  [tick  1024] 👶 agent_137 born (gen 61)
+  [tick  1038] 💀 agent_116 died (old age) survival=550 fitness=649 shelters=1 res=34
+  [tick  1039] 👶 agent_138 born (gen 61)
+  [tick  1050] alive=20  shelters= 35  anomalies=5  weather=heatwave    season=summer   ☀️  DAY  
+  [tick  1073] 💀 agent_119 died (old age) survival=553 fitness=626 shelters=1 res=24
+  [tick  1076] 👶 agent_139 born (gen 61)
+  [tick  1086] 💀 agent_121 died (old age) survival=521 fitness=964 shelters=0 res=12
+  [tick  1086] 👶 agent_140 born (gen 61)
+  [tick  1088] 💀 agent_120 died (old age) survival=540 fitness=547 shelters=0 res=5
+  [tick  1090] 👶 agent_141 born (gen 61)
+  [tick  1098] 💀 agent_126 died (old age) survival=481 fitness=552 shelters=0 res=11
+  [tick  1100] alive=19  shelters= 35  anomalies=5  weather=rain        season=autumn   ☀️  DAY  
+  [tick  1101] 👶 agent_142 born (gen 61)
+  [tick  1122] 💀 agent_124 died (old age) survival=533 fitness=381 shelters=0 res=2
+  [tick  1129] 💀 agent_122 died (old age) survival=555 fitness=392 shelters=0 res=10
+  [tick  1130] 💀 agent_131 died (old age) survival=422 fitness=349 shelters=0 res=4
+  [tick  1131] 👶 agent_143 born (gen 61)
+  [tick  1137] 👶 agent_144 born (gen 61)
+  [tick  1146] 👶 agent_145 born (gen 61)
+  [tick  1150] alive=20  shelters= 35  anomalies=5  weather=clear       season=winter   ☀️  DAY  
+  [tick  1158] 💀 agent_123 died (old age) survival=578 fitness=1346 shelters=0 res=7
+  [tick  1158] 👶 agent_146 born (gen 61)
+  [tick  1158] 👶 agent_147 born (gen 61)
+  [tick  1175] 💀 agent_130 died (old age) survival=490 fitness=937 shelters=0 res=1
+  [tick  1181] 💀 agent_132 died (old age) survival=458 fitness=457 shelters=0 res=11
+  [tick  1190] 👶 agent_148 born (gen 61)
+  [tick  1190] 👶 agent_149 born (gen 61)
+  [tick  1200] alive=21  shelters= 35  anomalies=5  weather=rain        season=spring   ☀️  DAY  
+  [tick  1204] 💀 agent_125 died (old age) survival=597 fitness=549 shelters=0 res=5
+  [tick  1207] 💀 agent_127 died (old age) survival=576 fitness=406 shelters=0 res=13
+  [tick  1207] 👶 agent_150 born (gen 61)
+  [tick  1207] 👶 agent_151 born (gen 61)
+  [tick  1207] 👶 agent_152 born (gen 61)
+  [tick  1221] 💀 agent_129 died (old age) survival=551 fitness=1028 shelters=0 res=5
+  [tick  1232] 💀 agent_133 died (old age) survival=509 fitness=1188 shelters=0 res=6
+  [tick  1250] alive=20  shelters= 35  anomalies=5  weather=clear       season=spring   ☀️  DAY  
+  [tick  1264] 💀 agent_128 died (old age) survival=599 fitness=1287 shelters=1 res=16
+  [tick  1264] 👶 agent_153 born (gen 61)
+  [tick  1300] alive=20  shelters= 35  anomalies=5  weather=rain        season=summer   ☀️  DAY  
+  [tick  1350] alive=20  shelters= 35  anomalies=5  weather=wind        season=autumn   ☀️  DAY  
+  [tick  1400] alive=20  shelters= 35  anomalies=5  weather=clear       season=winter   ☀️  DAY  
+  [tick  1450] alive=20  shelters= 35  anomalies=5  weather=clear       season=spring   ☀️  DAY  
+  [tick  1452] 💀 agent_137 died (old age) survival=428 fitness=438 shelters=0 res=7
+  [tick  1461] 👶 agent_154 born (gen 61)
+  [tick  1463] 💀 agent_135 died (old age) survival=502 fitness=1305 shelters=1 res=15
+  [tick  1463] 👶 agent_155 born (gen 61)
+  [tick  1499] 💀 agent_141 died (old age) survival=409 fitness=1068 shelters=0 res=7
+  [tick  1499] 👶 agent_156 born (gen 61)
+  [tick  1500] alive=20  shelters= 35  anomalies=5  weather=clear       season=summer   ☀️  DAY  
+
+  ✅ GEN   61 DONE | ticks=1500  alive=20  born=56  died=0  shelters=35
+         agent_fitness=    3003 →  pool=20/20  mut=0.0429
+         ano_fitness  =   739.0 dmg  pool=20/20  mut=0.0437
+         elapsed=1.5s
+
+──────────────────────────────────────────────────────────────
+  GEN   62  |  agents=8  |  pool=20/20  |  mut=0.0429
+──────────────────────────────────────────────────────────────
+  [tick    30] 👶 agent_101 born (gen 62)
+  [tick    36] ⚡ New anomaly spawned (total=3)
+  [tick    45] 👶 agent_102 born (gen 62)
+  [tick    50] alive=10  shelters=  0  anomalies=3  weather=clear       season=spring   ☀️  DAY  
+  [tick    60] 👶 agent_103 born (gen 62)
+  [tick    75] 👶 agent_104 born (gen 62)
+  [tick    80] ⚡ New anomaly spawned (total=4)
+  [tick    90] 👶 agent_105 born (gen 62)
+  [tick   100] alive=13  shelters=  0  anomalies=4  weather=rain        season=summer   ☀️  DAY  
+  [tick   105] 👶 agent_106 born (gen 62)
+  [tick   105] 👶 agent_107 born (gen 62)
+  [tick   120] 👶 agent_108 born (gen 62)
+  [tick   122] 👶 agent_109 born (gen 62)
+  [tick   135] 👶 agent_110 born (gen 62)
+  [tick   137] 👶 agent_111 born (gen 62)
+  [tick   141] 👶 agent_112 born (gen 62)
+  [tick   150] alive=20  shelters=  3  anomalies=4  weather=clear       season=autumn   ☀️  DAY  
+  [tick   178] ⚡ New anomaly spawned (total=5)
+  [tick   200] alive=20  shelters=  5  anomalies=5  weather=snow        season=winter   ☀️  DAY  
+  [tick   250] alive=20  shelters= 10  anomalies=5  weather=clear       season=spring   ☀️  DAY  
+  [tick   300] alive=20  shelters= 18  anomalies=5  weather=rain        season=summer   ☀️  DAY  
+  [tick   350] alive=20  shelters= 21  anomalies=5  weather=wind        season=summer   ☀️  DAY  
+  [tick   400] alive=20  shelters= 21  anomalies=5  weather=clear       season=autumn   ☀️  DAY  
+  [tick   419] 💀 g62_a2 died (old age) survival=419 fitness=926 shelters=10 res=202
+  [tick   427] 💥 Temporal Rift destroyed (dealt 50 dmg)
+  [tick   432] 💀 g62_a6 died (old age) survival=432 fitness=689 shelters=4 res=153
+  [tick   433] 👶 agent_113 born (gen 62)
+  [tick   438] 👶 agent_114 born (gen 62)
+  [tick   450] alive=20  shelters= 21  anomalies=4  weather=blizzard    season=winter   ☀️  DAY  
+  [tick   461] 💀 agent_103 died (old age) survival=401 fitness=1107 shelters=9 res=269
+  [tick   464] 👶 agent_115 born (gen 62)
+  [tick   470] 💀 g62_a1 died (old age) survival=470 fitness=1055 shelters=0 res=185
+  [tick   479] 💀 g62_a0 died (old age) survival=479 fitness=1365 shelters=9 res=254
+  [tick   480] 👶 agent_116 born (gen 62)
+  [tick   482] 👶 agent_117 born (gen 62)
+  [tick   483] ⚡ New anomaly spawned (total=5)
+  [tick   487] 💀 agent_102 died (old age) survival=442 fitness=888 shelters=3 res=68
+  [tick   495] 👶 agent_118 born (gen 62)
+  [tick   500] alive=20  shelters= 22  anomalies=5  weather=clear       season=spring   ☀️  DAY  
+  [tick   515] 💀 g62_a4 died (old age) survival=515 fitness=1045 shelters=10 res=166
+  [tick   515] 👶 agent_119 born (gen 62)
+  [tick   515] 👶 agent_120 born (gen 62)
+  [tick   520] 💀 agent_106 died (old age) survival=415 fitness=590 shelters=0 res=46
+  [tick   539] 💀 agent_109 died (old age) survival=417 fitness=516 shelters=0 res=9
+  [tick   540] 👶 agent_121 born (gen 62)
+  [tick   541] 💀 agent_101 died (old age) survival=511 fitness=540 shelters=0 res=120
+  [tick   541] 👶 agent_122 born (gen 62)
+  [tick   550] alive=20  shelters= 23  anomalies=5  weather=clear       season=summer   ☀️  DAY  
+  [tick   557] 💀 agent_111 died (old age) survival=420 fitness=784 shelters=3 res=36
+  [tick   557] 👶 agent_123 born (gen 62)
+  [tick   573] 💀 g62_a5 died (old age) survival=573 fitness=1166 shelters=6 res=183
+  [tick   573] 👶 agent_124 born (gen 62)
+  [tick   573] 👶 agent_125 born (gen 62)
+  [tick   576] 💀 g62_a7 died (old age) survival=576 fitness=1588 shelters=9 res=318
+  [tick   583] 💀 agent_104 died (old age) survival=508 fitness=1167 shelters=5 res=100
+  [tick   584] 💀 g62_a3 died (old age) survival=584 fitness=1063 shelters=7 res=189
+  [tick   588] 👶 agent_126 born (gen 62)
+  [tick   589] 👶 agent_127 born (gen 62)
+  [tick   600] alive=20  shelters= 23  anomalies=5  weather=clear       season=autumn   ☀️  DAY  
+  [tick   616] 💀 agent_112 died (old age) survival=475 fitness=762 shelters=3 res=35
+  [tick   616] 👶 agent_128 born (gen 62)
+  [tick   625] 💀 agent_108 died (old age) survival=505 fitness=966 shelters=0 res=93
+  [tick   629] 👶 agent_129 born (gen 62)
+  [tick   635] 💀 agent_107 died (old age) survival=530 fitness=728 shelters=2 res=110
+  [tick   639] 💀 agent_110 died (old age) survival=504 fitness=742 shelters=2 res=41
+  [tick   639] 👶 agent_130 born (gen 62)
+  [tick   644] 👶 agent_131 born (gen 62)
+  [tick   647] 💀 agent_105 died (old age) survival=557 fitness=748 shelters=4 res=94
+  [tick   648] 👶 agent_132 born (gen 62)
+  [tick   650] alive=20  shelters= 24  anomalies=5  weather=clear       season=autumn   ☀️  DAY  
+  [tick   700] alive=20  shelters= 24  anomalies=5  weather=wind        season=winter   ☀️  DAY  
+  [tick   750] alive=20  shelters= 24  anomalies=5  weather=clear       season=spring   ☀️  DAY  
+  [tick   800] alive=20  shelters= 24  anomalies=5  weather=clear       season=summer   ☀️  DAY  
+  [tick   850] alive=20  shelters= 24  anomalies=5  weather=clear       season=autumn   ☀️  DAY  
+  [tick   864] 💀 agent_115 died (old age) survival=400 fitness=795 shelters=1 res=10
+  [tick   864] 👶 agent_133 born (gen 62)
+  [tick   894] 💀 agent_117 died (old age) survival=412 fitness=576 shelters=2 res=36
+  [tick   894] 👶 agent_134 born (gen 62)
+  [tick   900] alive=20  shelters= 24  anomalies=5  weather=blizzard    season=winter   ☀️  DAY  
+  [tick   921] 💥 Temporal Rift destroyed (dealt 140 dmg)
+  [tick   928] 💥 Temporal Rift destroyed (dealt 63 dmg)
+  [tick   929] ⚡ New anomaly spawned (total=4)
+  [tick   942] 💀 agent_119 died (old age) survival=427 fitness=508 shelters=0 res=2
+  [tick   942] 💀 agent_133 died (combat/starvation) survival=78 fitness=98 shelters=0 res=0
+  [tick   942] 👶 agent_135 born (gen 62)
+  [tick   947] 💀 agent_114 died (old age) survival=509 fitness=552 shelters=0 res=7
+  [tick   950] alive=18  shelters= 24  anomalies=4  weather=clear       season=winter   ☀️  DAY  
+  [tick   952] ⚡ New anomaly spawned (total=5)
+  [tick   952] 👶 agent_136 born (gen 62)
+  [tick   957] 👶 agent_137 born (gen 62)
+  [tick   969] 💀 agent_123 died (old age) survival=412 fitness=346 shelters=0 res=6
+  [tick   972] 👶 agent_138 born (gen 62)
+  [tick   983] 💀 agent_113 died (old age) survival=550 fitness=947 shelters=0 res=9
+  [tick   987] 👶 agent_139 born (gen 62)
+  [tick   999] 💀 agent_121 died (old age) survival=459 fitness=448 shelters=0 res=6
+  [tick  1000] 👶 agent_140 born (gen 62)
+  [tick  1000] alive=20  shelters= 24  anomalies=5  weather=clear       season=spring   ☀️  DAY  
+  [tick  1026] 💀 agent_120 died (old age) survival=511 fitness=548 shelters=0 res=4
+  [tick  1026] 👶 agent_141 born (gen 62)
+  [tick  1050] alive=20  shelters= 24  anomalies=5  weather=wind        season=summer   ☀️  DAY  
+  [tick  1063] 💀 agent_126 died (old age) survival=475 fitness=543 shelters=0 res=9
+  [tick  1063] 👶 agent_142 born (gen 62)
+  [tick  1067] 💀 agent_122 died (old age) survival=526 fitness=708 shelters=0 res=4
+  [tick  1070] 💀 agent_116 died (old age) survival=590 fitness=871 shelters=2 res=41
+  [tick  1075] 👶 agent_143 born (gen 62)
+  [tick  1076] 👶 agent_144 born (gen 62)
+  [tick  1085] 💀 agent_127 died (old age) survival=496 fitness=802 shelters=0 res=12
+  [tick  1085] 👶 agent_145 born (gen 62)
+  [tick  1087] 💀 agent_118 died (old age) survival=592 fitness=793 shelters=0 res=7
+  [tick  1087] 💀 agent_128 died (old age) survival=471 fitness=376 shelters=0 res=7
+  [tick  1089] 💀 agent_131 died (old age) survival=445 fitness=740 shelters=1 res=13
+  [tick  1090] 👶 agent_146 born (gen 62)
+  [tick  1091] 👶 agent_147 born (gen 62)
+  [tick  1100] 👶 agent_148 born (gen 62)
+  [tick  1100] alive=20  shelters= 24  anomalies=5  weather=wind        season=autumn   ☀️  DAY  
+  [tick  1105] 💀 agent_130 died (old age) survival=466 fitness=529 shelters=0 res=3
+  [tick  1105] 👶 agent_149 born (gen 62)
+  [tick  1150] alive=20  shelters= 24  anomalies=5  weather=clear       season=winter   ☀️  DAY  
+  [tick  1153] 💀 agent_125 died (old age) survival=580 fitness=680 shelters=2 res=25
+  [tick  1153] 👶 agent_150 born (gen 62)
+  [tick  1165] 💀 agent_124 died (old age) survival=592 fitness=1128 shelters=0 res=14
+  [tick  1168] 👶 agent_151 born (gen 62)
+  [tick  1191] 💀 agent_129 died (old age) survival=562 fitness=1193 shelters=0 res=13
+  [tick  1191] 👶 agent_152 born (gen 62)
+  [tick  1200] 💀 agent_132 died (old age) survival=552 fitness=554 shelters=0 res=8
+  [tick  1200] alive=19  shelters= 24  anomalies=5  weather=clear       season=spring   ☀️  DAY  
+  [tick  1205] 👶 agent_153 born (gen 62)
+  [tick  1250] alive=20  shelters= 24  anomalies=5  weather=clear       season=spring   ☀️  DAY  
+  [tick  1300] alive=20  shelters= 24  anomalies=5  weather=clear       season=summer   ☀️  DAY  
+  [tick  1350] alive=20  shelters= 24  anomalies=5  weather=wind        season=autumn   ☀️  DAY  
+  [tick  1400] alive=20  shelters= 24  anomalies=5  weather=clear       season=winter   ☀️  DAY  
+  [tick  1425] 💀 agent_139 died (old age) survival=438 fitness=404 shelters=0 res=7
+  [tick  1426] 👶 agent_154 born (gen 62)
+  [tick  1429] 💀 agent_140 died (old age) survival=429 fitness=518 shelters=0 res=7
+  [tick  1429] 👶 agent_155 born (gen 62)
+  [tick  1446] 💀 agent_135 died (old age) survival=504 fitness=574 shelters=1 res=25
+  [tick  1446] 👶 agent_156 born (gen 62)
+  [tick  1448] 💀 agent_134 died (old age) survival=554 fitness=539 shelters=0 res=4
+  [tick  1450] alive=19  shelters= 24  anomalies=5  weather=clear       season=spring   ☀️  DAY  
+  [tick  1452] 💀 agent_141 died (old age) survival=426 fitness=394 shelters=0 res=27
+  [tick  1452] 👶 agent_157 born (gen 62)
+  [tick  1453] 👶 agent_158 born (gen 62)
+  [tick  1493] 💀 agent_137 died (old age) survival=536 fitness=687 shelters=1 res=21
+  [tick  1493] 👶 agent_159 born (gen 62)
+  [tick  1493] 👶 agent_160 born (gen 62)
+  [tick  1494] 💀 agent_145 died (old age) survival=409 fitness=658 shelters=0 res=2
+  [tick  1500] alive=20  shelters= 24  anomalies=5  weather=wind        season=summer   ☀️  DAY  
+
+  ✅ GEN   62 DONE | ticks=1500  alive=20  born=60  died=0  shelters=24
+         agent_fitness=    3003 →  pool=20/20  mut=0.0412
+         ano_fitness  =   739.0 dmg  pool=20/20  mut=0.0429
+         elapsed=1.3s
+
+──────────────────────────────────────────────────────────────
+  GEN   63  |  agents=8  |  pool=20/20  |  mut=0.0412
+──────────────────────────────────────────────────────────────
+  [tick    50] alive= 8  shelters=  0  anomalies=2  weather=clear       season=spring   ☀️  DAY  
+  [tick    95] 👶 agent_101 born (gen 63)
+  [tick   100] alive= 9  shelters=  0  anomalies=2  weather=rain        season=summer   ☀️  DAY  
+  [tick   110] ⚡ New anomaly spawned (total=3)
+  [tick   110] 👶 agent_102 born (gen 63)
+  [tick   111] ⚡ New anomaly spawned (total=4)
+  [tick   125] 👶 agent_103 born (gen 63)
+  [tick   140] 👶 agent_104 born (gen 63)
+  [tick   150] alive=12  shelters=  0  anomalies=4  weather=clear       season=autumn   ☀️  DAY  
+  [tick   155] 👶 agent_105 born (gen 63)
+  [tick   161] ⚡ New anomaly spawned (total=5)
+  [tick   163] 👶 agent_106 born (gen 63)
+  [tick   173] 👶 agent_107 born (gen 63)
+  [tick   178] 👶 agent_108 born (gen 63)
+  [tick   188] 👶 agent_109 born (gen 63)
+  [tick   193] 👶 agent_110 born (gen 63)
+  [tick   200] alive=18  shelters=  0  anomalies=5  weather=snow        season=winter   ☀️  DAY  
+  [tick   203] 👶 agent_111 born (gen 63)
+  [tick   208] 👶 agent_112 born (gen 63)
+  [tick   208] 👶 agent_113 born (gen 63)
+  [tick   250] alive=21  shelters=  3  anomalies=5  weather=rain        season=spring   ☀️  DAY  
+  [tick   300] alive=21  shelters=  4  anomalies=5  weather=clear       season=summer   ☀️  DAY  
+  [tick   350] alive=21  shelters= 12  anomalies=5  weather=clear       season=summer   ☀️  DAY  
+  [tick   400] alive=21  shelters= 17  anomalies=5  weather=wind        season=autumn   ☀️  DAY  
+  [tick   416] 💀 g63_a6 died (old age) survival=416 fitness=1755 shelters=7 res=160
+  [tick   432] 💀 g63_a4 died (old age) survival=432 fitness=986 shelters=8 res=189
+  [tick   432] 👶 agent_114 born (gen 63)
+  [tick   434] 💥 Void Storm destroyed (dealt 40 dmg)
+  [tick   450] alive=20  shelters= 20  anomalies=4  weather=clear       season=winter   ☀️  DAY  
+  [tick   462] 💀 g63_a5 died (old age) survival=462 fitness=1507 shelters=13 res=209
+  [tick   462] 👶 agent_115 born (gen 63)
+  [tick   500] alive=20  shelters= 24  anomalies=4  weather=wind        season=spring   ☀️  DAY  
+  [tick   505] 💀 g63_a2 died (old age) survival=505 fitness=787 shelters=10 res=164
+  [tick   507] 💀 g63_a0 died (combat/starvation) survival=507 fitness=2096 shelters=6 res=278
+  [tick   514] 👶 agent_116 born (gen 63)
+  [tick   518] 👶 agent_117 born (gen 63)
+  [tick   526] 💀 agent_103 died (old age) survival=401 fitness=586 shelters=5 res=140
+  [tick   526] 👶 agent_118 born (gen 63)
+  [tick   550] ⚡ New anomaly spawned (total=5)
+  [tick   550] alive=20  shelters= 26  anomalies=5  weather=heatwave    season=summer   ☀️  DAY  
+  [tick   556] 💀 g63_a3 died (old age) survival=556 fitness=2062 shelters=4 res=166
+  [tick   556] 👶 agent_119 born (gen 63)
+  [tick   557] 💀 agent_102 died (old age) survival=447 fitness=1790 shelters=13 res=170
+  [tick   563] 👶 agent_120 born (gen 63)
+  [tick   570] 💀 g63_a7 died (old age) survival=570 fitness=1129 shelters=23 res=253
+  [tick   571] 👶 agent_121 born (gen 63)
+  [tick   573] 💀 g63_a1 died (old age) survival=573 fitness=1954 shelters=2 res=260
+  [tick   573] 👶 agent_122 born (gen 63)
+  [tick   600] alive=20  shelters= 28  anomalies=5  weather=wind        season=autumn   ☀️  DAY  
+  [tick   625] 💀 agent_101 died (old age) survival=530 fitness=1796 shelters=5 res=157
+  [tick   632] 👶 agent_123 born (gen 63)
+  [tick   646] 💀 agent_109 died (old age) survival=458 fitness=2026 shelters=5 res=106
+  [tick   646] 👶 agent_124 born (gen 63)
+  [tick   650] alive=20  shelters= 31  anomalies=5  weather=clear       season=autumn   ☀️  DAY  
+  [tick   654] 💀 agent_112 died (old age) survival=446 fitness=362 shelters=1 res=24
+  [tick   658] 💀 agent_110 died (old age) survival=465 fitness=396 shelters=1 res=51
+  [tick   661] 👶 agent_125 born (gen 63)
+  [tick   663] 👶 agent_126 born (gen 63)
+  [tick   677] 💀 agent_108 died (old age) survival=499 fitness=1202 shelters=1 res=29
+  [tick   677] 👶 agent_127 born (gen 63)
+  [tick   681] 💀 agent_107 died (old age) survival=508 fitness=618 shelters=8 res=99
+  [tick   683] 👶 agent_128 born (gen 63)
+  [tick   700] alive=20  shelters= 31  anomalies=5  weather=blizzard    season=winter   ☀️  DAY  
+  [tick   711] 💀 agent_106 died (old age) survival=548 fitness=1002 shelters=3 res=98
+  [tick   711] 👶 agent_129 born (gen 63)
+  [tick   714] 💀 agent_105 died (old age) survival=559 fitness=634 shelters=4 res=76
+  [tick   722] 👶 agent_130 born (gen 63)
+  [tick   730] 💀 agent_104 died (old age) survival=590 fitness=1158 shelters=4 res=72
+  [tick   730] 👶 agent_131 born (gen 63)
+  [tick   730] 👶 agent_132 born (gen 63)
+  [tick   750] alive=21  shelters= 31  anomalies=5  weather=clear       season=spring   ☀️  DAY  
+  [tick   791] 💀 agent_111 died (old age) survival=588 fitness=847 shelters=1 res=11
+  [tick   793] 💀 agent_113 died (old age) survival=585 fitness=982 shelters=4 res=51
+  [tick   793] 👶 agent_133 born (gen 63)
+  [tick   800] alive=20  shelters= 32  anomalies=5  weather=rain        season=summer   ☀️  DAY  
+  [tick   850] alive=20  shelters= 32  anomalies=5  weather=wind        season=autumn   ☀️  DAY  
+  [tick   871] 💀 agent_114 died (old age) survival=439 fitness=838 shelters=0 res=4
+  [tick   879] 👶 agent_134 born (gen 63)
+  [tick   900] alive=20  shelters= 32  anomalies=5  weather=snow        season=winter   ☀️  DAY  
+  [tick   950] alive=20  shelters= 32  anomalies=5  weather=snow        season=winter   ☀️  DAY  
+  [tick   963] 💀 agent_117 died (old age) survival=445 fitness=295 shelters=0 res=12
+  [tick   967] 👶 agent_135 born (gen 63)
+  [tick   990] 💀 agent_119 died (old age) survival=434 fitness=1551 shelters=0 res=2
+  [tick   990] 👶 agent_136 born (gen 63)
+  [tick   997] 💀 agent_115 died (old age) survival=535 fitness=1910 shelters=0 res=5
+  [tick   997] 👶 agent_137 born (gen 63)
+  [tick  1000] alive=20  shelters= 32  anomalies=5  weather=clear       season=spring   ☀️  DAY  
+  [tick  1002] 💀 agent_116 died (old age) survival=488 fitness=1272 shelters=0 res=9
+  [tick  1005] 👶 agent_138 born (gen 63)
+  [tick  1025] 💀 agent_118 died (old age) survival=499 fitness=986 shelters=1 res=26
+  [tick  1025] 👶 agent_139 born (gen 63)
+  [tick  1050] alive=20  shelters= 32  anomalies=5  weather=wind        season=summer   ☀️  DAY  
+  [tick  1066] 💀 agent_133 died (combat/starvation) survival=273 fitness=1418 shelters=0 res=1
+  [tick  1074] 👶 agent_140 born (gen 63)
+  [tick  1084] 💀 agent_120 died (old age) survival=521 fitness=1506 shelters=0 res=3
+  [tick  1084] 👶 agent_141 born (gen 63)
+  [tick  1091] 💀 agent_121 died (old age) survival=520 fitness=707 shelters=0 res=5
+  [tick  1091] 👶 agent_142 born (gen 63)
+  [tick  1100] alive=20  shelters= 32  anomalies=5  weather=wind        season=autumn   ☀️  DAY  
+  [tick  1104] 💀 agent_128 died (old age) survival=421 fitness=432 shelters=0 res=13
+  [tick  1104] 👶 agent_143 born (gen 63)
+  [tick  1110] 💀 agent_122 died (old age) survival=537 fitness=782 shelters=0 res=1
+  [tick  1116] 👶 agent_144 born (gen 63)
+  [tick  1123] 💀 agent_127 died (old age) survival=446 fitness=1476 shelters=0 res=4
+  [tick  1123] 👶 agent_145 born (gen 63)
+  [tick  1136] 💀 agent_123 died (old age) survival=504 fitness=485 shelters=1 res=30
+  [tick  1137] 👶 agent_146 born (gen 63)
+  [tick  1150] alive=20  shelters= 32  anomalies=5  weather=blizzard    season=winter   ☀️  DAY  
+  [tick  1163] 💀 agent_132 died (old age) survival=433 fitness=668 shelters=0 res=11
+  [tick  1171] 👶 agent_147 born (gen 63)
+  [tick  1171] 👶 agent_148 born (gen 63)
+  [tick  1180] 💀 agent_125 died (old age) survival=519 fitness=630 shelters=0 res=5
+  [tick  1180] 💀 agent_130 died (old age) survival=458 fitness=303 shelters=0 res=14
+  [tick  1180] 👶 agent_149 born (gen 63)
+  [tick  1188] 💀 agent_126 died (old age) survival=525 fitness=806 shelters=0 res=15
+  [tick  1188] 👶 agent_150 born (gen 63)
+  [tick  1200] alive=20  shelters= 32  anomalies=5  weather=rain        season=spring   ☀️  DAY  
+  [tick  1215] 💀 agent_124 died (old age) survival=569 fitness=745 shelters=0 res=30
+  [tick  1216] 👶 agent_151 born (gen 63)
+  [tick  1250] alive=20  shelters= 32  anomalies=5  weather=clear       season=spring   ☀️  DAY  
+  [tick  1269] 💀 agent_131 died (old age) survival=539 fitness=1668 shelters=0 res=4
+  [tick  1269] 👶 agent_152 born (gen 63)
+  [tick  1269] 👶 agent_153 born (gen 63)
+  [tick  1296] 💀 agent_129 died (old age) survival=585 fitness=330 shelters=0 res=15
+  [tick  1300] alive=20  shelters= 32  anomalies=5  weather=clear       season=summer   ☀️  DAY  
+  [tick  1350] alive=20  shelters= 32  anomalies=5  weather=clear       season=autumn   ☀️  DAY  
+  [tick  1388] 💀 agent_135 died (old age) survival=421 fitness=1878 shelters=0 res=9
+  [tick  1388] 👶 agent_154 born (gen 63)
+  [tick  1400] alive=20  shelters= 32  anomalies=5  weather=blizzard    season=winter   ☀️  DAY  
+  [tick  1408] 💀 agent_136 died (old age) survival=418 fitness=270 shelters=0 res=11
+  [tick  1409] 💀 agent_137 died (old age) survival=412 fitness=256 shelters=0 res=1
+  [tick  1410] 👶 agent_155 born (gen 63)
+  [tick  1418] 👶 agent_156 born (gen 63)
+  [tick  1418] 👶 agent_157 born (gen 63)
+  [tick  1436] 💀 agent_138 died (old age) survival=431 fitness=833 shelters=0 res=8
+  [tick  1438] 💀 agent_134 died (old age) survival=559 fitness=967 shelters=1 res=17
+  [tick  1438] 👶 agent_158 born (gen 63)
+  [tick  1450] alive=20  shelters= 32  anomalies=5  weather=rain        season=spring   ☀️  DAY  
+  [tick  1500] alive=20  shelters= 32  anomalies=5  weather=clear       season=summer   ☀️  DAY  
+
+  ✅ GEN   63 DONE | ticks=1500  alive=20  born=58  died=0  shelters=32
+         agent_fitness=    3003 →  pool=20/20  mut=0.0395
+         ano_fitness  =   739.0 dmg  pool=20/20  mut=0.0420
+         elapsed=1.4s
+
+──────────────────────────────────────────────────────────────
+  GEN   64  |  agents=8  |  pool=20/20  |  mut=0.0395
+──────────────────────────────────────────────────────────────
+  [tick    47] ⚡ New anomaly spawned (total=3)
+  [tick    50] alive= 8  shelters=  0  anomalies=3  weather=wind        season=spring   ☀️  DAY  
+  [tick    71] 👶 agent_101 born (gen 64)
+  [tick    72] ⚡ New anomaly spawned (total=4)
+  [tick    86] 👶 agent_102 born (gen 64)
+  [tick   100] alive=10  shelters=  1  anomalies=4  weather=clear       season=summer   ☀️  DAY  
+  [tick   102] 👶 agent_103 born (gen 64)
+  [tick   117] 👶 agent_104 born (gen 64)
+  [tick   132] 👶 agent_105 born (gen 64)
+  [tick   140] ⚡ New anomaly spawned (total=5)
+  [tick   147] 👶 agent_106 born (gen 64)
+  [tick   150] alive=14  shelters=  1  anomalies=5  weather=wind        season=autumn   ☀️  DAY  
+  [tick   162] 👶 agent_107 born (gen 64)
+  [tick   177] 👶 agent_108 born (gen 64)
+  [tick   192] 👶 agent_109 born (gen 64)
+  [tick   192] 👶 agent_110 born (gen 64)
+  [tick   200] alive=18  shelters=  2  anomalies=5  weather=rain        season=winter   ☀️  DAY  
+  [tick   209] 👶 agent_111 born (gen 64)
+  [tick   214] 👶 agent_112 born (gen 64)
+  [tick   250] alive=20  shelters=  8  anomalies=5  weather=clear       season=spring   ☀️  DAY  
+  [tick   300] alive=20  shelters= 14  anomalies=5  weather=clear       season=summer   ☀️  DAY  
+  [tick   350] alive=20  shelters= 22  anomalies=5  weather=wind        season=summer   ☀️  DAY  
+  [tick   400] alive=20  shelters= 23  anomalies=5  weather=clear       season=autumn   ☀️  DAY  
+  [tick   405] 💀 g64_a6 died (old age) survival=405 fitness=1736 shelters=12 res=230
+  [tick   405] 👶 agent_113 born (gen 64)
+  [tick   445] 💀 g64_a7 died (old age) survival=445 fitness=1096 shelters=15 res=222
+  [tick   445] 👶 agent_114 born (gen 64)
+  [tick   450] alive=20  shelters= 29  anomalies=5  weather=clear       season=winter   ☀️  DAY  
+  [tick   460] 💀 g64_a5 died (old age) survival=460 fitness=1677 shelters=10 res=182
+  [tick   466] 👶 agent_115 born (gen 64)
+  [tick   468] 💀 g64_a4 died (old age) survival=468 fitness=1539 shelters=8 res=154
+  [tick   469] 👶 agent_116 born (gen 64)
+  [tick   471] 💀 g64_a0 died (old age) survival=471 fitness=715 shelters=8 res=159
+  [tick   472] 👶 agent_117 born (gen 64)
+  [tick   500] alive=20  shelters= 31  anomalies=5  weather=wind        season=spring   ☀️  DAY  
+  [tick   513] 💀 g64_a3 died (old age) survival=513 fitness=2068 shelters=9 res=369
+  [tick   519] 👶 agent_118 born (gen 64)
+  [tick   519] 👶 agent_119 born (gen 64)
+  [tick   543] 💀 g64_a1 died (old age) survival=543 fitness=1331 shelters=7 res=191
+  [tick   550] alive=20  shelters= 36  anomalies=5  weather=heatwave    season=summer   ☀️  DAY  
+  [tick   555] 💀 g64_a2 died (old age) survival=555 fitness=1403 shelters=5 res=334
+  [tick   555] 👶 agent_120 born (gen 64)
+  [tick   560] 💀 agent_101 died (old age) survival=489 fitness=1187 shelters=0 res=9
+  [tick   569] 👶 agent_121 born (gen 64)
+  [tick   573] 💀 agent_106 died (old age) survival=426 fitness=855 shelters=1 res=35
+  [tick   573] 👶 agent_122 born (gen 64)
+  [tick   582] 💀 agent_107 died (old age) survival=420 fitness=1083 shelters=3 res=70
+  [tick   582] 👶 agent_123 born (gen 64)
+  [tick   600] alive=20  shelters= 37  anomalies=5  weather=clear       season=autumn   ☀️  DAY  
+  [tick   609] 💀 agent_111 died (old age) survival=400 fitness=601 shelters=3 res=42
+  [tick   609] 👶 agent_124 born (gen 64)
+  [tick   609] 👶 agent_125 born (gen 64)
+  [tick   644] 💀 agent_102 died (old age) survival=558 fitness=1016 shelters=6 res=144
+  [tick   650] alive=20  shelters= 38  anomalies=5  weather=clear       season=autumn   ☀️  DAY  
+  [tick   674] 💀 agent_103 died (old age) survival=572 fitness=975 shelters=5 res=84
+  [tick   677] 👶 agent_126 born (gen 64)
+  [tick   680] 💀 agent_105 died (old age) survival=548 fitness=902 shelters=1 res=65
+  [tick   690] 👶 agent_127 born (gen 64)
+  [tick   693] 💀 agent_104 died (old age) survival=576 fitness=1330 shelters=7 res=86
+  [tick   696] 👶 agent_128 born (gen 64)
+  [tick   700] alive=20  shelters= 39  anomalies=5  weather=wind        season=winter   ☀️  DAY  
+  [tick   734] 💀 agent_109 died (old age) survival=542 fitness=1562 shelters=6 res=126
+  [tick   734] 👶 agent_129 born (gen 64)
+  [tick   739] 💀 agent_110 died (old age) survival=547 fitness=783 shelters=1 res=19
+  [tick   739] 👶 agent_130 born (gen 64)
+  [tick   750] alive=20  shelters= 39  anomalies=5  weather=rain        season=spring   ☀️  DAY  
+  [tick   771] 💀 agent_108 died (old age) survival=594 fitness=1041 shelters=1 res=30
+  [tick   780] 👶 agent_131 born (gen 64)
+  [tick   780] 👶 agent_132 born (gen 64)
+  [tick   800] alive=21  shelters= 39  anomalies=5  weather=heatwave    season=summer   ☀️  DAY  
+  [tick   806] 💀 agent_112 died (old age) survival=592 fitness=750 shelters=3 res=31
+  [tick   850] alive=20  shelters= 39  anomalies=5  weather=clear       season=autumn   ☀️  DAY  
+  [tick   880] 💀 agent_114 died (old age) survival=435 fitness=596 shelters=0 res=4
+  [tick   882] 👶 agent_133 born (gen 64)
+  [tick   900] alive=20  shelters= 39  anomalies=5  weather=clear       season=winter   ☀️  DAY  
+  [tick   903] 💀 agent_113 died (old age) survival=498 fitness=951 shelters=0 res=6
+  [tick   904] 👶 agent_134 born (gen 64)
+  [tick   948] 💀 agent_115 died (old age) survival=482 fitness=1316 shelters=2 res=34
+  [tick   950] alive=19  shelters= 39  anomalies=5  weather=wind        season=winter   ☀️  DAY  
+  [tick   952] 👶 agent_135 born (gen 64)
+  [tick   964] 💀 agent_120 died (old age) survival=409 fitness=668 shelters=0 res=7
+  [tick   967] 👶 agent_136 born (gen 64)
+  [tick   986] 💀 agent_123 died (old age) survival=404 fitness=1096 shelters=1 res=9
+  [tick   987] 👶 agent_137 born (gen 64)
+  [tick  1000] alive=20  shelters= 39  anomalies=5  weather=clear       season=spring   ☀️  DAY  
+  [tick  1015] 💀 agent_116 died (old age) survival=546 fitness=954 shelters=0 res=7
+  [tick  1015] 👶 agent_138 born (gen 64)
+  [tick  1019] 💀 agent_119 died (old age) survival=500 fitness=775 shelters=0 res=3
+  [tick  1030] 👶 agent_139 born (gen 64)
+  [tick  1030] 👶 agent_140 born (gen 64)
+  [tick  1050] 💀 agent_117 died (old age) survival=578 fitness=650 shelters=0 res=15
+  [tick  1050] alive=20  shelters= 39  anomalies=5  weather=rain        season=summer   ☀️  DAY  
+  [tick  1083] 💀 agent_121 died (old age) survival=514 fitness=838 shelters=0 res=2
+  [tick  1085] 💀 agent_125 died (old age) survival=476 fitness=614 shelters=0 res=3
+  [tick  1089] 👶 agent_141 born (gen 64)
+  [tick  1090] 👶 agent_142 born (gen 64)
+  [tick  1100] alive=20  shelters= 39  anomalies=5  weather=clear       season=autumn   ☀️  DAY  
+  [tick  1114] 💀 agent_118 died (old age) survival=595 fitness=962 shelters=0 res=15
+  [tick  1114] 👶 agent_143 born (gen 64)
+  [tick  1120] 💀 agent_122 died (old age) survival=547 fitness=1030 shelters=0 res=5
+  [tick  1120] 👶 agent_144 born (gen 64)
+  [tick  1120] 👶 agent_145 born (gen 64)
+  [tick  1148] 💀 agent_124 died (old age) survival=539 fitness=1348 shelters=0 res=12
+  [tick  1150] alive=20  shelters= 39  anomalies=5  weather=blizzard    season=winter   ☀️  DAY  
+  [tick  1200] alive=20  shelters= 39  anomalies=5  weather=clear       season=spring   ☀️  DAY  
+  [tick  1226] 💀 agent_130 died (old age) survival=487 fitness=1108 shelters=0 res=7
+  [tick  1226] 💀 agent_132 died (old age) survival=446 fitness=585 shelters=0 res=2
+  [tick  1226] 👶 agent_146 born (gen 64)
+  [tick  1229] 💀 agent_129 died (old age) survival=495 fitness=547 shelters=0 res=5
+  [tick  1234] 👶 agent_147 born (gen 64)
+  [tick  1240] 👶 agent_148 born (gen 64)
+  [tick  1250] alive=20  shelters= 39  anomalies=5  weather=rain        season=spring   ☀️  DAY  
+  [tick  1259] 💥 Void Storm destroyed (dealt 415 dmg)
+  [tick  1264] ⚡ New anomaly spawned (total=5)
+  [tick  1265] 💀 agent_126 died (old age) survival=588 fitness=640 shelters=0 res=10
+  [tick  1270] 👶 agent_149 born (gen 64)
+  [tick  1270] 👶 agent_150 born (gen 64)
+  [tick  1276] 💀 agent_127 died (old age) survival=586 fitness=960 shelters=0 res=11
+  [tick  1286] 💀 agent_128 died (old age) survival=590 fitness=713 shelters=1 res=17
+  [tick  1286] 👶 agent_151 born (gen 64)
+  [tick  1300] alive=20  shelters= 39  anomalies=5  weather=clear       season=summer   ☀️  DAY  
+  [tick  1309] 💀 agent_133 died (old age) survival=427 fitness=1042 shelters=0 res=6
+  [tick  1312] 💀 agent_131 died (old age) survival=532 fitness=549 shelters=0 res=5
+  [tick  1318] 👶 agent_152 born (gen 64)
+  [tick  1318] 👶 agent_153 born (gen 64)
+  [tick  1350] alive=20  shelters= 39  anomalies=5  weather=clear       season=autumn   ☀️  DAY  
+  [tick  1354] 💀 agent_135 died (old age) survival=402 fitness=418 shelters=0 res=11
+  [tick  1354] 👶 agent_154 born (gen 64)
+  [tick  1385] 💀 agent_134 died (old age) survival=481 fitness=942 shelters=0 res=6
+  [tick  1385] 👶 agent_155 born (gen 64)
+  [tick  1400] alive=20  shelters= 39  anomalies=5  weather=clear       season=winter   ☀️  DAY  
+  [tick  1450] alive=20  shelters= 39  anomalies=5  weather=clear       season=spring   ☀️  DAY  
+  [tick  1484] 💀 agent_140 died (old age) survival=454 fitness=1165 shelters=0 res=4
+  [tick  1485] 👶 agent_156 born (gen 64)
+  [tick  1494] 💀 agent_136 died (old age) survival=527 fitness=1102 shelters=0 res=5
+  [tick  1500] 💀 agent_137 died (old age) survival=513 fitness=1580 shelters=1 res=21
+  [tick  1500] 👶 agent_157 born (gen 64)
+  [tick  1500] alive=19  shelters= 39  anomalies=5  weather=clear       season=summer   ☀️  DAY  
+
+  ✅ GEN   64 DONE | ticks=1500  alive=19  born=57  died=0  shelters=39
+         agent_fitness=    3003 →  pool=20/20  mut=0.0380
+         ano_fitness  =   739.0 dmg  pool=20/20  mut=0.0412
+         elapsed=1.4s
+
+──────────────────────────────────────────────────────────────
+  GEN   65  |  agents=8  |  pool=20/20  |  mut=0.0380
+──────────────────────────────────────────────────────────────
+  [tick    32] 👶 agent_101 born (gen 65)
+  [tick    35] 👶 agent_102 born (gen 65)
+  [tick    47] 👶 agent_103 born (gen 65)
+  [tick    50] 👶 agent_104 born (gen 65)
+  [tick    50] alive=12  shelters=  0  anomalies=2  weather=wind        season=spring   ☀️  DAY  
+  [tick    60] ⚡ New anomaly spawned (total=3)
+  [tick    62] 👶 agent_105 born (gen 65)
+  [tick    65] 👶 agent_106 born (gen 65)
+  [tick    77] 👶 agent_107 born (gen 65)
+  [tick    79] 👶 agent_108 born (gen 65)
+  [tick    80] 👶 agent_109 born (gen 65)
+  [tick    81] ⚡ New anomaly spawned (total=4)
+  [tick    92] 👶 agent_110 born (gen 65)
+  [tick    94] ⚡ New anomaly spawned (total=5)
+  [tick    94] 👶 agent_111 born (gen 65)
+  [tick    95] 👶 agent_112 born (gen 65)
+  [tick   100] alive=20  shelters=  0  anomalies=5  weather=heatwave    season=summer   ☀️  DAY  
+  [tick   150] alive=20  shelters=  7  anomalies=5  weather=rain        season=autumn   ☀️  DAY  
+  [tick   200] alive=20  shelters= 12  anomalies=5  weather=clear       season=winter   ☀️  DAY  
+  [tick   232] 💥 Temporal Rift destroyed (dealt 58 dmg)
+  [tick   237] ⚡ New anomaly spawned (total=5)
+  [tick   250] alive=20  shelters= 17  anomalies=5  weather=rain        season=spring   ☀️  DAY  
+  [tick   274] 💀 g65_a5 died (combat/starvation) survival=274 fitness=1013 shelters=8 res=198
+  [tick   274] 👶 agent_113 born (gen 65)
+  [tick   300] alive=20  shelters= 19  anomalies=5  weather=wind        season=summer   ☀️  DAY  
+  [tick   350] alive=20  shelters= 27  anomalies=5  weather=rain        season=summer   ☀️  DAY  
+  [tick   400] alive=20  shelters= 31  anomalies=5  weather=clear       season=autumn   ☀️  DAY  
+  [tick   418] 💀 g65_a6 died (old age) survival=418 fitness=1566 shelters=7 res=149
+  [tick   418] 👶 agent_114 born (gen 65)
+  [tick   418] 👶 agent_115 born (gen 65)
+  [tick   425] 💀 g65_a3 died (old age) survival=425 fitness=1836 shelters=7 res=364
+  [tick   437] 💀 g65_a0 died (old age) survival=437 fitness=722 shelters=7 res=114
+  [tick   439] 👶 agent_116 born (gen 65)
+  [tick   450] alive=20  shelters= 34  anomalies=5  weather=clear       season=winter   ☀️  DAY  
+  [tick   491] 💀 g65_a1 died (old age) survival=491 fitness=985 shelters=0 res=267
+  [tick   496] 👶 agent_117 born (gen 65)
+  [tick   498] 💀 agent_103 died (old age) survival=451 fitness=826 shelters=1 res=115
+  [tick   500] 💀 agent_106 died (old age) survival=435 fitness=1454 shelters=5 res=97
+  [tick   500] alive=18  shelters= 35  anomalies=5  weather=rain        season=spring   ☀️  DAY  
+  [tick   501] 👶 agent_118 born (gen 65)
+  [tick   503] 👶 agent_119 born (gen 65)
+  [tick   504] 💀 agent_104 died (old age) survival=454 fitness=810 shelters=5 res=84
+  [tick   516] 👶 agent_120 born (gen 65)
+  [tick   533] 💀 g65_a2 died (old age) survival=533 fitness=894 shelters=2 res=117
+  [tick   533] 👶 agent_121 born (gen 65)
+  [tick   550] alive=20  shelters= 37  anomalies=5  weather=wind        season=summer   ☀️  DAY  
+  [tick   551] 💀 agent_102 died (old age) survival=516 fitness=1667 shelters=6 res=147
+  [tick   552] 👶 agent_122 born (gen 65)
+  [tick   553] 💀 g65_a7 died (old age) survival=553 fitness=1484 shelters=4 res=62
+  [tick   557] 💀 agent_111 died (old age) survival=463 fitness=644 shelters=1 res=39
+  [tick   559] 💀 agent_101 died (old age) survival=527 fitness=952 shelters=5 res=199
+  [tick   559] 💀 agent_108 died (old age) survival=480 fitness=631 shelters=1 res=13
+  [tick   559] 👶 agent_123 born (gen 65)
+  [tick   562] 👶 agent_124 born (gen 65)
+  [tick   567] 👶 agent_125 born (gen 65)
+  [tick   574] 👶 agent_126 born (gen 65)
+  [tick   577] 💀 agent_110 died (old age) survival=485 fitness=1334 shelters=3 res=38
+  [tick   579] 💀 g65_a4 died (old age) survival=579 fitness=1570 shelters=6 res=185
+  [tick   582] 👶 agent_127 born (gen 65)
+  [tick   591] 💀 agent_107 died (old age) survival=514 fitness=562 shelters=0 res=51
+  [tick   592] 👶 agent_128 born (gen 65)
+  [tick   597] 👶 agent_129 born (gen 65)
+  [tick   597] 👶 agent_130 born (gen 65)
+  [tick   600] alive=21  shelters= 37  anomalies=5  weather=wind        season=autumn   ☀️  DAY  
+  [tick   603] 💀 agent_109 died (old age) survival=523 fitness=1302 shelters=2 res=41
+  [tick   622] 💀 agent_105 died (old age) survival=560 fitness=1082 shelters=6 res=101
+  [tick   622] 👶 agent_131 born (gen 65)
+  [tick   622] 👶 agent_132 born (gen 65)
+  [tick   650] alive=21  shelters= 37  anomalies=5  weather=clear       season=autumn   ☀️  DAY  
+  [tick   673] 💀 agent_112 died (old age) survival=578 fitness=432 shelters=0 res=26
+  [tick   676] 💀 agent_113 died (old age) survival=402 fitness=479 shelters=2 res=14
+  [tick   676] 👶 agent_133 born (gen 65)
+  [tick   676] 👶 agent_134 born (gen 65)
+  [tick   700] alive=21  shelters= 37  anomalies=5  weather=rain        season=winter   ☀️  DAY  
+  [tick   750] alive=21  shelters= 37  anomalies=5  weather=rain        season=spring   ☀️  DAY  
+  [tick   800] alive=21  shelters= 37  anomalies=5  weather=rain        season=summer   ☀️  DAY  
+  [tick   810] 💀 agent_118 died (combat/starvation) survival=309 fitness=1064 shelters=2 res=35
+  [tick   850] alive=20  shelters= 37  anomalies=5  weather=wind        season=autumn   ☀️  DAY  
+  [tick   888] 💀 agent_115 died (old age) survival=470 fitness=1104 shelters=0 res=11
+  [tick   888] 👶 agent_135 born (gen 65)
+  [tick   900] alive=20  shelters= 37  anomalies=5  weather=blizzard    season=winter   ☀️  DAY  
+  [tick   907] 💀 agent_114 died (old age) survival=489 fitness=1116 shelters=0 res=11
+  [tick   907] 👶 agent_136 born (gen 65)
+  [tick   912] 💀 agent_119 died (old age) survival=409 fitness=1218 shelters=0 res=2
+  [tick   918] 👶 agent_137 born (gen 65)
+  [tick   947] 💀 agent_116 died (old age) survival=508 fitness=620 shelters=0 res=0
+  [tick   949] 👶 agent_138 born (gen 65)
+  [tick   950] alive=20  shelters= 37  anomalies=5  weather=clear       season=winter   ☀️  DAY  
+  [tick   954] 💀 agent_135 died (combat/starvation) survival=66 fitness=250 shelters=0 res=1
+  [tick   956] 👶 agent_139 born (gen 65)
+  [tick   970] 💀 agent_125 died (old age) survival=403 fitness=418 shelters=0 res=3
+  [tick   971] 👶 agent_140 born (gen 65)
+  [tick   998] 💀 agent_123 died (old age) survival=439 fitness=1136 shelters=1 res=11
+  [tick   998] 👶 agent_141 born (gen 65)
+  [tick  1000] alive=20  shelters= 37  anomalies=5  weather=clear       season=spring   ☀️  DAY  
+  [tick  1002] 💀 agent_124 died (old age) survival=440 fitness=1101 shelters=0 res=18
+  [tick  1007] 💀 agent_117 died (old age) survival=511 fitness=1338 shelters=1 res=18
+  [tick  1011] 👶 agent_142 born (gen 65)
+  [tick  1012] 👶 agent_143 born (gen 65)
+  [tick  1021] 💀 agent_121 died (old age) survival=488 fitness=1410 shelters=0 res=5
+  [tick  1026] 👶 agent_144 born (gen 65)
+  [tick  1044] 💀 agent_120 died (old age) survival=528 fitness=804 shelters=0 res=12
+  [tick  1044] 👶 agent_145 born (gen 65)
+  [tick  1050] alive=20  shelters= 37  anomalies=5  weather=rain        season=summer   ☀️  DAY  
+  [tick  1057] 💀 agent_128 died (old age) survival=465 fitness=519 shelters=0 res=1
+  [tick  1059] 👶 agent_146 born (gen 65)
+  [tick  1091] 💀 agent_122 died (old age) survival=539 fitness=722 shelters=0 res=11
+  [tick  1091] 👶 agent_147 born (gen 65)
+  [tick  1100] 💀 agent_133 died (old age) survival=424 fitness=276 shelters=0 res=8
+  [tick  1100] alive=19  shelters= 37  anomalies=5  weather=clear       season=autumn   ☀️  DAY  
+  [tick  1105] 👶 agent_148 born (gen 65)
+  [tick  1109] 💀 agent_131 died (old age) survival=487 fitness=291 shelters=0 res=8
+  [tick  1112] 👶 agent_149 born (gen 65)
+  [tick  1114] 💀 agent_126 died (old age) survival=540 fitness=454 shelters=2 res=32
+  [tick  1120] 👶 agent_150 born (gen 65)
+  [tick  1146] 💀 agent_129 died (old age) survival=549 fitness=724 shelters=0 res=12
+  [tick  1146] 👶 agent_151 born (gen 65)
+  [tick  1150] alive=20  shelters= 37  anomalies=5  weather=blizzard    season=winter   ☀️  DAY  
+  [tick  1153] 💀 agent_132 died (old age) survival=531 fitness=792 shelters=0 res=6
+  [tick  1161] 👶 agent_152 born (gen 65)
+  [tick  1161] 👶 agent_153 born (gen 65)
+  [tick  1171] 💀 agent_127 died (old age) survival=589 fitness=554 shelters=0 res=8
+  [tick  1175] 💀 agent_134 died (old age) survival=499 fitness=1024 shelters=0 res=2
+  [tick  1175] 👶 agent_154 born (gen 65)
+  [tick  1176] 💀 agent_130 died (old age) survival=579 fitness=706 shelters=0 res=3
+  [tick  1176] 👶 agent_155 born (gen 65)
+  [tick  1176] 👶 agent_156 born (gen 65)
+  [tick  1200] alive=21  shelters= 37  anomalies=5  weather=clear       season=spring   ☀️  DAY  
+  [tick  1250] alive=21  shelters= 37  anomalies=5  weather=rain        season=spring   ☀️  DAY  
+  [tick  1300] alive=21  shelters= 37  anomalies=5  weather=heatwave    season=summer   ☀️  DAY  
+  [tick  1328] 💀 agent_137 died (old age) survival=410 fitness=894 shelters=1 res=17
+  [tick  1350] alive=20  shelters= 37  anomalies=5  weather=clear       season=autumn   ☀️  DAY  
+  [tick  1387] 💀 agent_152 died (combat/starvation) survival=226 fitness=914 shelters=0 res=1
+  [tick  1387] 👶 agent_157 born (gen 65)
+  [tick  1392] 💀 agent_144 died (combat/starvation) survival=366 fitness=1224 shelters=2 res=36
+  [tick  1400] 👶 agent_158 born (gen 65)
+  [tick  1400] alive=20  shelters= 37  anomalies=5  weather=clear       season=winter   ☀️  DAY  
+  [tick  1450] alive=20  shelters= 37  anomalies=5  weather=clear       season=spring   ☀️  DAY  
+  [tick  1461] 💀 agent_146 died (old age) survival=402 fitness=659 shelters=0 res=4
+  [tick  1468] 💀 agent_138 died (old age) survival=519 fitness=792 shelters=0 res=6
+  [tick  1470] 👶 agent_159 born (gen 65)
+  [tick  1470] 👶 agent_160 born (gen 65)
+  [tick  1471] 💀 agent_143 died (old age) survival=459 fitness=767 shelters=0 res=4
+  [tick  1472] 👶 agent_161 born (gen 65)
+  [tick  1475] 💀 agent_139 died (old age) survival=519 fitness=1276 shelters=0 res=10
+  [tick  1485] 👶 agent_162 born (gen 65)
+  [tick  1492] 💀 agent_141 died (old age) survival=494 fitness=379 shelters=1 res=21
+  [tick  1498] 💀 agent_136 died (old age) survival=591 fitness=1247 shelters=0 res=4
+  [tick  1500] alive=18  shelters= 37  anomalies=5  weather=wind        season=summer   ☀️  DAY  
+
+  ✅ GEN   65 DONE | ticks=1500  alive=18  born=62  died=0  shelters=37
+         agent_fitness=    3003 →  pool=20/20  mut=0.0365
+         ano_fitness  =   764.0 dmg  pool=20/20  mut=0.0403
+         elapsed=1.5s
+
+──────────────────────────────────────────────────────────────
+  GEN   66  |  agents=8  |  pool=20/20  |  mut=0.0365
+──────────────────────────────────────────────────────────────
+  [tick    11] ⚡ New anomaly spawned (total=3)
+  [tick    18] ⚡ New anomaly spawned (total=4)
+  [tick    50] alive= 8  shelters=  0  anomalies=4  weather=clear       season=spring   ☀️  DAY  
+  [tick    63] 👶 agent_101 born (gen 66)
+  [tick    76] ⚡ New anomaly spawned (total=5)
+  [tick    78] 👶 agent_102 born (gen 66)
+  [tick    93] 👶 agent_103 born (gen 66)
+  [tick   100] alive=11  shelters=  0  anomalies=5  weather=heatwave    season=summer   ☀️  DAY  
+  [tick   117] 👶 agent_104 born (gen 66)
+  [tick   132] 👶 agent_105 born (gen 66)
+  [tick   147] 👶 agent_106 born (gen 66)
+  [tick   148] 👶 agent_107 born (gen 66)
+  [tick   150] alive=15  shelters=  0  anomalies=5  weather=rain        season=autumn   ☀️  DAY  
+  [tick   163] 👶 agent_108 born (gen 66)
+  [tick   163] 👶 agent_109 born (gen 66)
+  [tick   164] 👶 agent_110 born (gen 66)
+  [tick   178] 👶 agent_111 born (gen 66)
+  [tick   178] 👶 agent_112 born (gen 66)
+  [tick   200] alive=20  shelters=  0  anomalies=5  weather=wind        season=winter   ☀️  DAY  
+  [tick   250] alive=20  shelters=  0  anomalies=5  weather=clear       season=spring   ☀️  DAY  
+  [tick   300] alive=20  shelters=  0  anomalies=5  weather=clear       season=summer   ☀️  DAY  
+  [tick   350] alive=20  shelters=  0  anomalies=5  weather=clear       season=summer   ☀️  DAY  
+  [tick   384] 💀 g66_a4 died (combat/starvation) survival=384 fitness=808 shelters=8 res=248
+  [tick   384] 👶 agent_113 born (gen 66)
+  [tick   384] 👶 agent_114 born (gen 66)
+  [tick   400] alive=21  shelters=  0  anomalies=5  weather=clear       season=autumn   ☀️  DAY  
+  [tick   402] 💀 g66_a1 died (old age) survival=402 fitness=965 shelters=0 res=357
+  [tick   405] 💀 g66_a0 died (old age) survival=405 fitness=823 shelters=6 res=251
+  [tick   405] 👶 agent_115 born (gen 66)
+  [tick   420] 💀 g66_a7 died (old age) survival=420 fitness=611 shelters=3 res=153
+  [tick   420] 👶 agent_116 born (gen 66)
+  [tick   433] 💀 g66_a5 died (old age) survival=433 fitness=406 shelters=0 res=70
+  [tick   440] 👶 agent_117 born (gen 66)
+  [tick   450] 💀 g66_a2 died (old age) survival=450 fitness=773 shelters=0 res=249
+  [tick   450] alive=19  shelters=  0  anomalies=5  weather=rain        season=winter   ☀️  DAY  
+  [tick   451] 👶 agent_118 born (gen 66)
+  [tick   451] 👶 agent_119 born (gen 66)
+  [tick   474] 💀 g66_a3 died (old age) survival=474 fitness=743 shelters=0 res=249
+  [tick   500] alive=20  shelters=  0  anomalies=5  weather=clear       season=spring   ☀️  DAY  
+  [tick   501] 💀 agent_102 died (old age) survival=423 fitness=321 shelters=0 res=30
+  [tick   501] 👶 agent_120 born (gen 66)
+  [tick   501] 👶 agent_121 born (gen 66)
+  [tick   501] 👶 agent_122 born (gen 66)
+  [tick   513] 💥 Temporal Rift destroyed (dealt 122 dmg)
+  [tick   535] 💀 agent_104 died (old age) survival=418 fitness=462 shelters=2 res=94
+  [tick   550] alive=21  shelters=  0  anomalies=4  weather=rain        season=summer   ☀️  DAY  
+  [tick   571] 💀 agent_101 died (old age) survival=508 fitness=676 shelters=3 res=167
+  [tick   573] 💀 g66_a6 died (old age) survival=573 fitness=820 shelters=2 res=245
+  [tick   573] 👶 agent_123 born (gen 66)
+  [tick   594] 💀 agent_111 died (old age) survival=416 fitness=267 shelters=0 res=5
+  [tick   594] 👶 agent_124 born (gen 66)
+  [tick   594] 👶 agent_125 born (gen 66)
+  [tick   600] alive=21  shelters=  0  anomalies=4  weather=clear       season=autumn   ☀️  DAY  
+  [tick   601] 💀 agent_107 died (old age) survival=453 fitness=329 shelters=0 res=29
+  [tick   618] 💀 agent_108 died (old age) survival=455 fitness=374 shelters=0 res=23
+  [tick   624] 👶 agent_126 born (gen 66)
+  [tick   625] 💀 agent_105 died (old age) survival=493 fitness=332 shelters=0 res=18
+  [tick   627] 👶 agent_127 born (gen 66)
+  [tick   627] 👶 agent_128 born (gen 66)
+  [tick   649] ⚡ New anomaly spawned (total=5)
+  [tick   650] alive=21  shelters=  0  anomalies=5  weather=wind        season=autumn   ☀️  DAY  
+  [tick   687] 💀 agent_103 died (old age) survival=594 fitness=324 shelters=0 res=12
+  [tick   700] alive=20  shelters=  0  anomalies=5  weather=wind        season=winter   ☀️  DAY  
+  [tick   711] 💀 agent_109 died (old age) survival=548 fitness=315 shelters=0 res=11
+  [tick   712] 💀 agent_106 died (old age) survival=565 fitness=395 shelters=0 res=50
+  [tick   712] 👶 agent_129 born (gen 66)
+  [tick   722] 👶 agent_130 born (gen 66)
+  [tick   724] 💀 agent_110 died (old age) survival=560 fitness=353 shelters=0 res=28
+  [tick   724] 👶 agent_131 born (gen 66)
+  [tick   750] alive=20  shelters=  0  anomalies=5  weather=rain        season=spring   ☀️  DAY  
+  [tick   752] 💀 agent_112 died (old age) survival=574 fitness=326 shelters=0 res=16
+  [tick   752] 👶 agent_132 born (gen 66)
+  [tick   800] 💀 agent_114 died (old age) survival=416 fitness=260 shelters=0 res=1
+  [tick   800] 👶 agent_133 born (gen 66)
+  [tick   800] alive=20  shelters=  0  anomalies=5  weather=clear       season=summer   ☀️  DAY  
+  [tick   822] 💀 agent_116 died (old age) survival=402 fitness=309 shelters=0 res=32
+  [tick   823] 👶 agent_134 born (gen 66)
+  [tick   850] alive=20  shelters=  0  anomalies=5  weather=rain        season=autumn   ☀️  DAY  
+  [tick   900] alive=20  shelters=  0  anomalies=5  weather=clear       season=winter   ☀️  DAY  
+  [tick   934] 💀 agent_113 died (old age) survival=550 fitness=330 shelters=0 res=15
+  [tick   940] 👶 agent_135 born (gen 66)
+  [tick   941] 💀 agent_117 died (old age) survival=501 fitness=322 shelters=0 res=11
+  [tick   942] 💀 agent_119 died (old age) survival=491 fitness=314 shelters=0 res=11
+  [tick   943] 👶 agent_136 born (gen 66)
+  [tick   950] alive=19  shelters=  0  anomalies=5  weather=clear       season=winter   ☀️  DAY  
+  [tick   951] 👶 agent_137 born (gen 66)
+  [tick   991] 💀 agent_118 died (old age) survival=540 fitness=316 shelters=0 res=8
+  [tick   991] 👶 agent_138 born (gen 66)
+  [tick   992] 💀 agent_115 died (old age) survival=587 fitness=336 shelters=0 res=18
+  [tick   992] 👶 agent_139 born (gen 66)
+  [tick  1000] alive=20  shelters=  0  anomalies=5  weather=rain        season=spring   ☀️  DAY  
+  [tick  1016] 💀 agent_122 died (old age) survival=515 fitness=328 shelters=0 res=14
+  [tick  1018] 💀 agent_123 died (old age) survival=445 fitness=276 shelters=0 res=2
+  [tick  1023] 👶 agent_140 born (gen 66)
+  [tick  1028] 👶 agent_141 born (gen 66)
+  [tick  1044] 💀 agent_121 died (old age) survival=543 fitness=320 shelters=0 res=13
+  [tick  1044] 👶 agent_142 born (gen 66)
+  [tick  1050] 💀 agent_120 died (old age) survival=549 fitness=336 shelters=0 res=18
+  [tick  1050] 👶 agent_143 born (gen 66)
+  [tick  1050] alive=20  shelters=  0  anomalies=5  weather=wind        season=summer   ☀️  DAY  
+  [tick  1052] 💀 agent_125 died (old age) survival=458 fitness=301 shelters=0 res=12
+  [tick  1054] 👶 agent_144 born (gen 66)
+  [tick  1100] alive=20  shelters=  0  anomalies=5  weather=clear       season=autumn   ☀️  DAY  
+  [tick  1124] 💀 agent_128 died (old age) survival=497 fitness=303 shelters=0 res=3
+  [tick  1124] 👶 agent_145 born (gen 66)
+  [tick  1150] alive=20  shelters=  0  anomalies=5  weather=blizzard    season=winter   ☀️  DAY  
+  [tick  1177] 💀 agent_126 died (old age) survival=553 fitness=355 shelters=0 res=29
+  [tick  1177] 👶 agent_146 born (gen 66)
+  [tick  1192] 💀 agent_124 died (old age) survival=598 fitness=334 shelters=0 res=18
+  [tick  1200] alive=19  shelters=  0  anomalies=5  weather=clear       season=spring   ☀️  DAY  
+  [tick  1202] 👶 agent_147 born (gen 66)
+  [tick  1223] 💀 agent_129 died (old age) survival=511 fitness=308 shelters=0 res=4
+  [tick  1225] 💀 agent_127 died (old age) survival=598 fitness=354 shelters=0 res=31
+  [tick  1225] 👶 agent_148 born (gen 66)
+  [tick  1228] 👶 agent_149 born (gen 66)
+  [tick  1236] 💀 agent_130 died (old age) survival=514 fitness=318 shelters=0 res=18
+  [tick  1239] 💀 agent_131 died (old age) survival=515 fitness=304 shelters=0 res=2
+  [tick  1239] 👶 agent_150 born (gen 66)
+  [tick  1243] 👶 agent_151 born (gen 66)
+  [tick  1250] alive=20  shelters=  0  anomalies=5  weather=clear       season=spring   ☀️  DAY  
+  [tick  1255] 💀 agent_133 died (old age) survival=455 fitness=284 shelters=0 res=3
+  [tick  1255] 👶 agent_152 born (gen 66)
+  [tick  1267] 💀 agent_132 died (old age) survival=515 fitness=304 shelters=0 res=2
+  [tick  1267] 👶 agent_153 born (gen 66)
+  [tick  1292] 💀 agent_134 died (old age) survival=469 fitness=306 shelters=0 res=11
+  [tick  1292] 👶 agent_154 born (gen 66)
+  [tick  1292] 👶 agent_155 born (gen 66)
+  [tick  1300] alive=21  shelters=  0  anomalies=5  weather=clear       season=summer   ☀️  DAY  
+  [tick  1350] alive=21  shelters=  0  anomalies=5  weather=clear       season=autumn   ☀️  DAY  
+  [tick  1364] 💀 agent_137 died (old age) survival=413 fitness=282 shelters=0 res=13
+  [tick  1400] alive=20  shelters=  0  anomalies=5  weather=clear       season=winter   ☀️  DAY  
+  [tick  1401] 💀 agent_136 died (old age) survival=458 fitness=300 shelters=0 res=11
+  [tick  1408] 👶 agent_156 born (gen 66)
+  [tick  1432] 💀 agent_140 died (old age) survival=409 fitness=265 shelters=0 res=7
+  [tick  1433] 👶 agent_157 born (gen 66)
+  [tick  1433] 👶 agent_158 born (gen 66)
+  [tick  1450] alive=21  shelters=  0  anomalies=5  weather=wind        season=spring   ☀️  DAY  
+  [tick  1460] 💀 agent_135 died (old age) survival=520 fitness=321 shelters=0 res=11
+  [tick  1462] 💀 agent_143 died (old age) survival=412 fitness=258 shelters=0 res=1
+  [tick  1462] 👶 agent_159 born (gen 66)
+  [tick  1462] 👶 agent_160 born (gen 66)
+  [tick  1464] 💀 agent_142 died (old age) survival=420 fitness=284 shelters=0 res=12
+  [tick  1500] alive=20  shelters=  0  anomalies=5  weather=rain        season=summer   ☀️  DAY  
+
+  ✅ GEN   66 DONE | ticks=1500  alive=20  born=60  died=0  shelters=0
+         agent_fitness=    3003 →  pool=20/20  mut=0.0350
+         ano_fitness  =   764.0 dmg  pool=20/20  mut=0.0395
+         elapsed=1.1s
+
+──────────────────────────────────────────────────────────────
+  GEN   67  |  agents=8  |  pool=20/20  |  mut=0.0350
+──────────────────────────────────────────────────────────────
+  [tick    39] ⚡ New anomaly spawned (total=3)
+  [tick    50] alive= 8  shelters=  0  anomalies=3  weather=rain        season=spring   ☀️  DAY  
+  [tick    66] 👶 agent_101 born (gen 67)
+  [tick    81] 👶 agent_102 born (gen 67)
+  [tick    97] 👶 agent_103 born (gen 67)
+  [tick   100] alive=11  shelters=  0  anomalies=3  weather=wind        season=summer   ☀️  DAY  
+  [tick   107] 👶 agent_104 born (gen 67)
+  [tick   112] 👶 agent_105 born (gen 67)
+  [tick   122] 👶 agent_106 born (gen 67)
+  [tick   127] 👶 agent_107 born (gen 67)
+  [tick   137] 👶 agent_108 born (gen 67)
+  [tick   142] 👶 agent_109 born (gen 67)
+  [tick   150] alive=17  shelters=  3  anomalies=3  weather=rain        season=autumn   ☀️  DAY  
+  [tick   152] 👶 agent_110 born (gen 67)
+  [tick   157] 👶 agent_111 born (gen 67)
+  [tick   163] 👶 agent_112 born (gen 67)
+  [tick   181] ⚡ New anomaly spawned (total=4)
+  [tick   185] ⚡ New anomaly spawned (total=5)
+  [tick   200] alive=20  shelters=  7  anomalies=5  weather=rain        season=winter   ☀️  DAY  
+  [tick   250] alive=20  shelters= 12  anomalies=5  weather=wind        season=spring   ☀️  DAY  
+  [tick   300] alive=20  shelters= 14  anomalies=5  weather=wind        season=summer   ☀️  DAY  
+  [tick   350] alive=20  shelters= 17  anomalies=5  weather=clear       season=summer   ☀️  DAY  
+  [tick   400] alive=20  shelters= 17  anomalies=5  weather=wind        season=autumn   ☀️  DAY  
+  [tick   433] 💀 g67_a7 died (old age) survival=433 fitness=1250 shelters=8 res=217
+  [tick   442] 👶 agent_113 born (gen 67)
+  [tick   449] 💀 g67_a3 died (old age) survival=449 fitness=1061 shelters=5 res=262
+  [tick   450] alive=19  shelters= 19  anomalies=5  weather=snow        season=winter   ☀️  DAY  
+  [tick   451] 💀 g67_a4 died (old age) survival=451 fitness=940 shelters=3 res=245
+  [tick   455] 💀 g67_a1 died (old age) survival=455 fitness=1254 shelters=11 res=346
+  [tick   457] 👶 agent_114 born (gen 67)
+  [tick   458] 💀 g67_a5 died (old age) survival=458 fitness=1079 shelters=7 res=211
+  [tick   460] 👶 agent_115 born (gen 67)
+  [tick   460] 👶 agent_116 born (gen 67)
+  [tick   463] 👶 agent_117 born (gen 67)
+  [tick   467] 💀 agent_101 died (old age) survival=401 fitness=994 shelters=2 res=69
+  [tick   472] 👶 agent_118 born (gen 67)
+  [tick   493] 💀 g67_a0 died (old age) survival=493 fitness=1004 shelters=3 res=329
+  [tick   494] 👶 agent_119 born (gen 67)
+  [tick   500] alive=20  shelters= 21  anomalies=5  weather=clear       season=spring   ☀️  DAY  
+  [tick   535] 💀 g67_a6 died (old age) survival=535 fitness=753 shelters=3 res=160
+  [tick   544] 👶 agent_120 born (gen 67)
+  [tick   546] 💀 agent_109 died (old age) survival=404 fitness=575 shelters=1 res=19
+  [tick   550] alive=19  shelters= 25  anomalies=5  weather=clear       season=summer   ☀️  DAY  
+  [tick   552] 👶 agent_121 born (gen 67)
+  [tick   564] 💀 agent_106 died (old age) survival=442 fitness=736 shelters=9 res=102
+  [tick   567] 👶 agent_122 born (gen 67)
+  [tick   586] 💀 agent_102 died (old age) survival=505 fitness=1678 shelters=20 res=219
+  [tick   591] 👶 agent_123 born (gen 67)
+  [tick   591] 👶 agent_124 born (gen 67)
+  [tick   594] 💀 g67_a2 died (old age) survival=594 fitness=1976 shelters=20 res=365
+  [tick   599] 💀 agent_112 died (old age) survival=436 fitness=643 shelters=3 res=65
+  [tick   600] alive=19  shelters= 27  anomalies=5  weather=clear       season=autumn   ☀️  DAY  
+  [tick   601] 💀 agent_103 died (old age) survival=504 fitness=575 shelters=0 res=103
+  [tick   608] 👶 agent_125 born (gen 67)
+  [tick   608] 👶 agent_126 born (gen 67)
+  [tick   609] 💀 agent_104 died (old age) survival=502 fitness=571 shelters=1 res=33
+  [tick   621] 👶 agent_127 born (gen 67)
+  [tick   650] alive=20  shelters= 27  anomalies=5  weather=clear       season=autumn   ☀️  DAY  
+  [tick   655] 💀 agent_108 died (old age) survival=518 fitness=909 shelters=1 res=27
+  [tick   655] 👶 agent_128 born (gen 67)
+  [tick   667] 💀 agent_107 died (old age) survival=540 fitness=872 shelters=1 res=24
+  [tick   671] 💀 agent_105 died (old age) survival=559 fitness=1077 shelters=5 res=79
+  [tick   675] 👶 agent_129 born (gen 67)
+  [tick   676] 👶 agent_130 born (gen 67)
+  [tick   683] 💀 agent_111 died (old age) survival=526 fitness=1355 shelters=4 res=78
+  [tick   683] 👶 agent_131 born (gen 67)
+  [tick   700] alive=20  shelters= 27  anomalies=5  weather=rain        season=winter   ☀️  DAY  
+  [tick   710] 💀 agent_110 died (old age) survival=558 fitness=600 shelters=0 res=30
+  [tick   710] 👶 agent_132 born (gen 67)
+  [tick   750] alive=20  shelters= 27  anomalies=5  weather=clear       season=spring   ☀️  DAY  
+  [tick   800] alive=20  shelters= 27  anomalies=5  weather=wind        season=summer   ☀️  DAY  
+  [tick   850] alive=20  shelters= 27  anomalies=5  weather=rain        season=autumn   ☀️  DAY  
+  [tick   880] 💀 agent_114 died (old age) survival=423 fitness=506 shelters=0 res=2
+  [tick   880] 👶 agent_133 born (gen 67)
+  [tick   900] alive=20  shelters= 27  anomalies=5  weather=clear       season=winter   ☀️  DAY  
+  [tick   913] 💀 agent_119 died (old age) survival=419 fitness=426 shelters=0 res=3
+  [tick   915] 👶 agent_134 born (gen 67)
+  [tick   950] alive=20  shelters= 27  anomalies=5  weather=clear       season=winter   ☀️  DAY  
+  [tick   953] 💀 agent_120 died (old age) survival=409 fitness=502 shelters=0 res=6
+  [tick   954] 👶 agent_135 born (gen 67)
+  [tick   962] 💀 agent_118 died (old age) survival=490 fitness=470 shelters=0 res=10
+  [tick   969] 👶 agent_136 born (gen 67)
+  [tick   971] 💀 agent_115 died (old age) survival=511 fitness=628 shelters=2 res=24
+  [tick   974] 👶 agent_137 born (gen 67)
+  [tick   987] 💀 agent_121 died (old age) survival=435 fitness=554 shelters=1 res=27
+  [tick   989] 👶 agent_138 born (gen 67)
+  [tick  1000] alive=20  shelters= 27  anomalies=5  weather=clear       season=spring   ☀️  DAY  
+  [tick  1013] 💀 agent_122 died (old age) survival=446 fitness=765 shelters=0 res=15
+  [tick  1013] 👶 agent_139 born (gen 67)
+  [tick  1029] 💀 agent_113 died (old age) survival=587 fitness=565 shelters=1 res=15
+  [tick  1031] 👶 agent_140 born (gen 67)
+  [tick  1033] 💥 Temporal Rift destroyed (dealt 136 dmg)
+  [tick  1035] 💀 agent_116 died (old age) survival=575 fitness=458 shelters=1 res=17
+  [tick  1037] 👶 agent_141 born (gen 67)
+  [tick  1046] ⚡ New anomaly spawned (total=5)
+  [tick  1050] alive=20  shelters= 27  anomalies=5  weather=wind        season=summer   ☀️  DAY  
+  [tick  1063] 💀 agent_117 died (old age) survival=600 fitness=603 shelters=1 res=11
+  [tick  1063] 👶 agent_142 born (gen 67)
+  [tick  1063] 👶 agent_143 born (gen 67)
+  [tick  1089] 💀 agent_127 died (old age) survival=468 fitness=622 shelters=0 res=9
+  [tick  1097] 💀 agent_129 died (old age) survival=422 fitness=523 shelters=0 res=11
+  [tick  1097] 👶 agent_144 born (gen 67)
+  [tick  1097] 👶 agent_145 born (gen 67)
+  [tick  1100] alive=21  shelters= 27  anomalies=5  weather=rain        season=autumn   ☀️  DAY  
+  [tick  1102] 💥 Void Creep destroyed (dealt 119 dmg)
+  [tick  1123] 💀 agent_125 died (old age) survival=515 fitness=543 shelters=1 res=19
+  [tick  1123] 💀 agent_130 died (old age) survival=447 fitness=890 shelters=2 res=25
+  [tick  1123] 👶 agent_146 born (gen 67)
+  [tick  1123] 👶 agent_147 born (gen 67)
+  [tick  1124] 💀 agent_128 died (old age) survival=469 fitness=450 shelters=0 res=3
+  [tick  1150] alive=20  shelters= 27  anomalies=4  weather=blizzard    season=winter   ☀️  DAY  
+  [tick  1160] ⚡ New anomaly spawned (total=5)
+  [tick  1161] 💀 agent_132 died (old age) survival=451 fitness=1080 shelters=0 res=2
+  [tick  1161] 👶 agent_148 born (gen 67)
+  [tick  1164] 💀 agent_124 died (old age) survival=573 fitness=1169 shelters=1 res=12
+  [tick  1167] 💀 agent_123 died (old age) survival=576 fitness=833 shelters=1 res=11
+  [tick  1172] 👶 agent_149 born (gen 67)
+  [tick  1174] 👶 agent_150 born (gen 67)
+  [tick  1200] 💀 agent_126 died (old age) survival=592 fitness=816 shelters=4 res=53
+  [tick  1200] 👶 agent_151 born (gen 67)
+  [tick  1200] alive=20  shelters= 27  anomalies=5  weather=clear       season=spring   ☀️  DAY  
+  [tick  1224] 💀 agent_131 died (old age) survival=541 fitness=632 shelters=0 res=6
+  [tick  1224] 👶 agent_152 born (gen 67)
+  [tick  1250] alive=20  shelters= 27  anomalies=5  weather=clear       season=spring   ☀️  DAY  
+  [tick  1298] 💀 agent_133 died (old age) survival=418 fitness=913 shelters=0 res=7
+  [tick  1300] alive=19  shelters= 27  anomalies=5  weather=heatwave    season=summer   ☀️  DAY  
+  [tick  1305] 👶 agent_153 born (gen 67)
+  [tick  1350] alive=20  shelters= 27  anomalies=5  weather=wind        season=autumn   ☀️  DAY  
+  [tick  1355] 💀 agent_134 died (old age) survival=440 fitness=433 shelters=0 res=2
+  [tick  1357] 👶 agent_154 born (gen 67)
+  [tick  1357] 👶 agent_155 born (gen 67)
+  [tick  1376] 💀 agent_136 died (old age) survival=407 fitness=671 shelters=0 res=9
+  [tick  1385] 💀 agent_137 died (old age) survival=411 fitness=846 shelters=0 res=15
+  [tick  1385] 👶 agent_156 born (gen 67)
+  [tick  1394] 💀 agent_138 died (old age) survival=405 fitness=430 shelters=0 res=9
+  [tick  1395] 👶 agent_157 born (gen 67)
+  [tick  1395] 👶 agent_158 born (gen 67)
+  [tick  1400] alive=21  shelters= 27  anomalies=5  weather=clear       season=winter   ☀️  DAY  
+  [tick  1450] alive=21  shelters= 27  anomalies=5  weather=clear       season=spring   ☀️  DAY  
+  [tick  1462] 💀 agent_140 died (old age) survival=431 fitness=592 shelters=0 res=3
+  [tick  1472] 💀 agent_141 died (old age) survival=435 fitness=514 shelters=0 res=9
+  [tick  1478] 💀 agent_142 died (old age) survival=415 fitness=1080 shelters=0 res=11
+  [tick  1479] 👶 agent_159 born (gen 67)
+  [tick  1481] 👶 agent_160 born (gen 67)
+  [tick  1500] alive=20  shelters= 27  anomalies=5  weather=rain        season=summer   ☀️  DAY  
+
+  ✅ GEN   67 DONE | ticks=1500  alive=20  born=60  died=0  shelters=27
+         agent_fitness=    3003 →  pool=20/20  mut=0.0336
+         ano_fitness  =   764.0 dmg  pool=20/20  mut=0.0387
+         elapsed=1.3s
+
+──────────────────────────────────────────────────────────────
+  GEN   68  |  agents=8  |  pool=20/20  |  mut=0.0336
+──────────────────────────────────────────────────────────────
+  [tick    19] ⚡ New anomaly spawned (total=3)
+  [tick    50] alive= 8  shelters=  0  anomalies=3  weather=clear       season=spring   ☀️  DAY  
+  [tick    60] ⚡ New anomaly spawned (total=4)
+  [tick    66] ⚡ New anomaly spawned (total=5)
+  [tick    73] 👶 agent_101 born (gen 68)
+  [tick    88] 👶 agent_102 born (gen 68)
+  [tick   100] alive=10  shelters=  1  anomalies=5  weather=clear       season=summer   ☀️  DAY  
+  [tick   104] 👶 agent_103 born (gen 68)
+  [tick   118] 👶 agent_104 born (gen 68)
+  [tick   119] 👶 agent_105 born (gen 68)
+  [tick   133] 👶 agent_106 born (gen 68)
+  [tick   134] 👶 agent_107 born (gen 68)
+  [tick   141] 👶 agent_108 born (gen 68)
+  [tick   149] 👶 agent_109 born (gen 68)
+  [tick   150] alive=17  shelters=  6  anomalies=5  weather=rain        season=autumn   ☀️  DAY  
+  [tick   155] 👶 agent_110 born (gen 68)
+  [tick   156] 👶 agent_111 born (gen 68)
+  [tick   164] 👶 agent_112 born (gen 68)
+  [tick   200] alive=20  shelters=  9  anomalies=5  weather=wind        season=winter   ☀️  DAY  
+  [tick   250] alive=20  shelters=  9  anomalies=5  weather=clear       season=spring   ☀️  DAY  
+  [tick   300] alive=20  shelters= 13  anomalies=5  weather=heatwave    season=summer   ☀️  DAY  
+  [tick   350] alive=20  shelters= 22  anomalies=5  weather=clear       season=summer   ☀️  DAY  
+  [tick   400] alive=20  shelters= 25  anomalies=5  weather=clear       season=autumn   ☀️  DAY  
+  [tick   417] 💀 g68_a1 died (combat/starvation) survival=417 fitness=983 shelters=13 res=140
+  [tick   418] 👶 agent_113 born (gen 68)
+  [tick   431] 💀 g68_a6 died (old age) survival=431 fitness=1275 shelters=5 res=147
+  [tick   431] 👶 agent_114 born (gen 68)
+  [tick   448] 💀 g68_a3 died (old age) survival=448 fitness=1842 shelters=12 res=163
+  [tick   450] alive=19  shelters= 28  anomalies=5  weather=wind        season=winter   ☀️  DAY  
+  [tick   454] 👶 agent_115 born (gen 68)
+  [tick   476] 💀 agent_101 died (old age) survival=403 fitness=904 shelters=3 res=111
+  [tick   476] 👶 agent_116 born (gen 68)
+  [tick   486] 💀 g68_a5 died (old age) survival=486 fitness=1713 shelters=7 res=119
+  [tick   491] 💀 g68_a7 died (old age) survival=491 fitness=2220 shelters=17 res=297
+  [tick   491] 👶 agent_117 born (gen 68)
+  [tick   491] 👶 agent_118 born (gen 68)
+  [tick   496] 💀 agent_102 died (old age) survival=408 fitness=2076 shelters=9 res=124
+  [tick   500] alive=19  shelters= 33  anomalies=5  weather=clear       season=spring   ☀️  DAY  
+  [tick   505] 👶 agent_119 born (gen 68)
+  [tick   516] 💀 agent_103 died (old age) survival=412 fitness=1055 shelters=1 res=18
+  [tick   516] 👶 agent_120 born (gen 68)
+  [tick   520] 💀 g68_a4 died (old age) survival=520 fitness=1761 shelters=17 res=171
+  [tick   522] 💀 g68_a2 died (old age) survival=522 fitness=1805 shelters=4 res=317
+  [tick   528] 👶 agent_121 born (gen 68)
+  [tick   528] 👶 agent_122 born (gen 68)
+  [tick   533] 💀 agent_105 died (old age) survival=414 fitness=842 shelters=0 res=20
+  [tick   533] 👶 agent_123 born (gen 68)
+  [tick   550] alive=20  shelters= 33  anomalies=5  weather=clear       season=summer   ☀️  DAY  
+  [tick   555] 💀 g68_a0 died (old age) survival=555 fitness=1648 shelters=6 res=169
+  [tick   555] 👶 agent_124 born (gen 68)
+  [tick   591] 💀 agent_110 died (old age) survival=436 fitness=966 shelters=1 res=9
+  [tick   591] 👶 agent_125 born (gen 68)
+  [tick   599] 💀 agent_108 died (old age) survival=458 fitness=1615 shelters=13 res=147
+  [tick   600] alive=19  shelters= 33  anomalies=5  weather=clear       season=autumn   ☀️  DAY  
+  [tick   601] 💀 agent_112 died (old age) survival=437 fitness=491 shelters=1 res=26
+  [tick   601] 👶 agent_126 born (gen 68)
+  [tick   605] 💀 agent_106 died (old age) survival=472 fitness=1528 shelters=6 res=76
+  [tick   607] 👶 agent_127 born (gen 68)
+  [tick   609] 👶 agent_128 born (gen 68)
+  [tick   609] 👶 agent_129 born (gen 68)
+  [tick   619] 💀 agent_109 died (old age) survival=470 fitness=366 shelters=1 res=33
+  [tick   642] 💀 agent_104 died (old age) survival=524 fitness=1452 shelters=5 res=84
+  [tick   642] 👶 agent_130 born (gen 68)
+  [tick   642] 👶 agent_131 born (gen 68)
+  [tick   642] 👶 agent_132 born (gen 68)
+  [tick   650] alive=22  shelters= 33  anomalies=5  weather=clear       season=autumn   ☀️  DAY  
+  [tick   690] 💀 agent_107 died (old age) survival=556 fitness=994 shelters=3 res=53
+  [tick   700] alive=21  shelters= 33  anomalies=5  weather=rain        season=winter   ☀️  DAY  
+  [tick   731] 💀 agent_111 died (old age) survival=575 fitness=592 shelters=5 res=72
+  [tick   750] alive=20  shelters= 33  anomalies=5  weather=clear       season=spring   ☀️  DAY  
+  [tick   800] alive=20  shelters= 33  anomalies=5  weather=rain        season=summer   ☀️  DAY  
+  [tick   849] 💀 agent_114 died (old age) survival=418 fitness=601 shelters=0 res=14
+  [tick   850] alive=19  shelters= 33  anomalies=5  weather=clear       season=autumn   ☀️  DAY  
+  [tick   858] 👶 agent_133 born (gen 68)
+  [tick   858] 👶 agent_134 born (gen 68)
+  [tick   858] 👶 agent_135 born (gen 68)
+  [tick   900] alive=22  shelters= 33  anomalies=5  weather=clear       season=winter   ☀️  DAY  
+  [tick   917] 💀 agent_115 died (old age) survival=463 fitness=550 shelters=0 res=14
+  [tick   920] 💀 agent_113 died (old age) survival=502 fitness=636 shelters=0 res=8
+  [tick   950] alive=20  shelters= 33  anomalies=5  weather=clear       season=winter   ☀️  DAY  
+  [tick   968] 💀 agent_124 died (old age) survival=413 fitness=1066 shelters=0 res=5
+  [tick   978] 👶 agent_136 born (gen 68)
+  [tick   978] 👶 agent_137 born (gen 68)
+  [tick   992] 💀 agent_119 died (old age) survival=487 fitness=1506 shelters=2 res=26
+  [tick  1000] alive=20  shelters= 33  anomalies=5  weather=rain        season=spring   ☀️  DAY  
+  [tick  1002] 💀 agent_122 died (old age) survival=474 fitness=1334 shelters=0 res=7
+  [tick  1002] 👶 agent_138 born (gen 68)
+  [tick  1010] 💀 agent_120 died (old age) survival=494 fitness=1106 shelters=0 res=6
+  [tick  1016] 💀 agent_117 died (old age) survival=525 fitness=1340 shelters=0 res=0
+  [tick  1019] 👶 agent_139 born (gen 68)
+  [tick  1019] 👶 agent_140 born (gen 68)
+  [tick  1020] 💀 agent_116 died (old age) survival=544 fitness=1411 shelters=1 res=15
+  [tick  1020] 👶 agent_141 born (gen 68)
+  [tick  1038] 💀 agent_118 died (old age) survival=547 fitness=858 shelters=0 res=2
+  [tick  1038] 👶 agent_142 born (gen 68)
+  [tick  1050] alive=20  shelters= 33  anomalies=5  weather=clear       season=summer   ☀️  DAY  
+  [tick  1064] 💀 agent_123 died (old age) survival=531 fitness=564 shelters=0 res=12
+  [tick  1064] 👶 agent_143 born (gen 68)
+  [tick  1064] 👶 agent_144 born (gen 68)
+  [tick  1067] 💀 agent_125 died (old age) survival=476 fitness=394 shelters=0 res=15
+  [tick  1076] 💀 agent_128 died (old age) survival=467 fitness=1179 shelters=0 res=11
+  [tick  1078] 💀 agent_127 died (old age) survival=471 fitness=402 shelters=0 res=20
+  [tick  1079] 👶 agent_145 born (gen 68)
+  [tick  1084] 👶 agent_146 born (gen 68)
+  [tick  1096] 💀 agent_126 died (old age) survival=495 fitness=1600 shelters=1 res=16
+  [tick  1096] 👶 agent_147 born (gen 68)
+  [tick  1096] 👶 agent_148 born (gen 68)
+  [tick  1100] alive=21  shelters= 33  anomalies=5  weather=clear       season=autumn   ☀️  DAY  
+  [tick  1127] 💀 agent_121 died (old age) survival=599 fitness=1182 shelters=0 res=1
+  [tick  1130] 💀 agent_131 died (old age) survival=488 fitness=642 shelters=0 res=15
+  [tick  1130] 👶 agent_149 born (gen 68)
+  [tick  1150] alive=20  shelters= 33  anomalies=5  weather=clear       season=winter   ☀️  DAY  
+  [tick  1166] 💀 agent_129 died (old age) survival=557 fitness=1112 shelters=0 res=6
+  [tick  1169] 👶 agent_150 born (gen 68)
+  [tick  1191] 💀 agent_130 died (old age) survival=549 fitness=1356 shelters=0 res=12
+  [tick  1191] 👶 agent_151 born (gen 68)
+  [tick  1200] alive=20  shelters= 33  anomalies=5  weather=clear       season=spring   ☀️  DAY  
+  [tick  1231] 💀 agent_132 died (old age) survival=589 fitness=1204 shelters=2 res=22
+  [tick  1235] 👶 agent_152 born (gen 68)
+  [tick  1250] alive=20  shelters= 33  anomalies=5  weather=clear       season=spring   ☀️  DAY  
+  [tick  1259] 💀 agent_134 died (old age) survival=401 fitness=1151 shelters=0 res=11
+  [tick  1259] 👶 agent_153 born (gen 68)
+  [tick  1300] alive=20  shelters= 33  anomalies=5  weather=wind        season=summer   ☀️  DAY  
+  [tick  1350] alive=20  shelters= 33  anomalies=5  weather=clear       season=autumn   ☀️  DAY  
+  [tick  1384] 💀 agent_133 died (old age) survival=526 fitness=388 shelters=0 res=4
+  [tick  1387] 👶 agent_154 born (gen 68)
+  [tick  1400] alive=20  shelters= 33  anomalies=5  weather=blizzard    season=winter   ☀️  DAY  
+  [tick  1419] 💀 agent_135 died (old age) survival=561 fitness=315 shelters=0 res=9
+  [tick  1419] 👶 agent_155 born (gen 68)
+  [tick  1419] 👶 agent_156 born (gen 68)
+  [tick  1450] alive=21  shelters= 33  anomalies=5  weather=rain        season=spring   ☀️  DAY  
+  [tick  1455] 💀 agent_145 died (combat/starvation) survival=376 fitness=1089 shelters=0 res=11
+  [tick  1460] 💀 agent_138 died (old age) survival=458 fitness=1248 shelters=0 res=7
+  [tick  1462] 👶 agent_157 born (gen 68)
+  [tick  1465] 💀 agent_137 died (old age) survival=487 fitness=1343 shelters=0 res=6
+  [tick  1466] 👶 agent_158 born (gen 68)
+  [tick  1484] 💀 agent_139 died (old age) survival=465 fitness=1254 shelters=0 res=6
+  [tick  1484] 👶 agent_159 born (gen 68)
+  [tick  1484] 👶 agent_160 born (gen 68)
+  [tick  1500] alive=21  shelters= 33  anomalies=5  weather=clear       season=summer   ☀️  DAY  
+
+  ✅ GEN   68 DONE | ticks=1500  alive=21  born=60  died=0  shelters=33
+         agent_fitness=    3003 →  pool=20/20  mut=0.0323
+         ano_fitness  =   764.0 dmg  pool=20/20  mut=0.0380
+         elapsed=1.4s
+
+──────────────────────────────────────────────────────────────
+  GEN   69  |  agents=8  |  pool=20/20  |  mut=0.0323
+──────────────────────────────────────────────────────────────
