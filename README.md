@@ -5,6 +5,7 @@ colorFrom: purple
 colorTo: red
 sdk: docker
 app_port: 8000
+
 tags:
   - openenv
   - reinforcement-learning
@@ -17,7 +18,7 @@ pinned: false
 
 # 🌍 AnomalyCraft Survival
 
-> OpenEnv Hackathon 2026 — Meta × PyTorch × Hugging Face
+> OpenEnv Hackathon 2026 — Meta × PyTorch × Hugging Face — built in 36 hours
 
 Multi-agent survival environment where AI agents and anomalies both evolve neural network policies through neuroevolution. Fully OpenEnv-compliant with 5 tasks, dense rewards, and a live pixel-art web UI.
 

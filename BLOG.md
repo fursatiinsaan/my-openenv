@@ -1,12 +1,12 @@
-# I Built a World Where AI Agents Fight to Survive — And They Got Scary Good
+# I Built a World Where AI Agents Fight to Survive — In 36 Hours
 
 *A dev log on building AnomalyCraft Survival for the OpenEnv Hackathon 2026*
 
 ---
 
-I didn't plan to spend three weeks obsessing over tiny pixel people running from purple blobs. But here we are.
+36 hours. That's what you get. And somehow I spent a chunk of it obsessing over tiny pixel people running from purple blobs.
 
-This is the story of how I built **AnomalyCraft Survival** — a multi-agent survival game where AI agents evolve neural network brains, form communities, fall in love, build shelters, and fight monsters. And how after 1,500+ generations of training, they got genuinely good at it.
+This is the story of how I built **AnomalyCraft Survival** — a multi-agent survival game where AI agents evolve neural network brains, form communities, fall in love, build shelters, and fight monsters. All in a single hackathon weekend.
 
 ---
 
