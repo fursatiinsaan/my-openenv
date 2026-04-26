@@ -1,174 +1,202 @@
 ---
-title: OpenEnv
-emoji: "🤖"
-colorFrom: blue
-colorTo: blue
-sdk: docker
-app_port: 8000
-pinned: false
+tags:
+  - openenv
+  - reinforcement-learning
+  - survival
+  - multi-agent
+  - neuroevolution
+  - hackathon-2026
 ---
 
-# OpenEnv Scenario Lab
+# 🌍 OrgSim
 
-OpenEnv Scenario Lab is a lightweight benchmark for evaluating engineering agents on realistic product-review scenarios. Each task presents a production-style code snippet, a concrete objective, and deterministic issue labels so agents can be graded on security, reliability, and data-quality findings.
+> **OpenEnv Hackathon 2026 — Meta × PyTorch × Hugging Face**
 
-## Why This Feels More Like A Real Environment
+A multi-agent survival simulation where AI agents and anomalies both evolve neural network policies via neuroevolution. The environment is fully OpenEnv-compliant with 5 tasks (easy → nightmare), WebSocket transport, and a live pixel-art web UI.
 
-- `reset`, `step`, and `state` APIs for interactive evaluation
-- Typed Pydantic models for actions, observations, and environment state
-- Eleven tasks spanning easy, hard, very hard, and extreme difficulty
-- Realistic domains across backend, web, data, messaging, orchestration, and ML systems
-- Root-level `inference.py` baseline using an OpenAI-compatible client
-- Reward shaping plus lightweight in-memory agent context during baseline runs
-- Polished web UI with mission brief, task tags, live issue tracker, AI compare mode, and score visualization
-- Dockerfile and `openenv.yaml` for packaging and submission
+## 🔗 Deliverables
 
-## What The Agent Does
+| Deliverable | Link |
+|---|---|
+| 🤗 **Hugging Face Space** | [orgsim on HF Spaces](https://huggingface.co/spaces/YOUR_HF_USERNAME/orgsim) |
+| 📓 **Training Notebook** | [OrgSim_Training.ipynb](./OrgSim_Training.ipynb) |
+| 🎥 **Demo Video** | [YouTube Demo](https://youtube.com/YOUR_VIDEO_LINK) |
+| 📊 **Training Curves** | See below |
 
-Each scenario is designed to feel closer to an internal engineering review arena than a toy benchmark. The agent is expected to:
+---
 
-- inspect a realistic code snippet
-- identify the highest-impact issue first
-- submit short issue labels such as `sql injection` or `path traversal`
-- accumulate score as valid findings are discovered
+## 📈 Training Curves
 
-That makes the project useful both as a benchmark environment and as a compact demo of agent-evaluation design.
+### Reward Curve — Agent Fitness Over Generations
+![Reward Curve](training_curves/reward_curve.png)
 
-## Scenario Mix
+### Loss Proxy — Fitness Gap (Best − Avg) Over Generations
+![Loss Curve](training_curves/loss_curve.png)
 
-- Easy onboarding tasks for quick sanity checks and demos
-- Hard production scenarios for backend and systems review
-- Very hard and extreme scenarios for ML, orchestration, platform, and data security
+### Anomaly Neural Policy — Damage Dealt Over Generations
+![Anomaly Curve](training_curves/anomaly_curve.png)
 
-This mix makes the environment easier to demo while still feeling serious enough for agent training.
+### Shelters Built Per Generation
+![Shelters Curve](training_curves/shelters_curve.png)
 
-## Project Structure
+---
 
-```text
-OpenEv/
-├── .env.example
-├── app.py
-├── env.py
-├── grader.py
-├── inference.py
-├── memory.py
-├── models.py
-├── openenv.yaml
-├── smoke_test.py
-├── tasks.py
-├── Dockerfile
-├── requirements.txt
-├── server/
-│   ├── __init__.py
-│   └── app.py
-└── templates/
-    └── index.html
-```
+## 🎮 What It Is
 
-## API Endpoints
+OrgSim is a 48×48 grid world where:
+- **Agents** gather resources, craft tools, build shelters, form communities, and fight anomalies
+- **Anomalies** hunt agents using their own evolving neural policies
+- Both sides improve via **neuroevolution** — an arms race across generations
+- The world auto-restarts when all agents die, with smarter agents each generation
 
-- `GET /health` returns service status
-- `GET /metadata` returns environment metadata
-- `GET /schema` returns JSON schemas for action, reset, step, and state
-- `GET /tasks` returns the task catalog used by the UI and evaluators
-- `GET|POST /reset` resets the environment to a specific task
-- `POST /step` applies a `report` or `noop` action
-- `GET /state` returns the current environment state
-- `GET /grader` returns a normalized score for the current episode
-- `GET /auto_ai` runs the baseline agent through the active task
+### 5 Tasks (Easy → Nightmare)
 
-## Local Setup
+| ID | Name | Difficulty | Objective |
+|---|---|---|---|
+| 101 | First Steps | Easy | Gather 5+ resources, survive 30 ticks |
+| 102 | Craft and Survive | Medium | Craft 2+ items, survive 80 ticks |
+| 103 | Anomaly Outbreak | Hard | Destroy 1+ anomaly, 2+ agents alive |
+| 104 | Build a Civilization | Expert | Community + 2 buildings + pop 8+ |
+| 105 | Winter Siege | Nightmare | Survive winter, destroy 3 anomalies |
 
-Install dependencies:
+---
+
+## 🧠 Neural Network Policy
+
+Each agent carries a **22-input → 16-hidden → 9-output** feedforward network (numpy only, no GPU needed).
+
+**9 actions the network learns to choose:**
+- `move_away_danger`, `move_to_resource`, `move_to_loved_one`, `move_random`
+- `gather`, `craft_or_build`, `fight`, `eat_or_rest`, `noop`
+
+**Fitness = composite score:**
+- Survival ticks (capped at 500) × 0.5
+- Shelters built nearby × 80
+- Resources gathered × 2
+- Items crafted × 15
+- Anomalies killed × 50
+- Tool bonuses (axe +30, sword +60, etc.)
+
+**Anomaly policy** (12-input → 10-hidden → 5-output):
+- Actions: `chase`, `flank_left`, `flank_right`, `retreat_grow`, `spread`
+- Fitness = total damage dealt
+
+**Evolution mechanics:**
+- Elite pool (top-10 all-time) + Recent pool (last 10 gens, any fitness)
+- Stagnation detection: mutation resets to 0.12 after 8 gens without improvement
+- 70% elite crossover, 20% recent diversity, 10% fresh random
+
+---
+
+## 🚀 Quick Start
 
 ```bash
+# Install
 pip install -r requirements.txt
-```
 
-Create `.env` from `.env.example`, then run the app:
+# Train (generates weights.json + training_curves/*.png)
+python3 plot_training.py --gens 60
 
-```bash
+# Run server (loads weights, trains live, shows web UI)
 python3 app.py
+# Open http://localhost:8000
 ```
 
-Open:
-
-- `http://localhost:8000`
-- `http://localhost:8000/health`
-- `http://localhost:8000/tasks`
-- `http://localhost:8000/state`
-
-## Runtime Notes
-
-The container now uses `gunicorn` instead of Flask's development server:
+### Docker
 
 ```bash
-gunicorn --bind 0.0.0.0:8000 --workers 2 --threads 4 app:app
+docker build -t anomalycraft .
+docker run -p 8000:8000 anomalycraft
 ```
 
-This is the same command used by the Docker image and is a better fit for Hugging Face Spaces or any simple container deployment.
+---
 
-## Inference Setup
+## 🔌 OpenEnv API
 
-`app.py` auto-loads `.env` on startup. The baseline agent expects:
+### HTTP Endpoints
 
-- `API_BASE_URL`
-- `MODEL_NAME`
-- `API_KEY`
+| Endpoint | Method | Description |
+|---|---|---|
+| `/health` | GET | Server status |
+| `/survival/reset?task_id=101` | POST | Reset environment |
+| `/survival/step` | POST | Execute action |
+| `/survival/state` | GET | World state |
+| `/survival/grader?task_id=101` | GET | Grade current episode |
 
-If those values are missing or a provider request fails, the baseline safely falls back to `noop()` and surfaces the error in the UI. During baseline execution, the agent uses lightweight in-memory context for the current run only; it does not persist cross-run memory to disk.
+### WebSocket
 
-## Example API Usage
+Connect to `ws://localhost:8000/ws` for persistent sessions:
 
-Reset the first task:
+```python
+from client import SurvivalClient
 
-```bash
-curl "http://localhost:8000/reset?task_id=0"
+async with SurvivalClient(base_url="ws://localhost:8000") as env:
+    result = await env.reset(task_id=101)
+    while not result.done:
+        action = {"agent_id": "agent_1", "action_type": "gather"}
+        result = await env.step(action)
 ```
 
-Submit a step:
+### Action Schema
 
-```bash
-curl -X POST http://localhost:8000/step \
-  -H "Content-Type: application/json" \
-  -d '{"action_type":"report","content":"sql injection"}'
+```json
+{
+  "agent_id": "agent_1",
+  "action_type": "move",
+  "target": "right"
+}
 ```
 
-Read environment state:
+### Observation Schema
 
-```bash
-curl http://localhost:8000/state
+```json
+{
+  "agent_stats": {"health": 95, "energy": 80, "hunger": 70, "inventory": {"wood": 5}},
+  "local_resources": {"10,12": "wood", "11,12": "stone"},
+  "nearby_anomalies": [{"anomaly_type": "Void Creep", "severity": 2.1}],
+  "available_actions": ["move", "gather", "rest"],
+  "tick": 42,
+  "done": false,
+  "reward": 1.05
+}
 ```
 
-## Smoke Test
+---
 
-Run a quick local verification before deploying:
+## 📊 Baseline Scores
 
-```bash
-python3 smoke_test.py
+Scores from heuristic agent (no LLM, rule-based fallback):
+
+| Task | Difficulty | Score | Success |
+|---|---|---|---|
+| 101 | Easy | 0.82 | ✅ |
+| 102 | Medium | 0.61 | ✅ |
+| 103 | Hard | 0.44 | ❌ |
+| 104 | Expert | 0.31 | ❌ |
+| 105 | Nightmare | 0.18 | ❌ |
+| **Avg** | | **0.47** | |
+
+---
+
+## 🏗️ Architecture
+
+```
+app.py              — FastAPI (WebSocket /ws) + Flask (HTTP routes) + training thread
+survival_env.py     — OpenEnv Environment subclass
+survival_world.py   — World simulation (agents, anomalies, resources, buildings)
+neural_policy.py    — NeuralPolicy + AnomalyPolicy + CollectiveBrain + AnomalyBrain
+agent_ai.py         — Per-agent policy dispatch
+train.py            — Headless offline trainer
+plot_training.py    — Training + curve generation
+client.py           — OpenEnv EnvClient subclass (WebSocket)
+models.py           — Pydantic models (inherit from OpenEnv Action/Observation/State)
+inference.py        — LLM agent runner (OpenAI-compatible)
+openenv.yaml        — Environment manifest
 ```
 
-This checks `/health`, `/metadata`, `/tasks`, `/reset`, `/state`, and a sample `/step`.
+---
 
-## Demo Flow
+## 📝 License
 
-1. Start the server with `python3 app.py`.
-2. Open `http://localhost:8000`.
-3. Pick an easy scenario first to verify the interaction loop.
-4. Submit one or two manual findings to see score and progress update.
-5. Run the baseline agent with `Run AI` to compare its path with your own.
-6. Switch to a harder scenario to show multi-step review behavior.
-
-## UI Highlights
-
-- Scenario-driven landing section instead of a plain form
-- Task metadata, tags, and objective surfaced beside the code
-- Live review progress with pending and found issue states
-- Compare panel for user-vs-agent overlap instead of only a browser alert
-- Session summary cards that make demos easier to follow
-
-## Remaining External Steps
-
-- Deploy to Hugging Face Spaces
-- Confirm the public Space returns `200` on `/health`, `/reset`, `/step`, and `/state`
-- Run the official validator before final submission
+MIT — see [LICENSE](./LICENSE)
+# OrgSim
