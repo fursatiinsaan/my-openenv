@@ -19,7 +19,7 @@ Actions (9):
   5  craft_or_build
   6  fight
   7  eat_or_rest
-  8  noop
+  8  community  (form / join / share)
 """
 
 import random
@@ -41,7 +41,7 @@ ACTION_NAMES = [
     "craft_or_build",     # 5
     "fight",              # 6
     "eat_or_rest",        # 7
-    "noop",               # 8
+    "community",          # 8  form or join a community
 ]
 
 MUTATION_RATE  = 0.05   # initial std dev of gaussian noise
@@ -275,10 +275,21 @@ def action_to_command(
                 "target": dirs.get((dx, dy), "up")}
 
     def _nearest_resource():
+        # If no shelter nearby, prioritize wood for building
+        buildings = world_state.get("buildings", [])
+        has_shelter = any(
+            b["type"] == "shelter" and abs(ax - b["x"]) + abs(ay - b["y"]) <= 12
+            for b in buildings
+        )
+        need_wood = not has_shelter and inv.get("wood", 0) < 8
+
         best, bd = None, 999
         for coord, rtype in resources.items():
             rx, ry = map(int, coord.split(","))
             d = abs(ax - rx) + abs(ay - ry)
+            # Heavily prefer wood when building shelter
+            if need_wood and rtype == "wood":
+                d = d * 0.3  # make wood appear 3x closer
             if d < bd:
                 bd, best = d, (rx, ry, rtype)
         return best
@@ -359,6 +370,27 @@ def action_to_command(
         for kit_type in ("shelter", "farm", "wall"):
             if inv.get(f"{kit_type}_kit", 0) > 0:
                 return {"agent_id": agent_id, "action_type": "build", "target": kit_type}
+        
+        # Check if there's a shelter nearby
+        buildings = world_state.get("buildings", [])
+        has_shelter = any(
+            b["type"] == "shelter" and abs(ax - b["x"]) + abs(ay - b["y"]) <= 10
+            for b in buildings
+        )
+        
+        # No shelter — prioritize getting wood first
+        if not has_shelter:
+            if inv.get("wood", 0) >= 8 and inv.get("stone", 0) >= 4:
+                return {"agent_id": agent_id, "action_type": "craft", "target": "shelter_kit"}
+            # Move toward nearest wood resource
+            for coord, rtype in resources.items():
+                if rtype == "wood":
+                    rx, ry = map(int, coord.split(","))
+                    if ax == rx and ay == ry:
+                        return {"agent_id": agent_id, "action_type": "gather"}
+                    dx, dy = _dir_toward(rx, ry)
+                    return _move(dx, dy)
+        
         # Craft shelter kit if materials ready
         if inv.get("wood", 0) >= 8 and inv.get("stone", 0) >= 4:
             return {"agent_id": agent_id, "action_type": "craft", "target": "shelter_kit"}
@@ -397,8 +429,33 @@ def action_to_command(
             return {"agent_id": agent_id, "action_type": "eat"}
         return {"agent_id": agent_id, "action_type": "rest"}
 
-    # ── 8: noop ──
-    return {"agent_id": agent_id, "action_type": "noop"}
+    # ── 8: community — form or join ──
+    if action_idx == 8:
+        communities = world_state.get("communities", {})
+        # Join nearest community if not already in one
+        if not agent.get("community_id"):
+            best_cid = None
+            best_dist = 999
+            for cid, comm in communities.items():
+                dist = abs(ax - comm["territory_x"]) + abs(ay - comm["territory_y"])
+                if dist < best_dist and len(comm["members"]) < 12:
+                    best_dist = dist
+                    best_cid = cid
+            if best_cid and best_dist <= 2:
+                return {"agent_id": agent_id, "action_type": "join_community", "target": best_cid}
+            elif best_cid and best_dist <= 8:
+                # Move towards community
+                comm = communities[best_cid]
+                dx, dy = _dir_toward(comm["territory_x"], comm["territory_y"])
+                return _move(dx, dy)
+            else:
+                # No community nearby — found one
+                return {"agent_id": agent_id, "action_type": "form_community"}
+        # Already in community — share resources
+        for res in ("wood", "stone", "berry", "mushroom"):
+            if inv.get(res, 0) > 4:
+                return {"agent_id": agent_id, "action_type": "share", "target": res}
+        return {"agent_id": agent_id, "action_type": "noop"}
 
 
 # ── Collective brain (persists across generations) ───────────────────────────
