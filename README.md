@@ -17,29 +17,67 @@ pinned: false
 
 # 🌍 AnomalyCraft Survival
 
-> **OpenEnv Hackathon 2026 — Meta × PyTorch × Hugging Face**
+> OpenEnv Hackathon 2026 — Meta × PyTorch × Hugging Face
 
-A multi-agent survival simulation where AI agents and anomalies both evolve neural network policies via neuroevolution. The environment is fully OpenEnv-compliant with 5 tasks (easy → nightmare), WebSocket transport, and a live pixel-art web UI.
+Multi-agent survival environment where AI agents and anomalies both evolve neural network policies through neuroevolution. Fully OpenEnv-compliant with 5 tasks, dense rewards, and a live pixel-art web UI.
 
-## 🔗 Deliverables
+## Links
 
-| Deliverable | Link |
+| | |
 |---|---|
-| 🤗 **Hugging Face Space** | [anomalycraft-survival on HF Spaces](https://huggingface.co/spaces/nimeshyadav/OpenEnv) |
-| 📓 **GitHub Repo** | [fursatiinsaan/OrgSim](https://github.com/fursatiinsaan/OrgSim) |
-| 📊 **Training Curves** | See below |
+| 🤗 HF Space | [nimeshyadav/OpenEnv](https://huggingface.co/spaces/nimeshyadav/OpenEnv) |
+| 💻 GitHub | [fursatiinsaan/OrgSim](https://github.com/fursatiinsaan/OrgSim) |
+| 📖 Dev Blog | [BLOG.md](./BLOG.md) |
 
 ---
 
-## 📈 Training Curves
+## What It Does
 
-### Reward Curve — Agent Fitness Over Generations
+A 48×48 grid world. Six agents spawn each generation. They gather resources, craft tools, build shelters, form communities, bond with each other, and fight anomalies — all driven by evolving neural networks.
+
+The anomalies also have neural networks. Both sides evolve in parallel. It's an arms race.
+
+When all agents die, the world restarts with a smarter generation that inherits collective memory from the previous one.
+
+---
+
+## 5 Tasks
+
+| ID | Name | Difficulty | Goal |
+|---|---|---|---|
+| 101 | First Steps | Easy | Gather 5+ resources, survive 30 ticks |
+| 102 | Craft and Survive | Medium | Craft 2+ items, 1+ agent alive at 80 ticks |
+| 103 | Anomaly Outbreak | Hard | Destroy 1+ anomaly, 2+ agents alive at 120 ticks |
+| 104 | Build a Civilization | Expert | Community + 2 buildings + population 8+ |
+| 105 | Winter Siege | Nightmare | Survive winter, destroy 3 anomalies, build shelter |
+
+---
+
+## Neural Networks
+
+**Agent policy** — 22 inputs → 16 hidden → 9 outputs (numpy, CPU only)
+
+Inputs: health, energy, hunger, nearby resources, nearby anomalies, distance to loved one, distance to shelter, weather, time of day, season.
+
+Actions: move away from danger, move to resource, move to loved one, explore, gather, craft/build, fight, eat/rest, noop.
+
+**Anomaly policy** — 12 inputs → 10 hidden → 5 outputs
+
+Actions: chase, flank left, flank right, retreat and grow, spread damage.
+
+**Evolution** — no backprop, no gradients. Weights stored as flat arrays. Gene pool has elite tier (top-10 all-time) and recent tier (last 10 gens). 70% elite crossover, 20% recent, 10% random. Stagnation detection resets mutation rate after 8 gens without improvement.
+
+---
+
+## Training Curves
+
+### Agent Fitness Over Generations
 ![Reward Curve](training_curves/reward_curve.png)
 
-### Loss Proxy — Fitness Gap (Best − Avg) Over Generations
+### Fitness Gap — Best vs Average
 ![Loss Curve](training_curves/loss_curve.png)
 
-### Anomaly Neural Policy — Damage Dealt Over Generations
+### Anomaly Damage Over Generations
 ![Anomaly Curve](training_curves/anomaly_curve.png)
 
 ### Shelters Built Per Generation
@@ -47,146 +85,70 @@ A multi-agent survival simulation where AI agents and anomalies both evolve neur
 
 ---
 
-## 🎮 What It Is
+## Baseline Scores (rule-based agent, no LLM)
 
-AnomalyCraft Survival is a 48×48 grid world where:
-- **Agents** gather resources, craft tools, build shelters, form communities, and fight anomalies
-- **Anomalies** hunt agents using their own evolving neural policies
-- Both sides improve via **neuroevolution** — an arms race across generations
-- The world auto-restarts when all agents die, with smarter agents each generation
-
-### 5 Tasks (Easy → Nightmare)
-
-| ID | Name | Difficulty | Objective |
-|---|---|---|---|
-| 101 | First Steps | Easy | Gather 5+ resources, survive 30 ticks |
-| 102 | Craft and Survive | Medium | Craft 2+ items, survive 80 ticks |
-| 103 | Anomaly Outbreak | Hard | Destroy 1+ anomaly, 2+ agents alive |
-| 104 | Build a Civilization | Expert | Community + 2 buildings + pop 8+ |
-| 105 | Winter Siege | Nightmare | Survive winter, destroy 3 anomalies |
+| Task | Score | Pass |
+|---|---|---|
+| 101 — Easy | 0.82 | ✅ |
+| 102 — Medium | 0.61 | ✅ |
+| 103 — Hard | 0.44 | ❌ |
+| 104 — Expert | 0.31 | ❌ |
+| 105 — Nightmare | 0.18 | ❌ |
+| **Average** | **0.47** | |
 
 ---
 
-## 🧠 Neural Network Policy
+## API
 
-Each agent carries a **22-input → 16-hidden → 9-output** feedforward network (numpy only, no GPU needed).
+| Endpoint | Method | |
+|---|---|---|
+| `/health` | GET | Server status |
+| `/survival/tasks` | GET | List all 5 tasks |
+| `/survival/reset?task_id=101` | POST | Start episode |
+| `/survival/step` | POST | Execute action |
+| `/survival/state` | GET | Full world state |
+| `/survival/grader?task_id=101` | GET | Score current episode |
 
-**9 actions the network learns to choose:**
-- `move_away_danger`, `move_to_resource`, `move_to_loved_one`, `move_random`
-- `gather`, `craft_or_build`, `fight`, `eat_or_rest`, `noop`
-
-**Fitness = composite score:**
-- Survival ticks (capped at 500) × 0.5
-- Shelters built nearby × 80
-- Resources gathered × 2
-- Items crafted × 15
-- Anomalies killed × 50
-- Tool bonuses (axe +30, sword +60, etc.)
-
-**Anomaly policy** (12-input → 10-hidden → 5-output):
-- Actions: `chase`, `flank_left`, `flank_right`, `retreat_grow`, `spread`
-- Fitness = total damage dealt
-
-**Evolution mechanics:**
-- Elite pool (top-10 all-time) + Recent pool (last 10 gens, any fitness)
-- Stagnation detection: mutation resets to 0.12 after 8 gens without improvement
-- 70% elite crossover, 20% recent diversity, 10% fresh random
-
----
-
-## 🚀 Quick Start
-
-```bash
-# Install
-pip install -r requirements.txt
-
-# Train (generates weights.json + training_curves/*.png)
-python3 plot_training.py --gens 60
-
-# Run server (loads weights, trains live, shows web UI)
-python3 app.py
-# Open http://localhost:8000
+**Action:**
+```json
+{"agent_id": "agent_1", "action_type": "move", "target": "right"}
 ```
 
-### Docker
+**Action types:** `move` · `gather` · `eat` · `rest` · `craft` · `build` · `attack` · `form_community` · `join_community` · `share` · `noop`
+
+---
+
+## Quick Start
 
 ```bash
+pip install -r requirements.txt
+python3 app.py
+# open http://localhost:8000
+```
+
+```bash
+# Docker
 docker build -t anomalycraft .
 docker run -p 8000:8000 anomalycraft
 ```
 
 ---
 
-## 🔌 OpenEnv API
+## Stack
 
-### HTTP Endpoints
-
-| Endpoint | Method | Description |
-|---|---|---|
-| `/health` | GET | Server status |
-| `/survival/reset?task_id=101` | POST | Reset environment |
-| `/survival/step` | POST | Execute action |
-| `/survival/state` | GET | World state |
-| `/survival/grader?task_id=101` | GET | Grade current episode |
-
-### Action Schema
-
-```json
-{
-  "agent_id": "agent_1",
-  "action_type": "move",
-  "target": "right"
-}
 ```
-
-### Observation Schema
-
-```json
-{
-  "agent_stats": {"health": 95, "energy": 80, "hunger": 70, "inventory": {"wood": 5}},
-  "local_resources": {"10,12": "wood", "11,12": "stone"},
-  "nearby_anomalies": [{"anomaly_type": "Void Creep", "severity": 2.1}],
-  "available_actions": ["move", "gather", "rest"],
-  "tick": 42,
-  "done": false,
-  "reward": 1.05
-}
+app.py            Flask server + background training thread
+survival_env.py   OpenEnv environment wrapper
+survival_world.py World simulation — agents, anomalies, resources, buildings
+neural_policy.py  NeuralPolicy, AnomalyPolicy, CollectiveBrain, AnomalyBrain
+agent_ai.py       Policy dispatch (neural or rule-based fallback)
+train.py          Headless offline trainer
+plot_training.py  Training curve generation
+models.py         Pydantic schemas
+inference.py      LLM agent runner (OpenAI-compatible)
+openenv.yaml      Environment manifest
 ```
 
 ---
 
-## 📊 Baseline Scores
-
-Scores from heuristic agent (no LLM, rule-based fallback):
-
-| Task | Difficulty | Score | Success |
-|---|---|---|---|
-| 101 | Easy | 0.82 | ✅ |
-| 102 | Medium | 0.61 | ✅ |
-| 103 | Hard | 0.44 | ❌ |
-| 104 | Expert | 0.31 | ❌ |
-| 105 | Nightmare | 0.18 | ❌ |
-| **Avg** | | **0.47** | |
-
----
-
-## 🏗️ Architecture
-
-```
-app.py              — Flask HTTP server + background training thread
-survival_env.py     — OpenEnv Environment wrapper
-survival_world.py   — World simulation (agents, anomalies, resources, buildings)
-neural_policy.py    — NeuralPolicy + AnomalyPolicy + CollectiveBrain + AnomalyBrain
-agent_ai.py         — Per-agent policy dispatch (neural or rule-based fallback)
-train.py            — Headless offline trainer
-plot_training.py    — Training + curve generation
-models.py           — Pydantic schemas
-inference.py        — LLM agent runner (OpenAI-compatible)
-openenv.yaml        — Environment manifest
-```
-
----
-
-## 📝 License
-
-MIT — see [LICENSE](./LICENSE)
+MIT License
