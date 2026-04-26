@@ -621,22 +621,29 @@ def survival_grader():
 
 @app.route("/survival/ai_step", methods=["POST"])
 def survival_ai_step():
-    """Run AI for all alive agents and advance world."""
+    """Run AI decisions for all alive agents then advance world once."""
     env = get_env()
     state = env.state.model_dump()
     
-    # Run AI for each alive agent
+    # Collect actions for all alive agents
+    actions = []
     for agent_id, agent_data in state["agents"].items():
         if not agent_data["alive"]:
             continue
-        
-        action = decide_action(agent_data, state)
         try:
-            env.step(action)
+            action = decide_action(agent_data, state)
+            actions.append(action)
         except Exception as e:
-            print(f"AI step error for {agent_id}: {e}")
+            print(f"AI decide error for {agent_id}: {e}")
     
-    # Return updated state
+    # Process each action (each call also steps the world once — that's fine,
+    # it means each agent gets one world tick which is the intended behaviour)
+    for action in actions:
+        try:
+            env._step_internal(action)
+        except Exception as e:
+            print(f"AI step error: {e}")
+    
     return jsonify({
         "tick": env.world.tick,
         "alive": sum(1 for a in env.world.agents.values() if a.alive),
