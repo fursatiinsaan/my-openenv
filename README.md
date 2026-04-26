@@ -1,4 +1,10 @@
 ---
+title: AnomalyCraft Survival
+emoji: 🌍
+colorFrom: purple
+colorTo: red
+sdk: docker
+app_port: 8000
 tags:
   - openenv
   - reinforcement-learning
@@ -6,6 +12,7 @@ tags:
   - multi-agent
   - neuroevolution
   - hackathon-2026
+pinned: false
 ---
 
 # 🌍 OrgSim
