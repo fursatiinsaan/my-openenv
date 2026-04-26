@@ -38,8 +38,6 @@ When two agents spend time near each other, their bond strength increases. Once 
 
 It sounds sentimental. But it changed the population dynamics in a real way. Agents started clustering into pairs, which led to community formation. Communities built shelters. Shelters kept agents alive longer. Longer survival meant more generations of learning.
 
-The romance was load-bearing architecture.
-
 ---
 
 ## The Neural Network
@@ -48,7 +46,7 @@ Each agent runs a small feedforward network — 22 inputs, 16 hidden neurons, 9 
 
 The inputs cover everything the agent can perceive: health, energy, hunger, nearby resources, nearby anomalies, distance to loved one, distance to shelter, weather, time of day, season.
 
-The 9 outputs map to actions: move away from danger, move to resource, move to loved one, explore, gather, craft or build, fight, eat or rest, do nothing.
+The 9 outputs map to actions: move away from danger, move to resource, move to loved one, explore, gather, craft or build, fight, eat or rest, form community.
 
 The network doesn't know what these actions mean. It just learns which output to fire given the inputs. The meaning comes from the environment.
 
@@ -73,9 +71,7 @@ No backprop, no gradients. Each agent's neural network weights are stored as a f
 - **Elite pool** — top 10 performers of all time
 - **Recent pool** — last 10 generations, regardless of score (for diversity)
 
-New agent weights are created by: 70% crossover between two elite agents, 20% crossover with a recent agent, 10% completely fresh random weights.
-
-Then mutation is applied — small random noise on each weight. If the population stagnates for 8 generations without improvement, the mutation rate resets higher to shake things out. This fixed the local optima problem that killed my first few attempts.
+New agent weights: 70% crossover between two elite agents, 20% crossover with a recent agent, 10% completely fresh random weights. Then mutation — small random noise on each weight. If the population stagnates for 8 generations, the mutation rate resets higher to shake things out.
 
 ---
 
@@ -99,16 +95,6 @@ It's 8 pixels. But watching a crowd of tiny faces all go scared at the same time
 
 ---
 
-## The Collective Memory
-
-When all agents die and the world restarts, the new generation doesn't start from zero.
-
-The world keeps a collective memory — dangerous locations where agents died, best-performing trait values, safe spawn zones where agents survived longest. New agents spawn in safe zones 70% of the time, start with traits biased towards the best performers, and have their danger memory pre-loaded.
-
-Each generation starts slightly smarter than the last, even before the neural network kicks in.
-
----
-
 ## What I'd Do Differently
 
 **The world is too big.** 48×48 means agents spend a lot of time wandering before finding resources. I'd drop to 32×32 and increase resource density.
@@ -116,14 +102,6 @@ Each generation starts slightly smarter than the last, even before the neural ne
 **The anomaly AI converged too early.** After generation 500, the anomaly pool settled on "chase the nearest agent." It works but it's not interesting. More anomaly types with different objectives would keep the arms race going longer.
 
 **The bond system needs more depth.** Bonds are just a number right now. Agents defending their loved ones, grieving when they die, forming alliances between pairs — that's the next version.
-
-**Log more.** I have fitness over generations but no record of *when* specific behaviors emerged. Did shelter-building come before or after community formation? I genuinely don't know.
-
----
-
-## The Stack
-
-Python 3.11, Flask, NumPy, Pydantic v2, HTML Canvas. No external ML libraries — the neuroevolution is hand-rolled. The whole thing runs on CPU. A generation of 1,500 ticks takes about 1.2 seconds on a MacBook Air.
 
 ---
 
