@@ -550,45 +550,8 @@
         }
     }
 
-    setInterval(fetchState, 200); // FASTER: 200ms refresh (was 600ms)
+    setInterval(fetchState, 200);
     fetchState();
-
-    // ── Keyboard controls for player ──
-    document.addEventListener('keydown', e => {
-        if (!selectedAgent) return;
-        let action = null;
-        switch (e.key.toLowerCase()) {
-            case 'w': case 'arrowup':    action = {action_type: 'move', target: {x: 0, y: -1}}; break;
-            case 's': case 'arrowdown':  action = {action_type: 'move', target: {x: 0, y: 1}}; break;
-            case 'a': case 'arrowleft':  action = {action_type: 'move', target: {x: -1, y: 0}}; break;
-            case 'd': case 'arrowright': action = {action_type: 'move', target: {x: 1, y: 0}}; break;
-            case ' ': e.preventDefault(); action = {action_type: 'gather'}; break;
-            case 'e': action = {action_type: 'eat'}; break;
-            case 'c': action = {action_type: 'craft'}; break;
-            case 'f': action = {action_type: 'fight'}; break;
-            case 'r': action = {action_type: 'rest'}; break;
-            case 'b': action = {action_type: 'build'}; break;
-        }
-        if (action) {
-            sendPlayerAction(selectedAgent, action);
-        }
-    });
-
-    async function sendPlayerAction(agentId, action) {
-        try {
-            const res = await fetch('/survival/player_action', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({agent_id: agentId, ...action})
-            });
-            const result = await res.json();
-            if (!result.success) {
-                console.error('Player action failed:', result.message);
-            }
-        } catch(e) {
-            console.error('Player action error:', e);
-        }
-    }
 
     // ── Neural network stats polling (every 2s) ──
     async function fetchNNStats() {
@@ -660,41 +623,6 @@
     }
     setInterval(fetchTrainLog, 1000);
     fetchTrainLog();
-
-    // Auto-play
-    let autoPlayInterval = null;
-    let autoPlayActive = false;
-
-    function toggleAutoPlay() {
-        if (autoPlayActive) {
-            clearInterval(autoPlayInterval);
-            autoPlayActive = false;
-            const btn = document.getElementById('autoPlayBtn');
-            if (btn) { btn.textContent = '▶ START'; btn.style.background = '#333'; }
-        } else {
-            autoPlayActive = true;
-            const btn = document.getElementById('autoPlayBtn');
-            if (btn) { btn.textContent = '⏸ STOP'; btn.style.background = '#2d5a1e'; }
-            autoPlayInterval = setInterval(() => {
-                fetch('/survival/ai_step', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                }).catch(() => {});
-            }, 300);
-        }
-    }
-
-    // Create button and insert it into the top bar
-    (function() {
-        const btn = document.createElement('button');
-        btn.id = 'autoPlayBtn';
-        btn.textContent = '▶ START';
-        btn.style.cssText = 'padding:4px 12px;border-radius:4px;background:#333;color:#fff;border:1px solid #555;cursor:pointer;font-size:11px;font-family:Inter,sans-serif;font-weight:700;';
-        btn.onclick = toggleAutoPlay;
-        // Insert into the FIRST top-bar (the main one with tick/day/season)
-        const firstTopBar = document.querySelector('.top-bar');
-        if (firstTopBar) firstTopBar.appendChild(btn);
-    })();
     </script>
 </body>
 </html>
