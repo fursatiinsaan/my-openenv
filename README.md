@@ -49,7 +49,7 @@ A multi-agent survival simulation where AI agents and anomalies both evolve neur
 
 ## 🎮 What It Is
 
-OrgSim is a 48×48 grid world where:
+AnomalyCraft Survival is a 48×48 grid world where:
 - **Agents** gather resources, craft tools, build shelters, form communities, and fight anomalies
 - **Anomalies** hunt agents using their own evolving neural policies
 - Both sides improve via **neuroevolution** — an arms race across generations
@@ -129,20 +129,6 @@ docker run -p 8000:8000 anomalycraft
 | `/survival/state` | GET | World state |
 | `/survival/grader?task_id=101` | GET | Grade current episode |
 
-### WebSocket
-
-Connect to `ws://localhost:8000/ws` for persistent sessions:
-
-```python
-from client import SurvivalClient
-
-async with SurvivalClient(base_url="ws://localhost:8000") as env:
-    result = await env.reset(task_id=101)
-    while not result.done:
-        action = {"agent_id": "agent_1", "action_type": "gather"}
-        result = await env.step(action)
-```
-
 ### Action Schema
 
 ```json
@@ -187,15 +173,14 @@ Scores from heuristic agent (no LLM, rule-based fallback):
 ## 🏗️ Architecture
 
 ```
-app.py              — FastAPI (WebSocket /ws) + Flask (HTTP routes) + training thread
-survival_env.py     — OpenEnv Environment subclass
+app.py              — Flask HTTP server + background training thread
+survival_env.py     — OpenEnv Environment wrapper
 survival_world.py   — World simulation (agents, anomalies, resources, buildings)
 neural_policy.py    — NeuralPolicy + AnomalyPolicy + CollectiveBrain + AnomalyBrain
-agent_ai.py         — Per-agent policy dispatch
+agent_ai.py         — Per-agent policy dispatch (neural or rule-based fallback)
 train.py            — Headless offline trainer
 plot_training.py    — Training + curve generation
-client.py           — OpenEnv EnvClient subclass (WebSocket)
-models.py           — Pydantic models (inherit from OpenEnv Action/Observation/State)
+models.py           — Pydantic schemas
 inference.py        — LLM agent runner (OpenAI-compatible)
 openenv.yaml        — Environment manifest
 ```

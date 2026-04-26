@@ -169,7 +169,7 @@ The whole thing runs on CPU. A generation of 1,500 ticks takes about 1.2 seconds
 
 ## Try It
 
-The environment is live on Hugging Face Spaces. Open it, click **START AUTOPLAY**, and watch.
+The environment is live on Hugging Face Spaces. Open it and watch — the simulation runs automatically.
 
 The agents will start gathering wood within seconds. By minute two, shelters appear. By minute five, you'll see communities with shared resource pools and agents actively hunting anomalies.
 
