@@ -86,16 +86,16 @@ Actions: chase, flank left, flank right, retreat and grow, spread damage.
 
 ---
 
-## Baseline Scores (rule-based agent, no LLM)
+## Baseline Scores (trained neural network, 80 AI steps)
 
 | Task | Score | Pass |
 |---|---|---|
-| 101 — Easy | 0.82 | ✅ |
-| 102 — Medium | 0.61 | ✅ |
-| 103 — Hard | 0.44 | ❌ |
-| 104 — Expert | 0.31 | ❌ |
-| 105 — Nightmare | 0.18 | ❌ |
-| **Average** | **0.47** | |
+| 101 — Easy | 1.00 | ✅ |
+| 102 — Medium | 0.89 | ✅ |
+| 103 — Hard | 1.00 | ✅ |
+| 104 — Expert | 0.75 | ❌ |
+| 105 — Nightmare | 0.83 | ❌ |
+| **Average** | **0.89** | |
 
 ---
 

@@ -16,8 +16,8 @@ SURVIVAL_TASKS = [
         ),
         "objective": "Gather 5+ resources and survive 30 ticks.",
         "success_conditions": {
-            "resources_gathered_min": 10,
-            "survive_ticks": 50,
+            "resources_gathered_min": 5,
+            "survive_ticks": 30,
         },
         "max_steps": 50,
         "reward_range": [0.0, 1.0],
@@ -34,8 +34,8 @@ SURVIVAL_TASKS = [
         ),
         "objective": "Craft 2+ items and keep at least 1 agent alive for 80 ticks.",
         "success_conditions": {
-            "items_crafted_min": 5,
-            "survive_ticks": 100,
+            "items_crafted_min": 2,
+            "survive_ticks": 80,
             "min_alive_agents": 1,
         },
         "max_steps": 100,

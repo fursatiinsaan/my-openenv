@@ -143,7 +143,6 @@ class SurvivalEnv(OpenEnvEnvironment):
             anomalies_destroyed=self.anomalies_destroyed,
             generation_number=self.world.generation_number,
         )
-
     def state_for_agent(self, agent_id: str) -> SurvivalObservation:
         agent = self.world.agents[agent_id]
         local_res = {}

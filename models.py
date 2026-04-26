@@ -116,7 +116,9 @@ class SurvivalWorldState(OpenEnvState):
     total_born: int = 0
     total_died: int = 0
     score: float = 0.0
+    done: bool = False
     current_task_id: int = 101
+    step_count: int = 0
     max_steps: int = 999999
     anomalies_destroyed: int = 0
     generation_number: int = 0
