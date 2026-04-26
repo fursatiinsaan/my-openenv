@@ -1,8 +1,8 @@
-name: orgsim
+name: anomalycraft-survival
 version: "2.0.0"
 description: >
   A multi-agent survival simulation where AI agents and anomalies both evolve neural network policies via neuroevolution. The environment is fully OpenEnv-compliant with 5 tasks (easy → nightmare), WebSocket transport, and a live pixel-art web UI.
-author: OrgSim Team
+author: Nimesh Yadav
 tags:
   - reinforcement-learning
   - openenv

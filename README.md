@@ -15,7 +15,7 @@ tags:
 pinned: false
 ---
 
-# 🌍 OrgSim
+# 🌍 AnomalyCraft Survival
 
 > **OpenEnv Hackathon 2026 — Meta × PyTorch × Hugging Face**
 
@@ -25,9 +25,8 @@ A multi-agent survival simulation where AI agents and anomalies both evolve neur
 
 | Deliverable | Link |
 |---|---|
-| 🤗 **Hugging Face Space** | [orgsim on HF Spaces](https://huggingface.co/spaces/YOUR_HF_USERNAME/orgsim) |
-| 📓 **Training Notebook** | [OrgSim_Training.ipynb](./OrgSim_Training.ipynb) |
-| 🎥 **Demo Video** | [YouTube Demo](https://youtube.com/YOUR_VIDEO_LINK) |
+| 🤗 **Hugging Face Space** | [anomalycraft-survival on HF Spaces](https://huggingface.co/spaces/nimeshyadav/OpenEnv) |
+| 📓 **GitHub Repo** | [fursatiinsaan/OrgSim](https://github.com/fursatiinsaan/OrgSim) |
 | 📊 **Training Curves** | See below |
 
 ---
