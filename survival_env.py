@@ -1,13 +1,17 @@
 """
 AnomalyCraft Survival — Environment wrapper.
 Implements the OpenEnv interface: reset(), step(), state(), grade().
-Inherits from openenv.core.env_server.interfaces.Environment for full compliance.
 """
 
 from __future__ import annotations
 from typing import Any, Dict, Optional, Tuple
 
-from openenv_core.env_server.interfaces import Environment as OpenEnvEnvironment
+# ── Graceful fallback if openenv_core is not installed ──────────────────────
+try:
+    from openenv_core.env_server.interfaces import Environment as OpenEnvEnvironment
+except ImportError:
+    class OpenEnvEnvironment:
+        def __init__(self): pass
 
 from survival_world import SurvivalWorld
 from models import (
@@ -232,11 +236,10 @@ class SurvivalEnv(OpenEnvEnvironment):
         action: Any,
         timeout_s: Optional[float] = None,
         **kwargs: Any,
-    ) -> SurvivalObservation:
+    ) -> "SurvivalObservation":
         """
         Process one action and advance the world by one tick.
         Accepts SurvivalAction, dict, or any action-like object.
-        Returns SurvivalObservation (OpenEnv compliant — reward/done embedded in obs).
         """
         # Normalise action to dict
         if hasattr(action, "model_dump"):
@@ -247,7 +250,6 @@ class SurvivalEnv(OpenEnvEnvironment):
             action_dict = {}
 
         obs, reward, done, info = self._step_internal(action_dict)
-        # Embed reward/done into observation for OpenEnv compliance
         obs.reward_update = reward
         obs.done = done
         return obs

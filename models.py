@@ -1,17 +1,15 @@
 """
 AnomalyCraft Survival — Pydantic models.
 Typed schemas for all OpenEnv actions, observations, and state.
-Models inherit from openenv.core base types for full compliance.
 """
 
 from typing import Any, Dict, List, Literal, Optional
-from pydantic import Field
+from pydantic import BaseModel, Field
 
-from openenv_core.env_server.types import (
-    Action as OpenEnvAction,
-    Observation as OpenEnvObservation,
-    State as OpenEnvState,
-)
+# Always use plain BaseModel — openenv_core base classes reject extra kwargs
+OpenEnvAction      = BaseModel
+OpenEnvObservation = BaseModel
+OpenEnvState       = BaseModel
 
 SurvivalActionType = Literal[
     "move", "gather", "craft", "rest", "attack", "eat",

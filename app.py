@@ -659,6 +659,22 @@ def place_resource():
     return jsonify({"success": False, "message": "Invalid resource type"})
 
 
+@app.route("/survival/spawn_anomaly", methods=["POST"])
+def spawn_anomaly_route():
+    """Spawn an anomaly at specified location (shift+click)."""
+    payload = request.get_json(silent=True) or {}
+    x = payload.get("x", 0)
+    y = payload.get("y", 0)
+    env = get_env()
+    from survival_world import Anomaly
+    import random as _r
+    atype = _r.choice(["Void Storm", "Temporal Rift", "Void Creep"])
+    ano = Anomaly(f"ano_{env.world.tick}_{x}_{y}", atype, x, y, _r.randint(2, 4))
+    env.world.anomalies.append(ano)
+    env.world.event_log.append(f"[{env.world.tick}] {atype} spawned at ({x},{y})")
+    return jsonify({"success": True, "message": f"Spawned {atype} at ({x},{y})"})
+
+
 @app.route("/survival/player_action", methods=["POST"])
 def player_action():
     """Execute player action for a specific agent."""
@@ -787,26 +803,17 @@ def train_log():
 # Wraps the Flask app via WSGI middleware so both HTTP routes AND /ws work
 # on the same port. Judges can connect via WebSocket at ws://host:8000/ws.
 
-from fastapi import FastAPI as _FastAPI, WebSocket as _WebSocket, WebSocketDisconnect as _WSD
-from a2wsgi import WSGIMiddleware as _WSGIMiddleware
-# from openenv_core.env_server.types import (
-#     WSResetMessage, WSStepMessage, WSStateMessage, WSCloseMessage,
-#     WSObservationResponse, WSStateResponse, WSErrorResponse, WSErrorCode,
-# )
-import json as _json
-
-# _fastapi_app = _FastAPI(title="AnomalyCraft Survival", version="2.0.0")
-
-
-# WebSocket code commented out due to missing types
-
-
-# _fastapi_app.mount("/", _WSGIMiddleware(app))
-
-# # This is what uvicorn/gunicorn serves
-# asgi_app = _fastapi_app
+# ── Optional WebSocket / ASGI layer ──────────────────────────────────────────
+# Only loaded when fastapi + a2wsgi are installed (not required for HF Spaces)
+try:
+    from fastapi import FastAPI as _FastAPI
+    from a2wsgi import WSGIMiddleware as _WSGIMiddleware
+    _fastapi_app = _FastAPI(title="AnomalyCraft Survival", version="2.0.0")
+    _fastapi_app.mount("/", _WSGIMiddleware(app))
+    asgi_app = _fastapi_app
+except ImportError:
+    asgi_app = app  # plain WSGI fallback
 
 
 if __name__ == "__main__":
-    # Run with Flask
-    app.run(host="0.0.0.0", port=PORT, debug=True)
+    app.run(host="0.0.0.0", port=PORT, debug=False)

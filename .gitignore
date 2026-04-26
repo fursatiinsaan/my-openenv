@@ -11,3 +11,4 @@ save_*.json
 outputs/
 training_log.txt
 app_out.txt
+static/assets/
