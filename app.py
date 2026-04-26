@@ -592,10 +592,11 @@ def survival_state():
 def survival_step():
     payload = request.get_json(silent=True) or {}
     env = get_env()
-    observation, reward, done, info = env.step(payload)
+    # _step_internal returns (obs, reward, done, info) — use that directly
+    obs, reward, done, info = env._step_internal(payload)
     return jsonify(
         SurvivalStepResponse(
-            observation=observation,
+            observation=obs,
             world_state=env.state,
             reward=reward,
             done=done,

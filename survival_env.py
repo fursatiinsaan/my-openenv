@@ -202,11 +202,11 @@ class SurvivalEnv(OpenEnvEnvironment):
 
     def reset(
         self,
-        seed: Optional[int] = None,
-        episode_id: Optional[str] = None,
         task_id: int = 101,
-        **kwargs: Any,
-    ) -> SurvivalObservation:
+        seed=None,
+        episode_id=None,
+        **kwargs,
+    ) -> "SurvivalObservation":
         """Reset the environment for a specific task. Returns initial observation."""
         task = _TASK_MAP.get(task_id)
         if task is None:

@@ -88,7 +88,7 @@ entrypoint:
   port: 8000
 
 protocol:
-  type: http+websocket
+  type: http
   endpoints:
     health: /health
     metadata: /metadata
@@ -98,7 +98,6 @@ protocol:
     step: /survival/step
     state: /survival/state
     grader: /survival/grader
-    websocket: /ws
 
 runtime:
   python: "3.11"
